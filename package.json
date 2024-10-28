@@ -1,0 +1,27 @@
+{
+  "name": "ProjetoIII-4",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./bin/server.js",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "@prisma/adapter-pg": "^5.19.1",
+    "@prisma/client": "^5.21.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.21.0"
+  }
+}
