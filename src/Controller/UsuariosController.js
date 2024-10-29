@@ -1,4 +1,6 @@
 import { prisma } from "../prisma.js";
+import jwt from 'jsonwebtoken';
+const chavePrivada = env("ChavePrivada")
 
 class usuariosController {
     async getAll(req, res) { 
@@ -108,18 +110,7 @@ class usuariosController {
             if (senha !== usuario.senha) {
                 return res.status(401).json({ message: 'Senha incorreta.' });
             } 
-            
-            // const chavePrivada = "Fasipe2024"
-            // else {
-            //     jwt.sign(usuario, chavePrivada, (err, token) => {
-            //         if (err) {
-            //             res.status(500).json({message: 'Erro ao gerar JWT'});
-            //             return;
-            //         }
-            //         res.status(200).json({token})
-            //     })
-            // }
-    
+                
             // Se o usuário não possui IMEI, atualiza o IMEI
             if (!usuario.imei) {
                 const updateImei = await prisma.usuario.update({
@@ -132,11 +123,28 @@ class usuariosController {
                 });
     
                 // return res.status(200).json({ message: 'Login bem-sucedido. IMEI inserido com sucesso.' });
-                return res.status(200).json({usuario});
+                jwt.sign(usuario, chavePrivada, (err, token) => {
+                    if (err) {
+                        res
+                            .status(500)
+                            .json({ mensagem: "Erro ao gerar o JWT" });
+    
+                        return;
+                    }
+                    res.status(200).json({auth: true, token});
+                });
     
             } else if (imei === usuario.imei) {
                 // IMEI já cadastrado no banco de dados
                 // return res.status(200).json({ message: 'Login bem-sucedido. IMEI já cadastrado.' });
+                jwt.sign(usuario, chavePrivada, (err, token) => {
+                    if (err) {
+                        res.status(500).json({ mensagem: "Erro ao gerar o JWT" });
+
+                        return;
+                    }
+                    res.status(200).json({auth: true, token});
+                });
                 
             } else {
                 // IMEI diferente ou inválido
