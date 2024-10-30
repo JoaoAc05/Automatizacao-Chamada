@@ -19,6 +19,9 @@ class cursosController {
                     id: Number(id),
                 },
             })
+            if (curso.length === 0) {
+                return res.status(404).json({ message: 'Curso não encontrado.' }); 
+            }
 
             res.status(200).json(curso)
         } catch (e) {

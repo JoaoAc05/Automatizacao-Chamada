@@ -4,6 +4,9 @@ class disciplinasController {
     async getAll(req, res, next) { 
         try {
             const disciplinas = await prisma.disciplina.findMany()
+            if (disciplinas.length === 0) {
+                return res.status(404).json({ message: 'Nenhuma disciplina encontrada.' }); 
+            }
 
             res.status(200).json(disciplinas);
         } catch (e) {
@@ -19,6 +22,9 @@ class disciplinasController {
                     id: Number(id),
                 },
             })
+            if (disciplina.length === 0) {
+                return res.status(404).json({ message: 'Disciplina não encontrada.' }); 
+            }
 
             res.status(200).json(disciplina)
         } catch (e) {

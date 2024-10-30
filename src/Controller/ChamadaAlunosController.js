@@ -19,6 +19,9 @@ class chamadaAlunosController {
                     id_chamada: Number(id_chamada),
                 },
             })
+            if (chamadaAlunos.length === 0) {
+                return res.status(404).json({ message: 'Chamada não encontrada.' }); 
+            }
 
             res.status(200).json(chamadaAlunos)
         } catch (e) {

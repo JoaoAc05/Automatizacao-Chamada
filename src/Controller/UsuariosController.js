@@ -1,6 +1,6 @@
 import { prisma } from "../prisma.js";
 import jwt from 'jsonwebtoken';
-const chavePrivada = env("ChavePrivada")
+const chavePrivada = "Fasipe2024"
 
 class usuariosController {
     async getAll(req, res) { 
@@ -125,9 +125,7 @@ class usuariosController {
                 // return res.status(200).json({ message: 'Login bem-sucedido. IMEI inserido com sucesso.' });
                 jwt.sign(usuario, chavePrivada, (err, token) => {
                     if (err) {
-                        res
-                            .status(500)
-                            .json({ mensagem: "Erro ao gerar o JWT" });
+                        res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
     
                         return;
                     }
@@ -139,7 +137,7 @@ class usuariosController {
                 // return res.status(200).json({ message: 'Login bem-sucedido. IMEI já cadastrado.' });
                 jwt.sign(usuario, chavePrivada, (err, token) => {
                     if (err) {
-                        res.status(500).json({ mensagem: "Erro ao gerar o JWT" });
+                        res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
 
                         return;
                     }
@@ -181,7 +179,15 @@ class usuariosController {
                 return res.status(401).json({ message: 'Senha incorreta.' });
             }
 
-            return res.status(200).json({ message: 'Login bem-sucedido.' });
+            // return res.status(200).json({ message: 'Login bem-sucedido.' });
+            jwt.sign(usuario, chavePrivada, (err, token) => {
+                if (err) {
+                    res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
+
+                    return;
+                }
+                res.status(200).json({auth: true, token});
+            });
     
         } catch (e) {
             // Erro interno do servidor

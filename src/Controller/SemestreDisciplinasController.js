@@ -6,13 +6,9 @@ class semestreDisciplinasController {
     async getAll(req, res) { 
         try {
             const semestreDisciplinas = await prisma.semestreProfessorDisciplinas.findMany()
-            
-            if (!semestreDisciplinas) {
-                console.log('Teste de retorno (Rota get all)')
-            }
 
             if (semestreDisciplinas.length === 0) {
-                return res.status(404).json({ message: 'Nenhum vinculo encontrado. (Verifica Log)' }); //LEMBRAR DE AJUSTAR ESTE RETORNO
+                return res.status(404).json({ message: 'Nenhum vinculo encontrado.' }); 
             }
             
             res.status(200).json(semestreDisciplinas);
@@ -29,19 +25,9 @@ class semestreDisciplinasController {
                 where: {
                     id_semestre: Number(id_semestre),
                 },
-            //     include: {
-            //         Disciplina: true,   // Inclui detalhes da Disciplina
-            //         Professor: true,    // Inclui detalhes do Professor
-            //         Semestre: true,     // Inclui detalhes do Semestre
-            //     },
             });
-            
-            if (!semestreDisciplinas) {
-                console.log('Teste de retorno (Rota get id)')
-            }
-
             if (semestreDisciplinas.length === 0) {
-                return res.status(404).json({ message: 'Nenhum vinculo de disciplina encontrado deste semestre. (Verifica Log)' }); //LEMBRAR DE AJUSTAR ESTE RETORNO
+                return res.status(404).json({ message: 'Nenhum vinculo de disciplina encontrado deste semestre.' }); 
             }
 
             res.status(200).json(semestreDisciplinas)

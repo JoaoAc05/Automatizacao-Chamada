@@ -1,14 +1,15 @@
 import express from "express";
+import auth from "../middleware/auth.js";
 import { chamadasController } from "../src/Controller/ChamadasController.js";
 
 const ChamadasRouter = express.Router();
 const ChamadasController = new chamadasController();
 
-ChamadasRouter.get('/', ChamadasController.getAll);
-ChamadasRouter.get('/:id', ChamadasController.getId);
-ChamadasRouter.post('/', ChamadasController.cadastro); 
-ChamadasRouter.put('/', ChamadasController.alterar); 
-ChamadasRouter.delete('/:id', ChamadasController.deletar); 
-ChamadasRouter.post('/finalizar', ChamadasController.finalizarChamada);
+ChamadasRouter.get('/', auth, ChamadasController.getAll);
+ChamadasRouter.get('/:id', auth, ChamadasController.getId);
+ChamadasRouter.post('/', auth, ChamadasController.cadastro); 
+ChamadasRouter.put('/', auth, ChamadasController.alterar); 
+ChamadasRouter.delete('/:id', auth, ChamadasController.deletar); 
+ChamadasRouter.post('/finalizar', auth, ChamadasController.finalizarChamada);
 
 export { ChamadasRouter };

@@ -69,7 +69,6 @@ class turmaAlunosController {
             if (AlunoTurma) {
                 return res.status(400).json({message: 'Este aluno já pertence a esta turma'})
             }
-            //Verificar se é possivel o aluno pertencer a mais de uma turma. Caso não: Fazer validação apenas em cima do id_aluno
             
             const createTurmaAlunos = await prisma.turmaAlunos.create({ 
                 data: {

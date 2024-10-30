@@ -19,6 +19,9 @@ class chamadasController {
                     id: Number(id),
                 },
             })
+            if (chamada.length === 0) {
+                return res.status(404).json({ message: 'Chamada não encontrada.' }); 
+            }
 
             res.status(200).json(chamada)
         } catch (e) {
