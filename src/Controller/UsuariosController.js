@@ -102,7 +102,7 @@ class usuariosController {
                     email: email 
                 },
             });
-    
+
             // Se o email não for encontrado, retorna um erro
             if (!usuario) {
                 return res.status(404).json({ message: 'Usuário não encontrado.' });
@@ -112,7 +112,13 @@ class usuariosController {
             if (senha !== usuario.senha) {
                 return res.status(401).json({ message: 'Senha incorreta.' });
             } 
-                
+            
+            const usuarioPayload = {
+                nome: usuario.nome,
+                ra: usuario.ra,
+                cpf: usuario.cpf
+            };
+
             // Se o usuário não possui IMEI, atualiza o IMEI
             if (!usuario.imei) {
                 const updateImei = await prisma.usuario.update({
@@ -123,9 +129,11 @@ class usuariosController {
                         imei: imei,
                     },
                 });
+
+                
     
                 // return res.status(200).json({ message: 'Login bem-sucedido. IMEI inserido com sucesso.' });
-                jwt.sign(usuario, chavePrivada, (err, token) => {
+                jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
                     if (err) {
                         res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
     
@@ -137,10 +145,10 @@ class usuariosController {
             } else if (imei === usuario.imei) {
                 // IMEI já cadastrado no banco de dados
                 // return res.status(200).json({ message: 'Login bem-sucedido. IMEI já cadastrado.' });
-                jwt.sign(usuario, chavePrivada, (err, token) => {
+                jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
                     if (err) {
                         res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
-
+    
                         return;
                     }
                     res.status(200).json({auth: true, token});
