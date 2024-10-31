@@ -63,7 +63,7 @@ class chamadasController {
             // Verifica se a semestre existe
             const semestre = await prisma.semestre.findUnique({
                 where: { 
-                    id: NUmber(id_semestre) 
+                    id: Number(id_semestre) 
                 },
             });
             if (!semestre) {
@@ -81,8 +81,7 @@ class chamadasController {
                     Semestre: {
                         connect: {id: id_semestre}
                     },
-                    data_hora_inicio: data_hora_inicio,
-                    data_hora_final: data_hora_final 
+                    data_hora_inicio: data_hora_inicio
                 }
                 
             });
@@ -112,7 +111,7 @@ class chamadasController {
                 return res.status(404).json({ message: 'Usuario não encontrado.' });
             }
             if (professor.tipo !== 1) {
-                return res.status(400).json({ message: 'Usuário informado não é um professor'})
+                return res.status(400).json({ message: 'Usuário informado não é um professor.'})
             }
         }
         
@@ -191,11 +190,13 @@ class chamadasController {
                 where: {
                     id: Number(id),
                 },
-                data: data_hora_final,  
+                data: {
+                    data_hora_final: data_hora_final
+                },  
             });
             res.status(200).json({message: 'Chamada finalizada com sucesso.'})
         } catch (e) {
-            res.status(500).json({error: 'Erro ao finalizar chamada.' + e.message})
+            res.status(500).json({error: 'Erro ao finalizar chamada: ' + e.message})
         }
     }
 }

@@ -63,7 +63,6 @@ class chamadaAlunosController {
                 });
             }
 
-
             if (!id_aluno || !id_chamada) {
                 return res.status(400).json({ message: 'Os campos id_aluno e id_chamada são obrigatórios.' });
             }
@@ -111,7 +110,7 @@ class chamadaAlunosController {
              }); 
             res.status(201).json(createChamadaAluno);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao fazer presenca: ' + e.message });
+            res.status(500).json({ message: 'Erro ao definir presenca: ' + e.message });
         }
     }
 
@@ -182,7 +181,7 @@ class chamadaAlunosController {
             }
             res.status(200).json({message: 'Presença do aluno deletada com sucesso.'})
         } catch (e) {
-            res.status(500).json({message: 'Erro ao deletar presença.' + e.message})
+            res.status(500).json({message: 'Erro ao deletar presença: ' + e.message})
         }
     }
 }

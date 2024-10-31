@@ -78,7 +78,7 @@ class semestresController {
             })
             res.status(200).json({sucesso: 'Semestre deletado com sucesso.'})
         } catch (e) {
-            res.status(500).json({error: 'Erro ao deletar semestre.' + e.message})
+            res.status(500).json({error: 'Erro ao deletar semestre:' + e.message})
         }
     }
 }

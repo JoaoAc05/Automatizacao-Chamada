@@ -98,7 +98,9 @@ class usuariosController {
     
             // Consulta o banco de dados para verificar se o email existe
             const usuario = await prisma.usuario.findUnique({
-                where: { email: email },
+                where: { 
+                    email: email 
+                },
             });
     
             // Se o email não for encontrado, retorna um erro
@@ -166,7 +168,9 @@ class usuariosController {
     
             // Consulta o banco de dados para verificar se o email existe
             const usuario = await prisma.usuario.findUnique({
-                where: { email: email },
+                where: { 
+                    email: email 
+                },
             });
     
             // Se o email não for encontrado, retorna um erro

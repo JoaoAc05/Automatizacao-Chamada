@@ -98,7 +98,7 @@ class turmaAlunosController {
         if (id_turma) {
             const turma = await prisma.turma.findUnique({
                 where: { 
-                    id: id_turma 
+                    id: Number(id_turma) 
                 },
             });
             if (!turma) {

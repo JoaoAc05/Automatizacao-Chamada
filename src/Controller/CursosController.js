@@ -52,7 +52,7 @@ class cursosController {
                 where: {
                     id: Number(id),
                 },
-                data: dataToUpdate,  // Passa diretamente o req.body
+                data: dataToUpdate,
             });
     
             if (updateCursos.count === 0) {
@@ -75,7 +75,7 @@ class cursosController {
             })
             res.status(200).json({message: 'Curso deletado com sucesso.'})
         } catch (e) {
-            res.status(500).json({message: 'Erro ao deletar curso.' + e.message})
+            res.status(500).json({message: 'Erro ao deletar curso: ' + e.message})
         }
     }
 }

@@ -42,7 +42,9 @@ class disciplinasController {
 
             // Verifica se o curso existe
             const curso = await prisma.curso.findUnique({
-                where: { id: id_curso },
+                where: { 
+                    id: Number(id_curso) 
+                },
             });
             if (!curso) {
                 return res.status(404).json({ message: 'Curso não encontrado.' });
@@ -100,7 +102,7 @@ class disciplinasController {
             })
             res.status(200).json({sucesso: 'Disciplina deletado com sucesso.'})
         } catch (e) {
-            res.status(500).json({error: 'Erro ao deletar disciplina.' + e.message})
+            res.status(500).json({error: 'Erro ao deletar disciplina: ' + e.message})
         }
     }
 }

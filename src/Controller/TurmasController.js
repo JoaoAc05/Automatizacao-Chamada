@@ -43,7 +43,7 @@ class turmasController {
             // Verifica se o curso existe
             const curso = await prisma.curso.findUnique({
                 where: { 
-                    id: id_curso 
+                    id: Number(id_curso) 
                 },
             });
             if (!curso) {
@@ -53,7 +53,7 @@ class turmasController {
 
             const turma = await prisma.turma.findMany({
                 where: {
-                    id_curso: id_curso,
+                    id_curso: Number(id_curso),
                     semestre_curso: semestre_curso
                 }
             })
@@ -87,7 +87,7 @@ class turmasController {
         if (id_curso) {
             const curso = await prisma.curso.findUnique({
                 where: { 
-                    id: id_curso 
+                    id:  Number(id_curso) 
                 },
             });
             if (!curso) {
