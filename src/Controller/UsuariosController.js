@@ -114,6 +114,7 @@ class usuariosController {
             } 
             
             const usuarioPayload = {
+                id: usuario.id,
                 nome: usuario.nome,
                 ra: usuario.ra,
                 cpf: usuario.cpf
@@ -191,8 +192,15 @@ class usuariosController {
                 return res.status(401).json({ message: 'Senha incorreta.' });
             }
 
+            const usuarioPayload = {
+                id: usuario.id,
+                nome: usuario.nome,
+                ra: usuario.ra,
+                cpf: usuario.cpf
+            };
+
             // return res.status(200).json({ message: 'Login bem-sucedido.' });
-            jwt.sign(usuario, chavePrivada, (err, token) => {
+            jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
                 if (err) {
                     res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
 

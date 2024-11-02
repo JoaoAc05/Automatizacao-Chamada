@@ -49,7 +49,9 @@ class semestreDisciplinasController {
 
             // Verifica se a disciplina existe
             const disciplina = await prisma.disciplina.findUnique({
-                where: { id: id_disciplina },
+                where: { 
+                    id: Number(id_disciplina) 
+                },
             });
             if (!disciplina) {
                 return res.status(404).json({ message: 'Disciplina não encontrada.' });
@@ -57,7 +59,9 @@ class semestreDisciplinasController {
 
             // Verifica se o usuario existe e é um professor
             const professor = await prisma.usuario.findUnique({
-                where: { id: id_professor },
+                where: { 
+                    id: Number(id_professor) 
+                },
             });
             if (!professor) {
                 return res.status(404).json({ message: 'Não encontrado usuario com o ID ' + id_professor });
@@ -68,7 +72,10 @@ class semestreDisciplinasController {
 
             // Verifica se o semestre existe
             const semestre = await prisma.semestre.findUnique({
-                where: { id: id_semestre },
+                where: { 
+                    id: Number(id_semestre) 
+
+                },
             });
             if (!semestre) {
                 return res.status(404).json({ message: 'Semestre não encontrado.' });
@@ -142,6 +149,51 @@ class semestreDisciplinasController {
             res.status(200).json({sucesso: 'Semestre deletado com sucesso.'})
         } catch (e) {
             res.status(500).json({error: 'Erro ao deletar semestreDisciplinas:' + e.message})
+        }
+    }
+
+    async disciplinaProfessor(req, res) {
+        const {id_professor} = req.params;
+        try{
+            const professor = await prisma.usuario.findUnique({
+                where: { id: Number(id_professor) },
+            });
+            if (!professor) {
+                return res.status(404).json({ message: 'Não encontrado usuario com o ID ' + id_professor });
+            }
+            if (professor.tipo !== 1) {
+                return res.status(400).json({ message: 'Usuário não é um professor.' });
+            }
+
+            const semestre = await prisma.semestre.findFirst({
+                where: {padrao: 0}
+            })
+            const idSemestre = {
+                id_semestre: Number(semestre.id)
+            };
+
+            const D_P_S = await prisma.semestreProfessorDisciplinas.findMany({
+                where: {
+                    id_professor: Number(id_professor),
+                    id_semestre: idSemestre.id_semestre
+                },
+                include: {
+                    Disciplina: true // Trazer detalhes do vinculo da disciplina
+                }
+            })
+            if(D_P_S.length === 0){
+                return res.status(404).json({messagem: 'Disciplina não encontrada para este professor neste semestre'})
+            }
+
+            const disciplinas = D_P_S.map((d) => ({
+                id: d.id_disciplina,
+                descricao: d.Disciplina ? d.Disciplina.descricao : 'Descrição não encontrada'
+            }));
+
+            res.status(200).json(disciplinas)
+
+        } catch (e) {
+            res.status(500).json({ message: 'Erro ao consultar disciplinas: ' + e.message });
         }
     }
 }
