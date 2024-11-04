@@ -107,6 +107,9 @@ class usuariosController {
             if (!usuario) {
                 return res.status(404).json({ message: 'Usuário não encontrado.' });
             }
+            if (usuario.tipo !== 0) {
+                return res.status(401).json({ message: 'Usuário não é um aluno' });
+            }
     
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {
@@ -186,6 +189,9 @@ class usuariosController {
             if (!usuario) {
                 return res.status(404).json({ message: 'Usuário não encontrado. Verifique seu email e senha!' });
             }
+            if (usuario.tipo !== 1) {
+                return res.status(401).json({ message: 'Usuário não é um professor' });
+            }
     
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {
@@ -195,7 +201,6 @@ class usuariosController {
             const usuarioPayload = {
                 id: usuario.id,
                 nome: usuario.nome,
-                ra: usuario.ra,
                 cpf: usuario.cpf
             };
 
