@@ -30,7 +30,7 @@ class chamadasController {
     };
 
     async cadastro(req, res) {
-        const {id_professor, id_disciplina, id_semestre, data_hora_inicio, data_hora_final} = req.body
+        const {id_professor, id_disciplina, data_hora_inicio} = req.body
         try {
             //Verifica se veio todas as informações
             if (!id_professor || !id_disciplina || !id_semestre || !data_hora_inicio) {
@@ -60,12 +60,10 @@ class chamadasController {
                 return res.status(404).json({ message: 'Disciplina não encontrada.' });
             }
 
-            // Verifica se a semestre existe
-            const semestre = await prisma.semestre.findUnique({
-                where: { 
-                    id: Number(id_semestre) 
-                },
-            });
+            const semestre = await prisma.semestre.findFirst({
+                where: {padrao: 0}
+            })
+
             if (!semestre) {
                 return res.status(404).json({ message: 'Semestre não encontrado.' });
             }
@@ -79,7 +77,7 @@ class chamadasController {
                         connect: {id: id_disciplina}
                     } ,
                     Semestre: {
-                        connect: {id: id_semestre}
+                        connect: {id: Number(semestre.id)}
                     },
                     data_hora_inicio: data_hora_inicio
                 }
@@ -197,6 +195,24 @@ class chamadasController {
             res.status(200).json({message: 'Chamada finalizada com sucesso.'})
         } catch (e) {
             res.status(500).json({error: 'Erro ao finalizar chamada: ' + e.message})
+        }
+    }
+
+    async chamadaProfessor(req, res) {
+        const { id_professor } = req.params;
+        try {
+            const chamadas = await prisma.chamada.findMany({
+                where: {
+                    id_professor: Number(id_professor),
+                },
+            })
+            if (chamadas.length === 0) {
+                return res.status(404).json({ message: 'Chamadas do professor não encontradas.' }); 
+            }
+
+            res.status(200).json(chamadas)
+        } catch (e) {
+            res.status(500).json({message: 'Erro ao retornar chamadas do professor: ' + e.message})
         }
     }
 }
