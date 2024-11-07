@@ -63,13 +63,10 @@ class chamadasController {
             const semestre = await prisma.semestre.findFirst({
                 where: {padrao: 0}
             })
-
+            console.log(semestre.id);
             if (!semestre) {
-                console.log(semestre.id);
                 return res.status(404).json({ message: 'Semestre não encontrado.' });
             } 
-            
-            console.log(semestre.id);
             
             const createChamadas = await prisma.chamada.create({ 
                 data: {
@@ -80,7 +77,7 @@ class chamadasController {
                         connect: {id: id_disciplina}
                     } ,
                     Semestre: {
-                        connect: {id: Number(semestre.id)}
+                        connect: {id: semestre.id}
                     },
                     data_hora_inicio: data_hora_inicio
                 }
