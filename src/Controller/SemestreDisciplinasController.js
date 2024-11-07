@@ -162,23 +162,23 @@ class semestreDisciplinasController {
                 return res.status(404).json({ message: 'Não encontrado usuario com o ID ' + id_professor });
             }
             if (professor.tipo !== 1) {
-                return res.status(400).json({ message: 'Usuário não é um professor.' });
+                return res.status(401).json({ message: 'Usuário não é um professor.' });
             }
 
             const semestre = await prisma.semestre.findFirst({
                 where: {padrao: 0}
             })
-            const idSemestre = {
-                id_semestre: Number(semestre.id)
-            };
+            // const idSemestre = {
+            //     id_semestre: Number(semestre.id)
+            // };
 
             const D_P_S = await prisma.semestreProfessorDisciplinas.findMany({
                 where: {
                     id_professor: Number(id_professor),
-                    id_semestre: idSemestre.id_semestre
+                    id_semestre: Number(semestre.id)
                 },
                 include: {
-                    Disciplina: true // Trazer detalhes do vinculo da disciplina
+                    Disciplina: true // Trazer detalhes da disciplina
                 }
             })
             if(D_P_S.length === 0){
