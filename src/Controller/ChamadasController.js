@@ -33,7 +33,7 @@ class chamadasController {
         const {id_professor, id_disciplina, data_hora_inicio} = req.body
         try {
             //Verifica se veio todas as informações
-            if (!id_professor || !id_disciplina || !id_semestre || !data_hora_inicio) {
+            if (!id_professor || !id_disciplina || !data_hora_inicio) {
                 return res.status(400).json({ message: 'Os campos id_professor, id_disciplina, id_semestre e data_hora_inicio são obrigatórios.' });
             }
 
@@ -65,9 +65,12 @@ class chamadasController {
             })
 
             if (!semestre) {
+                console.log(semestre.id);
                 return res.status(404).json({ message: 'Semestre não encontrado.' });
-            }
-
+            } 
+            
+            console.log(semestre.id);
+            
             const createChamadas = await prisma.chamada.create({ 
                 data: {
                     Professor: {
