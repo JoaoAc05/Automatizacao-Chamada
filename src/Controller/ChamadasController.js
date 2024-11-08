@@ -170,6 +170,10 @@ class chamadasController {
     async finalizarChamada(req, res) {
         const {id, data_hora_final} = req.body
 
+        if (!data_hora_final || !id) {
+            return res.status(400).json({ message: 'Os dados id e data_hora_final são obrigatórios.' });
+        }
+
         try {
             const chamada = await prisma.chamada.findUnique({
                 where: {
@@ -206,12 +210,27 @@ class chamadasController {
                 where: {
                     id_professor: Number(id_professor),
                 },
+                include: {
+                    Disciplina: true // Trazer detalhes da disciplina
+                }
             })
             if (chamadas.length === 0) {
                 return res.status(404).json({ message: 'Chamadas do professor não encontradas.' }); 
             }
 
-            res.status(200).json(chamadas)
+            const chamadaProfessor = chamadas.map((c) => ({
+                id: Number(c.id),
+                id_disciplina: Number(c.id_disciplina),
+                descricao: c.Disciplina ? c.Disciplina.descricao : 'Descrição não encontrada',
+                id_professor: Number(c.id_professor),
+                id_semestre: Number(c.id_semestre),
+                data_hora_inicio: c.data_hora_inicio,
+                data_hora_final: c.data_hora_final
+            }));
+
+            console.log(chamadaProfessor) // LOG TESTE
+
+            res.status(200).json(chamadaProfessor)
         } catch (e) {
             res.status(500).json({message: 'Erro ao retornar chamadas do professor: ' + e.message})
         }
