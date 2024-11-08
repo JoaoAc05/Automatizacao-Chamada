@@ -180,7 +180,7 @@ class chamadasController {
                 return res.status(404).json({message: 'Chamada não encontrada para ser finalizada.'})
             }
             console.log("Hora final da chamada: " + chamada.data_hora_final)
-            if (chamada.data_hora_final){
+            if (chamada.data_hora_final != null){
                 console.log("Chamada finalizada?")
                 return res.status(401).json({message: 'Chamada já finalizada.'})
             }
