@@ -186,7 +186,7 @@ class chamadasController {
             console.log("Hora final da chamada: " + chamada.data_hora_final)
             if (chamada.data_hora_final != null){
                 console.log("Chamada finalizada?")
-                return res.status(401).json({message: 'Chamada já finalizada.'})
+                return res.status(400).json({message: 'Chamada já finalizada: ' + chamada.data_hora_final})
             }
 
             const updateChamadas = await prisma.chamada.updateMany({
@@ -221,7 +221,7 @@ class chamadasController {
             const chamadaProfessor = chamadas.map((c) => ({
                 id: Number(c.id),
                 id_disciplina: Number(c.id_disciplina),
-                descricao: c.Disciplina ? c.Disciplina.descricao : 'Descrição não encontrada',
+                descricao: c.Disciplina.descricao,
                 id_professor: Number(c.id_professor),
                 id_semestre: Number(c.id_semestre),
                 data_hora_inicio: c.data_hora_inicio,

@@ -187,7 +187,7 @@ class semestreDisciplinasController {
 
             const disciplinas = D_P_S.map((d) => ({
                 id: d.id_disciplina,
-                descricao: d.Disciplina ? d.Disciplina.descricao : 'Descrição não encontrada'
+                descricao: d.Disciplina.descricao
             }));
 
             res.status(200).json(disciplinas)
