@@ -17,9 +17,7 @@ class usuariosController {
     }
 
     async getId(req, res) {
-        const {
-            id
-        } = req.params;
+        const { id } = req.params;
         try {
             const usuario = await prisma.usuario.findUnique({
                 where: {
