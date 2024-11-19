@@ -206,6 +206,20 @@ class chamadasController {
     async chamadaProfessor(req, res) {
         const { id_professor } = req.params;
         try {
+            if (id_professor) {
+                const professor = await prisma.usuario.findUnique({
+                    where: {
+                        id: Number(id_professor)
+                    }
+                })
+                if (!professor) {
+                    return res.status(404).json({message: 'Professor não encontrado'})
+                }
+                if(professor.tipo !== 1) {
+                    return res.status(401).json({message: 'Usuário não é um professor.'});
+                }
+            }
+
             const chamadas = await prisma.chamada.findMany({
                 where: {
                     id_professor: Number(id_professor),
