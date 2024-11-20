@@ -88,7 +88,7 @@ class semestreDisciplinasController {
                 }
             })
             if (disciplinaSemestre) {
-                return res.status(401).json({message: 'Essa disciplina já está sendo regida neste semestre'})
+                return res.status(400).json({message: 'Essa disciplina já está sendo regida neste semestre'})
             }
 
             const createSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.create({

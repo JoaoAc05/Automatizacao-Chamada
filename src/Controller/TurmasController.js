@@ -58,7 +58,7 @@ class turmasController {
                 }
             })
             if (turma) {
-                return res.status(401).json({message: 'Já existe uma turma deste curso neste semestre'})
+                return res.status(400).json({message: 'Já existe uma turma deste curso neste semestre'})
             }
             
             const createTurmas = await prisma.turma.create({ 

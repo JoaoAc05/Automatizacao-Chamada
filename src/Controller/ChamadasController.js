@@ -186,7 +186,7 @@ class chamadasController {
             console.log("Hora final da chamada: " + chamada.data_hora_final)
             if (chamada.data_hora_final != null){
                 console.log("Chamada finalizada?")
-                return res.status(401).json({message: 'Chamada já finalizada.'})
+                return res.status(400).json({message: 'Chamada já finalizada.'})
             }
 
             const updateChamadas = await prisma.chamada.updateMany({

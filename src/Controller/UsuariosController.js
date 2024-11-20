@@ -111,7 +111,7 @@ class usuariosController {
     
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {
-                return res.status(401).json({ message: 'Senha incorreta.' });
+                return res.status(400).json({ message: 'Senha incorreta.' });
             } 
             
             const usuarioPayload = {
@@ -158,7 +158,7 @@ class usuariosController {
                 
             } else {
                 // IMEI diferente ou inválido
-                return res.status(401).json({ message: 'IMEI diferente do usuário ou inválido.' });
+                return res.status(400).json({ message: 'IMEI diferente do usuário ou inválido.' });
             }
     
         } catch (e) {
@@ -193,7 +193,7 @@ class usuariosController {
     
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {
-                return res.status(401).json({ message: 'Senha incorreta.' });
+                return res.status(400).json({ message: 'Senha incorreta.' });
             }
 
             const usuarioPayload = {

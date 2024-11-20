@@ -72,7 +72,7 @@ class turmaDisciplinasController {
                 }
             })
             if (disciplinaTurma) {
-                return res.status(401).json({message: 'Esta disciplina já está vinculada a está turma'})
+                return res.status(400).json({message: 'Esta disciplina já está vinculada a está turma'})
             }
 
             const createTurmaDisicplinas = await prisma.turmaDisciplinas.create({ 
