@@ -14,13 +14,22 @@ class chamadaAlunosController {
     async getId(req, res) {
         const { id_chamada } = req.params;
         try {
+            const chamada = await prisma.chamada.findMany({
+                where: {
+                    id: Number(id_chamada),
+                },
+            })
+            if (chamada.length === 0) {
+                return res.status(404).json({ message: 'Chamada não encontrada.' }); 
+            }
+
             const chamadaAlunos = await prisma.chamadaAlunos.findMany({
                 where: {
                     id_chamada: Number(id_chamada),
                 },
             })
             if (chamadaAlunos.length === 0) {
-                return res.status(404).json({ message: 'Chamada não encontrada.' }); 
+                return res.status(404).json({ message: 'Lista de presença desta chamada não foi encontrada.' }); 
             }
 
             res.status(200).json(chamadaAlunos)
