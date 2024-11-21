@@ -118,7 +118,7 @@ class chamadaAlunosController {
                 }
             }); 
             if(createChamadaAluno.length === 0) {
-                return res.status(400).json({message: 'Presença não foi registrada, contate o suporte'})
+                return res.status(400).json({message: 'Presença não foi registrada, contate o suporte!'})
             } 
             res.status(201).json(createChamadaAluno);
         } catch (e) {
