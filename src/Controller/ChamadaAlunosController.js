@@ -110,13 +110,16 @@ class chamadaAlunosController {
             const createChamadaAluno = await prisma.chamadaAlunos.create({ 
                 data: {
                    Chamada: {
-                        connect: {id: id_chamada}
+                        connect: {id: Number(id_chamada)}
                     } ,
                     Aluno: {
-                        connect: {id: id_aluno}
+                        connect: {id: Number(id_aluno)}
                     }, 
                 }
-             }); 
+            }); 
+            if(createChamadaAluno.length === 0) {
+                return res.status(400).json({message: 'Presença não foi registrada, contate o suporte'})
+            } 
             res.status(201).json(createChamadaAluno);
         } catch (e) {
             res.status(500).json({ message: 'Erro ao definir presenca: ' + e.message });
