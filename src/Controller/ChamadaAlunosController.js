@@ -41,7 +41,6 @@ class chamadaAlunosController {
     async presenca (req, res, next) {
         const { hora_post, id_chamada, id_aluno } = req.body;
         try {
-
             // Verifica se a hora_post está presente e é uma data válida
             if (!hora_post || isNaN(new Date(hora_post))) {
                 return res.status(400).json({ message: 'Hora do post inválida.' });
