@@ -103,7 +103,8 @@ class chamadaAlunosController {
                 }
             })
             if (presenca) {
-                return res.status(400).json({message: 'Aluno já está presente nesta chamada'})
+                // return res.status(400).json({message: 'Aluno já está presente nesta chamada'})
+                res.status(201).json({message: 'Presença já registrada com sucesso'}) // res provisório
             }
 
             const createChamadaAluno = await prisma.chamadaAlunos.create({ 
@@ -119,6 +120,7 @@ class chamadaAlunosController {
             if(createChamadaAluno.length === 0) {
                 return res.status(400).json({message: 'Presença não foi registrada, contate o suporte!'})
             } 
+
             res.status(201).json(createChamadaAluno);
         } catch (e) {
             res.status(500).json({ message: 'Erro ao definir presenca: ' + e.message });
@@ -172,9 +174,9 @@ class chamadaAlunosController {
                 return res.status(404).json({ message: 'Registro de chamada não encontrado.' });
             }
     
-            res.status(200).json({ message: 'Curso alterado com sucesso.' });
+            res.status(200).json({ message: 'Presença alterada com sucesso.' });
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao alterar curso: ' + e.message });
+            res.status(500).json({ message: 'Erro ao alterar presença: ' + e.message });
         }
     }
     
