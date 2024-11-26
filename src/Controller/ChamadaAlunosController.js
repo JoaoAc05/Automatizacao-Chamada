@@ -103,7 +103,7 @@ class chamadaAlunosController {
                 }
             })
             if (presenca) {
-                 return res.status(400).json({message: 'Aluno já está presente nesta chamada'})
+                 return res.status(400).json({message: 'Presença já registrada com sucesso'})
                 //res.status(201).json({message: 'Presença já registrada com sucesso'})  res provisório
             }
 
