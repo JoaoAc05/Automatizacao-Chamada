@@ -103,8 +103,8 @@ class chamadaAlunosController {
                 }
             })
             if (presenca) {
-                // return res.status(400).json({message: 'Aluno já está presente nesta chamada'})
-                res.status(201).json({message: 'Presença já registrada com sucesso'}) // res provisório
+                 return res.status(400).json({message: 'Aluno já está presente nesta chamada'})
+                //res.status(201).json({message: 'Presença já registrada com sucesso'})  res provisório
             }
 
             const createChamadaAluno = await prisma.chamadaAlunos.create({ 
