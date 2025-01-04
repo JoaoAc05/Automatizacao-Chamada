@@ -1,4 +1,4 @@
-import app from "../src/app.js";''
+import app from "../src/app.js";
 
 const port = normalizaPort(process.env.PORT || '3000');
 

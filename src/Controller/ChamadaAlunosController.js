@@ -48,8 +48,7 @@ class chamadaAlunosController {
 
             // Obtém a hora atual do servidor (VERCEL É FUSO WHASHINGTON)
             const serverTime = new Date();
-
-            // Converte as duas datas para o mesmo fuso horário (UTC)
+            
             const postTime = new Date(hora_post);
                         
             // (SEGUNDOS SERVIDOR - SEGUNDOS POST) + 60 * (MINUTOS SERVIDOR - MINUTOS POST)
@@ -104,7 +103,6 @@ class chamadaAlunosController {
             })
             if (presenca) {
                  return res.status(400).json({message: 'Presença registrada com sucesso!'})
-                //res.status(201).json({message: 'Presença já registrada com sucesso'})  res provisório
             }
 
             const createChamadaAluno = await prisma.chamadaAlunos.create({ 
