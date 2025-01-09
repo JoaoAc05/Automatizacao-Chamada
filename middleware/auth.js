@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 const chavePrivada = "Fasipe2024"
-console.log(chavePrivada)
 
 export default function auth(request, response, next) {
   try {
