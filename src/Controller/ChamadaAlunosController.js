@@ -181,7 +181,7 @@ class chamadaAlunosController {
     async deletar(req, res) { // As presenças não podem ser excluidas de forma alguma, então será dado apenas o update no status
         const { id_chamada, id_aluno } = req.params;
         try {
-            const deleteChamadaAluno = await prisma.chamadaAlunos.update({
+            const deleteChamadaAluno = await prisma.chamadaAlunos.updateMany({
                 where: { 
                     id_chamada: Number(id_chamada),
                     id_aluno: Number(id_aluno), 

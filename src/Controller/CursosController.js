@@ -33,8 +33,8 @@ class cursosController {
         const {descricao} = req.body.descricao;
         const {qtd_semestres} = req.body.qtd_semestres;
 
-        if (!descricao || !qtd_semestres) {
-            console.log(descricao + " " + qtd_semestres)
+        if (!String(descricao) || !Number(qtd_semestres)) {
+            console.log(req.body.descricao + " " + req.body.qtd_semestres + " - - " + req.body)
             return res.status(400).json({ message: 'Os campos descricao e qtd_semestres são obrigatórios.' });
         }
 
