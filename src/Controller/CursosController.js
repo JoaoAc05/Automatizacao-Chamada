@@ -30,8 +30,7 @@ class cursosController {
     };
 
     async cadastro(req, res) {
-        const {descricao} = req.body.descricao;
-        const {qtd_semestres} = req.body.qtd_semestres;
+        const {descricao, qtd_semestres} = req.body;
 
         if (!descricao || !qtd_semestres) {
             console.log(`Body Descrição: ${req.body.descricao}, Body QTD: ${req.body.qtd_semestres}, Descrição: ${descricao}, QTD: ${qtd_semestres}`)
