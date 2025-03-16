@@ -172,7 +172,7 @@ class semestreDisciplinasController {
             //     id_semestre: Number(semestre.id)
             // };
 
-            const D_P_S = await prisma.semestreProfessorDisciplinas.findMany({
+            const D_P_S = await prisma.semestreProfessorDisciplinas.findMany({ //Pegar todas as disciplinas que o professor irá aplicar no semestre padrão
                 where: {
                     id_professor: Number(id_professor),
                     id_semestre: Number(semestre.id)

@@ -16,12 +16,12 @@ model Usuario {
   id            Int       @id @default(autoincrement())
   nome          String
   ra            String?   @unique // Registro do Aluno
-  cpf           String    @unique
-  senha         String
-  email         String    @unique
+  cpf           String?   @unique // CPF Pode ser Null quando usuário administrador
+  senha         String?           // Senha e email podem ser Null quando o aluno ainda não fez ativação do cadastro
+  email         String?   @unique
   imei          String?   @unique // Codigo indicador único do dispositivo
   tipo          Int       @default(0) // 0 - Aluno , 1 - Professor , 2 - Gerencial
-  status        Int       @default(0) // 0 - Ativo , 1 - Inativo
+  status        Int       @default(0) // 0 - Cadastrado, 1 - Ativo, 2 - Inativo
   data_cadastro DateTime  @default(now())
 
   // Relacionamentos
@@ -49,8 +49,10 @@ model Semestre { // Semestre do Ano ( 2024/1 ou 2024/2 )
 }
 
 model Curso {
-  id          Int       @id @default(autoincrement())
-  descricao   String
+  id            Int     @id @default(autoincrement())
+  descricao     String
+  qtd_semestres Int     @default(4) // Quantidade de semestre que esse curso possui
+  status        Int     @default(0) // 0 - Ativo, 1 - Inativo
 
   // Relacionamentos
   Disciplina  Disciplina[]
@@ -60,10 +62,11 @@ model Curso {
 }
 
 model Disciplina { // Matéria
-  id            Int       @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   descricao     String
   id_curso      Int
   carga_horario Int
+  status        Int     @default(0) // 0 - Ativo, 1 - Inativo
 
   // Relacionamentos
   Curso   Curso               @relation(fields: [id_curso], references: [id])
@@ -75,21 +78,21 @@ model Disciplina { // Matéria
 }
 
 model Turma {
-  id            Int       @id @default(autoincrement())
-  semestre_curso Int  // 1º Semestre, 2º semestre, 3º Semestre ...
-  id_curso      Int
-  status        Int @default(0) // 0 - Cursando , 1 - Concluido
+  id              Int  @id @default(autoincrement())
+  semestre_curso  Int  // 1º Semestre, 2º semestre, 3º Semestre ...
+  id_curso        Int
+  status          Int  @default(0) // 0 - Cursando , 1 - Concluido
 
   // Relacionamentos
-  Curso   Curso      @relation(fields: [id_curso], references: [id])
-  TurmaDisciplinas  TurmaDisciplinas[]
-  TurmaAluno        TurmaAlunos[]
+  Curso   Curso       @relation(fields: [id_curso], references: [id])
+  TurmaDisciplinas    TurmaDisciplinas[]
+  TurmaAluno          TurmaAlunos[]
 
   @@map("turma")
 }
 
-model TurmaDisciplinas {
-  id             Int       @id @default(autoincrement())
+model TurmaDisciplinas { //Disciplinas que está turma 
+  id             Int  @id @default(autoincrement())
   id_disciplina  Int
   id_semestre    Int // Semestre do ano ( 2024/1 ou 2024/2 )
   id_turma       Int
@@ -102,7 +105,7 @@ model TurmaDisciplinas {
   @@map("turma_disciplinas")
 }
 
-model TurmaAlunos {
+model TurmaAlunos { // Turma a qual o aluno pertence
   id        Int       @id @default(autoincrement())
   id_aluno  Int
   id_turma  Int
@@ -114,7 +117,7 @@ model TurmaAlunos {
   @@map("turma_alunos")
 }
 
-model Chamada {
+model Chamada { 
   id               Int       @id @default(autoincrement())
   id_professor     Int
   id_disciplina    Int
@@ -131,19 +134,20 @@ model Chamada {
   @@map("chamada")
 }
 
-model ChamadaAlunos {
-  id          Int       @id @default(autoincrement())
+model ChamadaAlunos { // Presença dos alunos em cada chamada
+  id          Int   @id @default(autoincrement())
   id_chamada  Int
   id_aluno    Int
+  status      Int   @default(0) // 0 - Presente, 1 - Presença Removida
 
   // Relacionamentos
   Chamada     Chamada    @relation(fields: [id_chamada], references: [id])
-  Aluno     Usuario    @relation(fields: [id_aluno], references: [id])
+  Aluno     Usuario      @relation(fields: [id_aluno], references: [id])
 
   @@map("chamada_alunos")
 }
 
-model SemestreProfessorDisciplinas {
+model SemestreProfessorDisciplinas { // Qual matéria o professor irá aplicar durante este semestre
   id           Int       @id @default(autoincrement())
   id_disciplina Int
   id_professor  Int
@@ -156,3 +160,9 @@ model SemestreProfessorDisciplinas {
 
   @@map("semestre_professor_disciplinas")
 }
+
+// NPX PRISMA MIGRATE - Executar este comando para adicionar novas colunas, novos vinculos e novas tabelas. 
+// (OBS: Se a coluna for obrigatória e não tiver um valor default, todos os registros serão deletados)
+
+// NPX PRISMA GENERATE - Executar quando for modificado penas nomes de relacionamentos, colunas já existentes (Informações que não alterem a extrutura do banco)
+// Também após utilizar o NPM INSTALL

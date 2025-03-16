@@ -178,21 +178,24 @@ class chamadaAlunosController {
         }
     }
     
-    async deletar(req, res) {
+    async deletar(req, res) { // As presenças não podem ser excluidas de forma alguma, então será dado apenas o update no status
         const { id_chamada, id_aluno } = req.params;
         try {
-            const deleteChamadaAluno = await prisma.chamadaAlunos.deleteMany({
+            const deleteChamadaAluno = await prisma.chamadaAlunos.update({
                 where: { 
                     id_chamada: Number(id_chamada),
                     id_aluno: Number(id_aluno), 
                 },
+                data: {
+                    status: 1 // Presença Removida
+                }
             })
             if (deleteChamadaAluno.count === 0) {
                 return res.status(404).json({ message: 'Registro de presença não encontrado.' });
             }
-            res.status(200).json({message: 'Presença do aluno deletada com sucesso.'})
+            res.status(200).json({message: 'Presença do aluno removida com sucesso.'})
         } catch (e) {
-            res.status(500).json({message: 'Erro ao deletar presença: ' + e.message})
+            res.status(500).json({message: 'Erro ao remover presença: ' + e.message})
         }
     }
 }

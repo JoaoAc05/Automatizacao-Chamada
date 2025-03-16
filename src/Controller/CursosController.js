@@ -30,6 +30,13 @@ class cursosController {
     };
 
     async cadastro(req, res) {
+        const {descricao} = req.body.descricao;
+        const {qtd_semestres} = req.body.qtd_semestres;
+
+        if (!descricao || !qtd_semestres) {
+            return res.status(400).json({ message: 'Os campos descricao e qtd_semestres são obrigatórios.' });
+        }
+        
         try {
             const createCursos = await prisma.curso.create({ data: req.body });
             res.status(201).json(createCursos);
