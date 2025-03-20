@@ -96,7 +96,11 @@ class chamadasController {
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
-            return res.status(400).json({ error: 'Nenhum dado fornecido para atualização.' });
+            return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
+        }
+
+        if (!id) {
+            return res.status(400).josn({ message: 'O campo id é obrigatório'})
         }
 
         if (id_professor) {

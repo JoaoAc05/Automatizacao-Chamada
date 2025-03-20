@@ -43,6 +43,45 @@ class usuariosController {
         }
     }
 
+    // Nova rota para validação do cadastro do aluno
+    async validacao(req,res) {
+        const {nome, ra, email, senha, imei} = req.body;
+        const dataToUpdate = req.body;
+
+
+        // Primeiro é necessario encontrar o cadastro do Aluno, pelo nome e pelo RA.
+        const aluno = await prisma.usuario.findMany({
+            where: { 
+                nome: String(nome),
+                ra: String(ra)
+            },
+        });
+
+        if (!aluno) {
+            return res.status(404).json({ message: 'Cadastro não encontrado.' });
+        }
+
+        try {
+            // Se existir o cadastro, inserir as informações de email, senha e imei
+            const validacaoAluno = await prisma.usuario.updateMany({
+                where: {
+                    id: aluno.id,
+                },
+                data: {
+                    email: String(email),
+                    senha: senha,
+                    imei: String(imei),
+                    status: 1,
+                }
+            })
+
+            res.status(200).json({ message: 'Aluno validado com sucesso'})
+        } catch (e) {
+            res.status(500).json({ message: 'Erro ao validar usuario: ' + e.message });
+        }
+        
+    } 
+
     async alterar(req, res) {
         const { id } = req.body;
         const dataToUpdate = req.body;
@@ -108,6 +147,9 @@ class usuariosController {
             if (usuario.tipo !== 0) {
                 return res.status(401).json({ message: 'Usuário não é um aluno' });
             }
+            // if (usuario.status !== 1) {
+            //     return res.status(401).json({ message: 'Seu cadastro não está valido! Realize o cadastro.' });
+            // }  
     
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {

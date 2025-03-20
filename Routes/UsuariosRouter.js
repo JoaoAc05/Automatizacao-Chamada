@@ -9,9 +9,11 @@ const UsuariosController = new usuariosController();
 UsuariosRouter.get('/', auth, UsuariosController.getAll); 
 UsuariosRouter.get('/:id', auth, UsuariosController.getId); 
 UsuariosRouter.post('/', auth, UsuariosController.cadastro); 
+UsuariosRouter.put('/valida', auth, UsuariosController.validacao); // Rota para validacao do cadastro do aluno
 UsuariosRouter.put('/', auth, UsuariosController.alterar); 
 UsuariosRouter.delete('/:id', auth, UsuariosController.deletar);
 UsuariosRouter.post('/login', UsuariosController.loginAluno);
 UsuariosRouter.post('/loginWeb', UsuariosController.loginWeb);
+
 
 export { UsuariosRouter };
