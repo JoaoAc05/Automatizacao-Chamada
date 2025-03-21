@@ -48,6 +48,9 @@ class usuariosController {
         const {nome, ra, email, senha, imei} = req.body;
         const dataToUpdate = req.body;
 
+        if (!nome || !ra || !email || !senha || !imei) {
+            return res.status(400).json({ message: 'Campos nome, ra, email e senha são obrigatórios'})
+        }
 
         // Primeiro é necessario encontrar o cadastro do Aluno, pelo nome e pelo RA.
         const aluno = await prisma.usuario.findFirst({

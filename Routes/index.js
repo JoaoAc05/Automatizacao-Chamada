@@ -9,6 +9,7 @@ import { TurmaDisciplinasRouter } from "./TurmaDisciplinasRouter.js";
 import { SemestreDisciplinasRouter } from "./SemestreDisciplinasRouter.js";
 import { ChamadasRouter } from "./ChamadasRouter.js";
 import { ChamadaAlunosRouter } from "./ChamadaAlunosRouter.js"
+import { LoginRouter } from "./LoginRouter.js";
 
 const router = express.Router();
 
@@ -30,5 +31,6 @@ router.use("/turma/disciplinas", TurmaDisciplinasRouter)
 router.use("/semestre", SemestreDisciplinasRouter)
 router.use("/chamadas", ChamadasRouter)
 router.use("/chamada", ChamadaAlunosRouter)
+router.use("/login", LoginRouter)
 
 export default router;
