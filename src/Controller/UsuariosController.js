@@ -60,6 +60,18 @@ class usuariosController {
         if (!aluno) {
             return res.status(404).json({ message: 'Cadastro não encontrado.' });
         }
+        if (aluno.status !== 0) { 
+            // Se status = 1 ele já esta valido, não precisa de uma nova validação. 
+            // Se status = 2 então está inativo, não tem como validar.
+            return res.status(400).json({ message: 'O cadastro do usuário se encontra em um status não autorizado para validar.'})
+        }
+
+        const emailExistente = await prisma.usuario.findUnique({
+            where: { email: email }
+        });
+        if (emailExistente) {
+            return res.status(400).json({ message: 'E-mail informado já está cadastrado.' });
+        }
 
         try {
             // Se existir o cadastro, inserir as informações de email, senha e imei
@@ -68,9 +80,9 @@ class usuariosController {
                     id: aluno.id,
                 },
                 data: {
-                    email: String(email),
+                    email: email,
                     senha: senha,
-                    imei: String(imei),
+                    imei: imei,
                     status: 1,
                 }
             })
