@@ -63,7 +63,7 @@ class usuariosController {
         if (aluno.status !== 0) { 
             // Se status = 1 ele já esta valido, não precisa de uma nova validação. 
             // Se status = 2 então está inativo, não tem como validar.
-            console.log(`Status do Aluno: ${aluno.status}`)
+            console.log(`Status do Aluno: ${aluno.status} - ${Number(aluno.status)}`)
             return res.status(400).json({ message: 'O cadastro do usuário se encontra em um status não autorizado para validar.'})
         }
 
