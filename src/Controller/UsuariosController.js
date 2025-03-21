@@ -50,7 +50,7 @@ class usuariosController {
 
 
         // Primeiro é necessario encontrar o cadastro do Aluno, pelo nome e pelo RA.
-        const aluno = await prisma.usuario.findMany({
+        const aluno = await prisma.usuario.findFirst({
             where: { 
                 nome: String(nome),
                 ra: String(ra)
