@@ -10,7 +10,7 @@ class disciplinasController {
 
             res.status(200).json(disciplinas);
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar disciplinas: ' + e.message});
+            res.status(500).json({ message: 'Erro ao retornar disciplinas: ' + e.message });
         }
     }
 
@@ -28,7 +28,7 @@ class disciplinasController {
 
             res.status(200).json(disciplina)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar disciplina: ' + e.message})
+            res.status(500).json({ message: 'Erro ao retornar disciplina: ' + e.message })
         }
     };
 
@@ -71,7 +71,7 @@ class disciplinasController {
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
-            return res.status(400).json({ error: 'Nenhum dado fornecido para atualização.' });
+            return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
     
         try {
@@ -100,9 +100,9 @@ class disciplinasController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({sucesso: 'Disciplina deletado com sucesso.'})
+            res.status(200).json({ message: 'Disciplina deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({error: 'Erro ao deletar disciplina: ' + e.message})
+            res.status(500).json({ message: 'Erro ao deletar disciplina: ' + e.message })
         }
     }
 }

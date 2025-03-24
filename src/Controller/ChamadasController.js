@@ -7,7 +7,7 @@ class chamadasController {
             
             res.status(200).json(chamadas);
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar chamadas: ' + e.message});
+            res.status(500).json({ message: 'Erro ao retornar chamadas: ' + e.message });
         }
     }
 
@@ -25,7 +25,7 @@ class chamadasController {
 
             res.status(200).json(chamada)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar chamada: ' + e.message})
+            res.status(500).json({ message: 'Erro ao retornar chamada: ' + e.message })
         }
     };
 
@@ -47,7 +47,7 @@ class chamadasController {
                 return res.status(404).json({ message: 'Usuario não encontrado.' });
             }
             if (professor.tipo !== 1) {
-                return res.status(400).json({ message: 'Usuário informado não é um professor'})
+                return res.status(400).json({ message: 'Usuário informado não é um professor' })
             }
 
             // Verifica se a disciplina existe
@@ -113,7 +113,7 @@ class chamadasController {
                 return res.status(404).json({ message: 'Usuario não encontrado.' });
             }
             if (professor.tipo !== 1) {
-                return res.status(400).json({ message: 'Usuário informado não é um professor.'})
+                return res.status(400).json({ message: 'Usuário informado não é um professor.' })
             }
         }
         
@@ -165,9 +165,9 @@ class chamadasController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({message: 'Chamada deletado com sucesso.'})
+            res.status(200).json({ message: 'Chamada deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({message: 'Erro ao deletar chamada.' + e.message})
+            res.status(500).json({ message: 'Erro ao deletar chamada.' + e.message })
         }
     }
 
@@ -185,12 +185,12 @@ class chamadasController {
                 },
             });
             if (!chamada) {
-                return res.status(404).json({message: 'Chamada não encontrada para ser finalizada.'})
+                return res.status(404).json({ message: 'Chamada não encontrada para ser finalizada.' })
             }
             console.log("Hora final da chamada: " + chamada.data_hora_final)
             if (chamada.data_hora_final != null){
                 console.log("Chamada finalizada?")
-                return res.status(400).json({message: 'Chamada já finalizada.'})
+                return res.status(400).json({ message: 'Chamada já finalizada.' })
             }
 
             const updateChamadas = await prisma.chamada.updateMany({
@@ -201,9 +201,9 @@ class chamadasController {
                     data_hora_final: data_hora_final
                 },  
             });
-            res.status(200).json({message: 'Chamada finalizada com sucesso.'})
+            res.status(200).json({ message: 'Chamada finalizada com sucesso.' })
         } catch (e) {
-            res.status(500).json({error: 'Erro ao finalizar chamada: ' + e.message})
+            res.status(500).json({ message: 'Erro ao finalizar chamada: ' + e.message })
         }
     }
 
@@ -217,10 +217,10 @@ class chamadasController {
                     }
                 })
                 if (!professor) {
-                    return res.status(404).json({message: 'Professor não encontrado'})
+                    return res.status(404).json({ message: 'Professor não encontrado' })
                 }
                 if(professor.tipo !== 1) {
-                    return res.status(401).json({message: 'Usuário não é um professor.'});
+                    return res.status(401).json({ message: 'Usuário não é um professor.' });
                 }
             }
 
@@ -250,7 +250,7 @@ class chamadasController {
 
             res.status(200).json(chamadaProfessor)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar chamadas do professor: ' + e.message})
+            res.status(500).json({ message: 'Erro ao retornar chamadas do professor: ' + e.message })
         }
     }
 }

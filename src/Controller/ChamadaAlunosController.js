@@ -80,10 +80,10 @@ class chamadaAlunosController {
                 }
             })
             if (!aluno) {
-                return res.status(404).json({message: 'Aluno não encontrado.'});
+                return res.status(404).json({ message: 'Aluno não encontrado.' });
             }
             if(aluno.tipo !== 0) {
-                return res.status(401).json({message: 'Usuário não é um aluno.'});
+                return res.status(401).json({ message: 'Usuário não é um aluno.' });
             }
 
             const chamada = await prisma.chamada.findUnique({
@@ -92,7 +92,7 @@ class chamadaAlunosController {
                 }
             })
             if (!chamada) {
-                return res.status(404).json({message: 'Chamada não encontrada.'})
+                return res.status(404).json({ message: 'Chamada não encontrada.' })
             }
 
             const presenca = await prisma.chamadaAlunos.findFirst({
@@ -102,7 +102,7 @@ class chamadaAlunosController {
                 }
             })
             if (presenca) {
-                 return res.status(400).json({message: 'Presença registrada com sucesso!'})
+                 return res.status(400).json({ message: 'Presença registrada com sucesso!' })
             }
 
             const createChamadaAluno = await prisma.chamadaAlunos.create({ 
@@ -116,7 +116,7 @@ class chamadaAlunosController {
                 }
             }); 
             if(createChamadaAluno.length === 0) {
-                return res.status(400).json({message: 'Presença não foi registrada, contate o suporte!'})
+                return res.status(400).json({ message: 'Presença não foi registrada, contate o suporte!' })
             } 
 
             res.status(201).json(createChamadaAluno);
@@ -141,7 +141,7 @@ class chamadaAlunosController {
                 }
             })
             if (!chamada) {
-                return res.status(404).json({message: 'Chamada não encontrada'})
+                return res.status(404).json({ message: 'Chamada não encontrada' })
             }
         }
 
@@ -153,10 +153,10 @@ class chamadaAlunosController {
                 }
             })
             if (!aluno) {
-                return res.status(404).json({message: 'Aluno não encontrado'})
+                return res.status(404).json({ message: 'Aluno não encontrado' })
             }
             if (aluno.tipo !== 0) {
-                return res.status(401).json({message: 'Usuário não é um aluno.'})
+                return res.status(401).json({ message: 'Usuário não é um aluno.' })
             }
         }
     
@@ -193,9 +193,9 @@ class chamadaAlunosController {
             if (deleteChamadaAluno.count === 0) {
                 return res.status(404).json({ message: 'Registro de presença não encontrado.' });
             }
-            res.status(200).json({message: 'Presença do aluno removida com sucesso.'})
+            res.status(200).json({ message: 'Presença do aluno removida com sucesso.' })
         } catch (e) {
-            res.status(500).json({message: 'Erro ao remover presença: ' + e.message})
+            res.status(500).json({ message: 'Erro ao remover presença: ' + e.message })
         }
     }
 }

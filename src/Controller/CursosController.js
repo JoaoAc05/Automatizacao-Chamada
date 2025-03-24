@@ -7,7 +7,7 @@ class cursosController {
 
             res.status(200).json(cursos);
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar cursos: ' + e.message});
+            res.status(500).json({ message: 'Erro ao retornar cursos: ' + e.message });
         }
     }
 
@@ -25,7 +25,7 @@ class cursosController {
 
             res.status(200).json(curso)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar curso: ' + e.message})
+            res.status(500).json({ message: 'Erro ao retornar curso: ' + e.message })
         }
     };
 
@@ -79,9 +79,9 @@ class cursosController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({message: 'Curso deletado com sucesso.'})
+            res.status(200).json({ message: 'Curso deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({message: 'Erro ao deletar curso: ' + e.message})
+            res.status(500).json({ message: 'Erro ao deletar curso: ' + e.message })
         }
     }
 }

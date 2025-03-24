@@ -63,7 +63,7 @@ class loginController {
             jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
                 if (err) {
                     console.log(`Erro ao gerar autenticação: ${err}`)
-                    return res.status(500).json({ mensagem: 'Erro ao gerar autenticação' });
+                    return res.status(500).json({ message: 'Erro ao gerar autenticação' });
                 }
                 res.status(200).json({auth: true, token});
             });
@@ -117,7 +117,7 @@ class loginController {
             jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
                 if (err) {
                     console.log(`Erro ao gerar autenticação: ${err}`)
-                    return res.status(500).json({ mensagem: 'Erro ao gerar autenticação' });
+                    return res.status(500).json({ message: 'Erro ao gerar autenticação' });
                 }
                 res.status(200).json({auth: true, token});
             });

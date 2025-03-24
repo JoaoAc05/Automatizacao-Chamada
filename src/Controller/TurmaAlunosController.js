@@ -7,7 +7,7 @@ class turmaAlunosController {
 
             res.status(200).json(turmas);
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar vinculo turma alunos: ' + e.message});
+            res.status(500).json({ message: 'Erro ao retornar vinculo turma alunos: ' + e.message });
         }
     }
 
@@ -20,12 +20,12 @@ class turmaAlunosController {
                 },
             })
             if (!turma) {
-                return res.status(404).json({message: 'Não encontrado nenhum registro de aluno desta turma'})
+                return res.status(404).json({ message: 'Não encontrado nenhum registro de aluno desta turma'} )
             }
 
             res.status(200).json(turma)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar alunos da turma: ' + e.message})
+            res.status(500).json({ message: 'Erro ao retornar alunos da turma: ' + e.message })
         }
     };
 
@@ -54,10 +54,10 @@ class turmaAlunosController {
                 }
             })
             if (!aluno) {
-                return res.status(404).json({message: 'Aluno não encontrado'})
+                return res.status(404).json({ message: 'Aluno não encontrado' })
             }
             if(aluno.tipo !== 0) {
-                return res.status(401).json({message: 'Usuário não é um aluno.'});
+                return res.status(401).json({ message: 'Usuário não é um aluno.' });
             }
 
             const AlunoTurma = await prisma.turmaAlunos.findFirst({
@@ -67,7 +67,7 @@ class turmaAlunosController {
                 }
             })
             if (AlunoTurma) {
-                return res.status(400).json({message: 'Este aluno já pertence a esta turma'})
+                return res.status(400).json({ message: 'Este aluno já pertence a esta turma' })
             }
             
             const createTurmaAlunos = await prisma.turmaAlunos.create({ 
@@ -92,7 +92,7 @@ class turmaAlunosController {
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
-            return res.status(400).json({ error: 'Nenhum dado fornecido para atualização.' });
+            return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
 
         if (id_turma) {
@@ -113,10 +113,10 @@ class turmaAlunosController {
                 }
             })
             if (!aluno) {
-                return res.status(404).json({message: 'Aluno não encontrado'})
+                return res.status(404).json({ message: 'Aluno não encontrado' })
             }
             if(aluno.tipo !== 0) {
-                return res.status(401).json({message: 'Usuário não é um aluno.'});
+                return res.status(401).json({ message: 'Usuário não é um aluno.' });
             }
         }
     
@@ -147,7 +147,7 @@ class turmaAlunosController {
             }
         })
         if (!alunoTurma) {
-            return res.status(404).json({message: 'Este aluno não pertence a nenhuma turma'})
+            return res.status(404).json({ message: 'Este aluno não pertence a nenhuma turma' })
         }
 
         try {
@@ -156,9 +156,9 @@ class turmaAlunosController {
                     id_aluno: Number(id_aluno), 
                 },
             })
-            res.status(200).json({sucesso: 'Vinculo Aluno Turma deletado com sucesso.'})
+            res.status(200).json({ message: 'Vinculo Aluno Turma deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({error: 'Erro ao deletar vinculo aluno turma: ' + e.message})
+            res.status(500).json({ message: 'Erro ao deletar vinculo aluno turma: ' + e.message })
         }
     }
 }

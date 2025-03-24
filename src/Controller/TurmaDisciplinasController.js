@@ -101,7 +101,7 @@ class turmaDisciplinasController {
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
-            return res.status(400).json({ error: 'Nenhum dado fornecido para atualização.' });
+            return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
 
         if (id_turma) {
@@ -159,9 +159,9 @@ class turmaDisciplinasController {
                     id_disciplina: Number(id_disciplina), 
                 },
             })
-            res.status(200).json({sucesso: 'Vinculo Disciplina Turma deletado com sucesso.'})
+            res.status(200).json({message: 'Vinculo Disciplina Turma deletado com sucesso.'})
         } catch (e) {
-            res.status(500).json({error: 'Erro ao deletar vinculo disciplina turma: ' + e.message})
+            res.status(500).json({message: 'Erro ao deletar vinculo disciplina turma: ' + e.message})
         }
     }
 }

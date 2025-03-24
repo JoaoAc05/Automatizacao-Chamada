@@ -13,7 +13,7 @@ class semestreDisciplinasController {
             
             res.status(200).json(semestreDisciplinas);
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar os vinculos de disciplina, semestre e professor: ' + e.message});
+            res.status(500).json({ message: 'Erro ao retornar os vinculos de disciplina, semestre e professor: ' + e.message });
         }
     }
 
@@ -32,7 +32,7 @@ class semestreDisciplinasController {
 
             res.status(200).json(semestreDisciplinas)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar disciplinas do semestre: ' + e.message})
+            res.status(500).json({ message: 'Erro ao retornar disciplinas do semestre: ' + e.message })
         }
     };
 
@@ -88,7 +88,7 @@ class semestreDisciplinasController {
                 }
             })
             if (disciplinaSemestre) {
-                return res.status(400).json({message: 'Essa disciplina já está sendo regida neste semestre'})
+                return res.status(400).json({ message: 'Essa disciplina já está sendo regida neste semestre' })
             }
 
             const createSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.create({
@@ -117,7 +117,7 @@ class semestreDisciplinasController {
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
-            return res.status(400).json({ error: 'Nenhum dado fornecido para atualização.' });
+            return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
     
         try {
@@ -146,9 +146,9 @@ class semestreDisciplinasController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({sucesso: 'Semestre deletado com sucesso.'})
+            res.status(200).json({ message: 'Semestre deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({error: 'Erro ao deletar semestreDisciplinas:' + e.message})
+            res.status(500).json({ message: 'Erro ao deletar semestreDisciplinas:' + e.message })
         }
     }
 
@@ -182,7 +182,7 @@ class semestreDisciplinasController {
                 }
             })
             if(D_P_S.length === 0){
-                return res.status(404).json({messagem: 'Disciplina não encontrada para este professor neste semestre'})
+                return res.status(404).json({ message: 'Disciplina não encontrada para este professor neste semestre' })
             }
 
             const disciplinas = D_P_S.map((d) => ({

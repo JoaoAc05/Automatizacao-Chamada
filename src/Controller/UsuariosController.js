@@ -35,6 +35,22 @@ class usuariosController {
     };
 
     async cadastro(req, res) {
+        const {tipo, nome, ra, cpf, email, senha} = req.body;
+
+        if (!nome || !tipo) {
+            return res.status(400).json({ message: 'Campos nome e tipo são obrigatórios'})
+        }
+
+        if (tipo == 0) { //Aluno
+            if (!ra || !cpf) {
+                return res.status(400).json({ message: 'RA e CPF são obrigatórios para os alunos'})
+            }
+        } else { //Professor e Admin
+            if(!email || !senha) {
+                return res.status(400).json({ message: 'Email e Senha são obrigatórios para os professores e administradores'})
+            }
+        }
+
         try {
             const createUsuario = await prisma.usuario.create({ data: req.body });
             res.status(201).json(createUsuario);
@@ -128,7 +144,7 @@ class usuariosController {
     async deletar(req, res) {
         const { id } = req.params;
         try {
-            const deleteUsuarios = await prisma.usuario.deleteMany({
+            const deleteUsuarios = await prisma.usuario.delete({
                 where: { 
                     id: Number(id), 
                 },
@@ -141,10 +157,8 @@ class usuariosController {
 
     async loginAluno(req, res) {
         const { imei, email, senha } = req.body;
-        
     
         try {
-            // Verifica se os campos estão preenchidos
             if (!email || !senha) {
                 return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
             }
@@ -195,7 +209,7 @@ class usuariosController {
                 // return res.status(200).json({ message: 'Login bem-sucedido. IMEI inserido com sucesso.' });
                 jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
                     if (err) {
-                        res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
+                        res.status(500).json({ message: "Erro ao gerar autenticação" });
     
                         return;
                     }
@@ -207,7 +221,7 @@ class usuariosController {
                 // return res.status(200).json({ message: 'Login bem-sucedido. IMEI já cadastrado.' });
                 jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
                     if (err) {
-                        res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
+                        res.status(500).json({ message: "Erro ao gerar autenticação" });
     
                         return;
                     }
@@ -245,8 +259,8 @@ class usuariosController {
             if (!usuario) {
                 return res.status(404).json({ message: 'Usuário não encontrado. Verifique seu email e senha!' });
             }
-            if (usuario.tipo !== 1) {
-                return res.status(401).json({ message: 'Usuário não é um professor' });
+            if (usuario.tipo !== 1 || usuario.tipo !== 2) {
+                return res.status(401).json({ message: 'Usuário não é um professor ou administrador' });
             }
     
             // Compara a senha da req com a senha do banco de dados
@@ -263,7 +277,7 @@ class usuariosController {
             // return res.status(200).json({ message: 'Login bem-sucedido.' });
             jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
                 if (err) {
-                    res.status(500).json({ mensagem: "Erro ao gerar autenticação" });
+                    res.status(500).json({ message: "Erro ao gerar autenticação" });
 
                     return;
                 }

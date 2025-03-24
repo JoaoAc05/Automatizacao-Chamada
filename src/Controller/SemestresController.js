@@ -5,12 +5,12 @@ class semestresController {
         try {
             const semestres = await prisma.semestre.findMany()
             if (!semestres) {
-                return res.status(404).json({message: 'Nenhum registro encontrado'})
+                return res.status(404).json({ message: 'Nenhum registro encontrado'} )
             }
 
             res.status(200).json(semestres);
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar semestres: ' + e.message});
+            res.status(500).json({ message: 'Erro ao retornar semestres: ' + e.message });
         }
     }
 
@@ -23,12 +23,12 @@ class semestresController {
                 },
             })
             if (!semestre) {
-                return res.status(404).json({message: 'Não encontrado nenhum registro deste semestre'})
+                return res.status(404).json({ message: 'Não encontrado nenhum registro deste semestre' })
             }
 
             res.status(200).json(semestre)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar semestre: ' + e.message})
+            res.status(500).json({ message: 'Erro ao retornar semestre: ' + e.message })
         }
     };
 
@@ -47,7 +47,7 @@ class semestresController {
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
-            return res.status(400).json({ error: 'Nenhum dado fornecido para atualização.' });
+            return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
     
         try {
@@ -76,9 +76,9 @@ class semestresController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({sucesso: 'Semestre deletado com sucesso.'})
+            res.status(200).json({ message: 'Semestre deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({error: 'Erro ao deletar semestre:' + e.message})
+            res.status(500).json({ message: 'Erro ao deletar semestre:' + e.message })
         }
     }
 }
