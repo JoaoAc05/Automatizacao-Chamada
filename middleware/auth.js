@@ -14,6 +14,7 @@ export default function auth(req, res, next) {
 
     jwt.verify(token, chavePrivada, (err, decoded) => {
       if (err) {
+        console.log(`Token Não Autorizado: ${token}`)
         return res.status(401).json({
           message: 'Usuário não autorizado. (TOKEN)',
         })
