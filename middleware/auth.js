@@ -14,7 +14,8 @@ export default function auth(req, res, next) {
 
     jwt.verify(token, chavePrivada, (err, decoded) => {
       if (err) {
-        console.log(`Token Não Autorizado: ${token}`)
+        console.log(`Token Split Não Autorizado: ${token}`)
+        console.log(`Token cru: ${req.headers["authorization"]}`)
         return res.status(401).json({
           message: 'Usuário não autorizado. (TOKEN)',
         })
