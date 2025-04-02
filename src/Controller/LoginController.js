@@ -110,11 +110,12 @@ class loginController {
             const usuarioPayload = {
                 id: usuario.id,
                 nome: usuario.nome,
-                cpf: usuario.cpf
+                cpf: usuario.cpf,
+                tipo: usuario.tipo
             };
 
             // return res.status(200).json({ message: 'Login bem-sucedido.' });
-            jwt.sign(usuarioPayload, chavePrivada, (err, token) => {
+            jwt.sign(usuarioPayload, chavePrivada, (err, token) => { //Adcionar o expiresIn com 10 minutos, e uma forma do token dar refresh ao usar o aplicativo
                 if (err) {
                     console.log(`Erro ao gerar autenticação: ${err}`)
                     return res.status(500).json({ message: 'Erro ao gerar autenticação' });

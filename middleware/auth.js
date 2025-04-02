@@ -1,27 +1,51 @@
 import jwt from 'jsonwebtoken';
 const chavePrivada = "Fasipe2024"
 
-export default function auth(request, response, next) {
+export default function auth(req, res, next) {
   try {
-    if (!request.headers.authorization) {
-      return response.status(403).json({
+    if (!req.headers.authorization) {
+      return res.status(403).json({
         error: 'Token não encontrado',
       })
     }
 
-    const token = request.headers["authorization"];
+    //const token = req.headers["authorization"];
+    const token = request.headers.authorization.split(' ')[1];
 
     jwt.verify(token, chavePrivada, (err, decoded) => {
       if (err) {
-        return response.status(401).json({
+        return res.status(401).json({
           message: 'Usuário não autorizado. (TOKEN)',
         })
       }
 
-      request['payload'] = decoded
-      next()
+      req['payload'] = decoded
+      next() //Após fazer a verificação passa para a próxima função a ser executada
     })
   } catch (err) {
-    return response.status(500).send({ error: 'ERRO INTERNO' })
+    return res.status(500).send({ error: 'ERRO INTERNO' })
+  }
+}
+
+export default function teste(tipoPermissoes) {
+  return (req, res, next) => {
+    try {
+      if (!decoded.tipo) {
+        return res.status(403).json({ message: 'Sem nivel de permissão' });
+      }
+      // Os níveis permitidos para o acesso são definitos no ROUTER
+      // Caso o tipo informado no payload do token for diferente dos que estiverem na lista definida do ROUTER
+      //  Irá dar divergência e retornar 403
+
+      // Verifica se o tipo de usuário está dentro dos níveis permitidos
+      if (!tipoPermissoes.includes(decoded.tipo)) {
+        return res.status(403).json({ message: 'Acesso negado: Permissão insuficiente.' });
+      }
+
+      next() //Após fazer a verificação passa para a próxima função a ser executada
+    } catch (err) {
+      console.log(`ERRO INTERNO PERMISSOES: ${err}`)
+      return res.status(500).send({ error: 'ERRO INTERNO' })
+    }
   }
 }
