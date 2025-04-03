@@ -10,7 +10,7 @@ export default function auth(req, res, next) {
     }
 
     //const token = req.headers["authorization"];
-    const token = request.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(' ')[1];
 
     jwt.verify(token, chavePrivada, (err, decoded) => {
       if (err) {
@@ -32,8 +32,10 @@ export default function auth(req, res, next) {
 export function teste(tipoPermissoes) {
   return (req, res, next) => {
     try {
-      if (!decoded.tipo) {
-        return res.status(403).json({ message: 'Sem nivel de permissão' });
+      const tipo = req.payload?.tipo;
+
+      if (tipo === undefined) {
+        return res.status(403).json({ message: 'Sem nível de permissão' });
       }
       // Os níveis permitidos para o acesso são definitos no ROUTER
       // Caso o tipo informado no payload do token for diferente dos que estiverem na lista definida do ROUTER
