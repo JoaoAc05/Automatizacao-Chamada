@@ -42,7 +42,7 @@ export function teste(tipoPermissoes) {
       //  Irá dar divergência e retornar 403
 
       // Verifica se o tipo de usuário está dentro dos níveis permitidos
-      if (!tipoPermissoes.includes(decoded.tipo)) {
+      if (!tipoPermissoes.includes(tipo))  {
         return res.status(403).json({ message: 'Acesso negado: Permissão insuficiente.' });
       }
 
