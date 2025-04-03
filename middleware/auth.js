@@ -29,7 +29,7 @@ export default function auth(req, res, next) {
   }
 }
 
-export default function teste(tipoPermissoes) {
+export function teste(tipoPermissoes) {
   return (req, res, next) => {
     try {
       if (!decoded.tipo) {
