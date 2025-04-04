@@ -14,5 +14,4 @@ UsuariosRouter.put('/', auth, permissao([2]), UsuariosController.alterar);
 UsuariosRouter.delete('/:id', auth, permissao([2]), UsuariosController.deletar);
 
 
-
 export { UsuariosRouter };
