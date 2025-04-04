@@ -13,6 +13,7 @@ class chamadasController {
 
     async getId(req, res) {
         const { id } = req.params;
+        console.log("GetId1")
         try {
 
             if(!id) {
@@ -25,7 +26,7 @@ class chamadasController {
                 },
             })
             if (chamada.length === 0) {
-                console.log("GetId")
+                console.log("GetId2")
                 return res.status(404).json({ message: 'Chamada não encontrada.' }); 
             }
 
