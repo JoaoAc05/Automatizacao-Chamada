@@ -212,6 +212,9 @@ class chamadasController {
         // .../professor/?id_professor=1&id_semestre=1&id_disciplina=1
         
         try {
+            let semestre;
+            let chamadas = [];
+
             if (id_professor) {
                 const professor = await prisma.usuario.findUnique({
                     where: {
@@ -227,7 +230,7 @@ class chamadasController {
             }
 
             if(id_semestre) {
-                const semestre = await prisma.semestre.findUnique({
+                semestre = await prisma.semestre.findUnique({
                     where: { 
                         id: Number(id_semestre)
                     },
@@ -236,7 +239,7 @@ class chamadasController {
                     return res.status(404).json({ message: 'Semestre não encontrado.' });
                 }
             } else if(!id_semestre) {
-                const semestre = await prisma.semestre.findUnique({
+                semestre = await prisma.semestre.findFirst({
                     where: { 
                         padrao: 0
                     },
@@ -253,7 +256,7 @@ class chamadasController {
                     return res.status(404).json({ message: 'Disciplina não encontrada.' });
                 }
 
-                const chamadas = await prisma.chamada.findMany({
+                chamadas = await prisma.chamada.findMany({
                     where: {
                         id_professor: Number(id_professor),
                         id_semestre: Number(semestre.id),
@@ -265,7 +268,7 @@ class chamadasController {
                 })
 
             } else if(!id_disciplina) {
-                const chamadas = await prisma.chamada.findMany({
+                chamadas = await prisma.chamada.findMany({
                     where: {
                         id_professor: Number(id_professor),
                         id_semestre: Number(semestre.id)
