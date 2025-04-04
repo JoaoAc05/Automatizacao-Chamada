@@ -37,7 +37,7 @@ export default function auth(req, res, next) {
   }
 }
 
-export function teste(tipoPermissoes) {
+export function permissao(tipoPermissoes) {
   return (req, res, next) => {
     try {
       const tipo = req.payload?.tipo;

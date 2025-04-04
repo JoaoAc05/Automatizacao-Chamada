@@ -1,19 +1,18 @@
 import express from "express";
-import auth from "../middleware/auth.js";
+import auth, { permissao }  from "../middleware/auth.js";
 import { usuariosController } from "../src/Controller/UsuariosController.js";
 
 const UsuariosRouter = express.Router();
 const UsuariosController = new usuariosController();
 
 //Rotas Usuário (/Usuario)
-UsuariosRouter.get('/', auth, UsuariosController.getAll); 
-UsuariosRouter.get('/:id', auth, UsuariosController.getId); 
-UsuariosRouter.post('/', auth, UsuariosController.cadastro); 
+UsuariosRouter.get('/', auth, permissao([2]), UsuariosController.getAll); 
+UsuariosRouter.get('/:id', auth, permissao([1, 2]), UsuariosController.getId); 
+UsuariosRouter.post('/', auth, permissao([2]), UsuariosController.cadastro); 
 UsuariosRouter.post('/valida', UsuariosController.validacao); // Rota para validacao do cadastro do aluno
-UsuariosRouter.put('/', auth, UsuariosController.alterar); 
-UsuariosRouter.delete('/:id', auth, UsuariosController.deletar);
-// UsuariosRouter.post('/login', UsuariosController.loginAluno);
-// UsuariosRouter.post('/loginWeb', UsuariosController.loginWeb);
+UsuariosRouter.put('/', auth, permissao([2]), UsuariosController.alterar); 
+UsuariosRouter.delete('/:id', auth, permissao([2]), UsuariosController.deletar);
+
 
 
 export { UsuariosRouter };

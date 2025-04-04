@@ -1,14 +1,14 @@
 import express from "express";
-import auth from "../middleware/auth.js";
+import auth, { permissao }  from "../middleware/auth.js";
 import { turmaDisciplinasController } from "../src/Controller/TurmaDisciplinasController.js";
 
 const TurmaDisciplinasRouter = express.Router();
 const TurmaDisciplinasController = new turmaDisciplinasController();
 
-TurmaDisciplinasRouter.get('/', auth, TurmaDisciplinasController.getAll); 
-TurmaDisciplinasRouter.get('/:id_turma', auth, TurmaDisciplinasController.getId); // ID Turma
-TurmaDisciplinasRouter.post('/', auth, TurmaDisciplinasController.cadastro); 
-TurmaDisciplinasRouter.put('/', auth, TurmaDisciplinasController.alterar); 
-TurmaDisciplinasRouter.delete('/:id_disciplina', auth, TurmaDisciplinasController.deletar); // ID Disciplina
+TurmaDisciplinasRouter.get('/', auth, permissao([2]), TurmaDisciplinasController.getAll); 
+TurmaDisciplinasRouter.get('/:id_turma', auth, permissao([2]), TurmaDisciplinasController.getId); // ID Turma
+TurmaDisciplinasRouter.post('/', auth, permissao([2]), TurmaDisciplinasController.cadastro); 
+TurmaDisciplinasRouter.put('/', auth, permissao([2]), TurmaDisciplinasController.alterar); 
+TurmaDisciplinasRouter.delete('/:id_disciplina', auth, permissao([2]), TurmaDisciplinasController.deletar); // ID Disciplina
 
 export { TurmaDisciplinasRouter };
