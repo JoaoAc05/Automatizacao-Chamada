@@ -153,7 +153,7 @@ class semestreDisciplinasController {
     }
 
     async disciplinaProfessor(req, res) {
-        const {id_professor} = req.params;
+        const {id_professor, id_semestre} = req.params;
         try{
             const professor = await prisma.usuario.findUnique({
                 where: { id: Number(id_professor) },
@@ -165,12 +165,22 @@ class semestreDisciplinasController {
                 return res.status(401).json({ message: 'Usuário não é um professor.' });
             }
 
-            const semestre = await prisma.semestre.findFirst({
-                where: {padrao: 0}
-            })
-            // const idSemestre = {
-            //     id_semestre: Number(semestre.id)
-            // };
+            if(id_semestre) {
+                const semestre = await prisma.semestre.findUnique({
+                    where: { 
+                        id: Number(id_semestre)
+                    },
+                });
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre não encontrado.' });
+                }
+            } else if(!id_semestre) {
+                const semestre = await prisma.semestre.findUnique({
+                    where: { 
+                        padrao: 0
+                    },
+                });
+            }
 
             const D_P_S = await prisma.semestreProfessorDisciplinas.findMany({ //Pegar todas as disciplinas que o professor irá aplicar no semestre padrão
                 where: {

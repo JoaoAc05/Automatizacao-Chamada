@@ -62,13 +62,13 @@ class chamadaAlunosController {
             const secondsDifference = Math.abs(serverTime.getUTCSeconds() - postTime.getUTCSeconds() + 60 * (serverTime.getUTCMinutes() - postTime.getUTCMinutes()));
     
             // Verifica se a diferença em segundos é maior que 5
-            // if (secondsDifference > 5) {
-            //     return res.status(400).json({
-            //         message: 'Horário do aluno é inválido.',
-            //         serverTime: serverTime.toISOString(),
-            //         postTime: postTime.toISOString(),
-            //     });
-            // }
+            if (secondsDifference > 5) {
+                return res.status(400).json({
+                    message: 'Horário do aluno é inválido.',
+                    serverTime: serverTime.toISOString(),
+                    postTime: postTime.toISOString(),
+                });
+            }
 
             if (!id_aluno || !id_chamada) {
                 return res.status(400).json({ message: 'Os campos id_aluno e id_chamada são obrigatórios.' });

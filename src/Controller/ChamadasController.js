@@ -208,7 +208,9 @@ class chamadasController {
     }
 
     async chamadaProfessor(req, res) {
-        const { id_professor } = req.params;
+        const { id_professor, id_semestre, id_disciplina } = req.query;
+        // .../professor/?id_professor=1&id_semestre=1&id_disciplina=1
+        
         try {
             if (id_professor) {
                 const professor = await prisma.usuario.findUnique({
@@ -224,14 +226,56 @@ class chamadasController {
                 }
             }
 
-            const chamadas = await prisma.chamada.findMany({
-                where: {
-                    id_professor: Number(id_professor),
-                },
-                include: {
-                    Disciplina: true // Trazer detalhes da disciplina
+            if(id_semestre) {
+                const semestre = await prisma.semestre.findUnique({
+                    where: { 
+                        id: Number(id_semestre)
+                    },
+                });
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre não encontrado.' });
                 }
-            })
+            } else if(!id_semestre) {
+                const semestre = await prisma.semestre.findUnique({
+                    where: { 
+                        padrao: 0
+                    },
+                });
+            }
+
+            if(id_disciplina) {
+                const disciplina = await prisma.disciplina.findUnique({
+                    where: { 
+                        id: Number(id_disciplina)
+                    },
+                });
+                if (!disciplina) {
+                    return res.status(404).json({ message: 'Disciplina não encontrada.' });
+                }
+
+                const chamadas = await prisma.chamada.findMany({
+                    where: {
+                        id_professor: Number(id_professor),
+                        id_semestre: Number(semestre.id),
+                        id_disciplina: Number(id_disciplina)
+                    },
+                    include: {
+                        Disciplina: true // Trazer detalhes da disciplina
+                    }
+                })
+
+            } else if(!id_disciplina) {
+                const chamadas = await prisma.chamada.findMany({
+                    where: {
+                        id_professor: Number(id_professor),
+                        id_semestre: Number(semestre.id)
+                    },
+                    include: {
+                        Disciplina: true // Trazer detalhes da disciplina
+                    }
+                })
+            }
+
             if (chamadas.length === 0) {
                 return res.status(404).json({ message: 'Chamadas do professor não encontradas.' }); 
             }
