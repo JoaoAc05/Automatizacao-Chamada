@@ -16,6 +16,7 @@ export default function auth(req, res, next) {
       if (err) {
         console.log(`Token Split Não Autorizado: ${token}`)
         console.log(`Token cru: ${req.headers["authorization"]}`)
+        console.log(`Erro: ${err}`)
         return res.status(401).json({
           message: 'Usuário não autorizado. (TOKEN)',
         })
