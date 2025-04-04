@@ -25,6 +25,7 @@ class chamadasController {
                 },
             })
             if (chamada.length === 0) {
+                console.log("GetId")
                 return res.status(404).json({ message: 'Chamada não encontrada.' }); 
             }
 
@@ -250,6 +251,9 @@ class chamadasController {
                     },
                 });
             }
+
+            console.log(`ID_PROFESSOR: ${id_professor}, ID_SEMESTRE: ${id_semestre}/${semestre.id}, ID_DISCIPLINA: ${id_disciplina}`)
+            console.log(chamadas)
 
             if(id_disciplina) {
                 const disciplina = await prisma.disciplina.findUnique({
