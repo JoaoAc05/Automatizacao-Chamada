@@ -5,8 +5,8 @@ import { disciplinasController } from "../src/Controller/DisciplinasController.j
 const DisciplinasRouter = express.Router();
 const DisciplinasController = new disciplinasController();
 
-DisciplinasRouter.get('/', auth, permissao([2]), DisciplinasController.getAll);
 DisciplinasRouter.get('/:id', auth, permissao([2]), DisciplinasController.getId);
+DisciplinasRouter.get('/', auth, permissao([2]), DisciplinasController.getAll);
 DisciplinasRouter.post('/', auth, permissao([2]), DisciplinasController.cadastro); 
 DisciplinasRouter.put('/', auth, permissao([2]), DisciplinasController.alterar); 
 DisciplinasRouter.delete('/:id', auth, permissao([2]), DisciplinasController.deletar); 

@@ -6,8 +6,8 @@ const UsuariosRouter = express.Router();
 const UsuariosController = new usuariosController();
 
 //Rotas Usuário (/Usuario)
-UsuariosRouter.get('/', auth, permissao([2]), UsuariosController.getAll); 
 UsuariosRouter.get('/:id', auth, permissao([1, 2]), UsuariosController.getId); 
+UsuariosRouter.get('/', auth, permissao([2]), UsuariosController.getAll); 
 UsuariosRouter.post('/', auth, permissao([2]), UsuariosController.cadastro); 
 UsuariosRouter.post('/valida', UsuariosController.validacao); // Rota para validacao do cadastro do aluno
 UsuariosRouter.put('/', auth, permissao([2]), UsuariosController.alterar); 
