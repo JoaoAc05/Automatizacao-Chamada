@@ -14,6 +14,11 @@ class chamadasController {
     async getId(req, res) {
         const { id } = req.params;
         try {
+
+            if(!id) {
+                return res.status(400).json({ message: 'id é obrigatório nos parametros'})
+            }
+
             const chamada = await prisma.chamada.findUnique({
                 where: {
                     id: Number(id),
@@ -267,7 +272,7 @@ class chamadasController {
                     }
                 })
 
-            } else if(!id_disciplina) {
+            } else {
                 chamadas = await prisma.chamada.findMany({
                     where: {
                         id_professor: Number(id_professor),
