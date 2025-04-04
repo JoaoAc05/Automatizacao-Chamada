@@ -3,19 +3,26 @@ const chavePrivada = "Fasipe2024"
 
 export default function auth(req, res, next) {
   try {
-    if (!req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
       return res.status(403).json({
         error: 'Token não encontrado',
-      })
+      });
     }
 
-    //const token = req.headers["authorization"];
-    const token = req.headers.authorization.split(' ')[1];
+    // Tenta extrair o token se vier no formato "Bearer <token>"
+    let token = authHeader.split(' ')[1];
+
+    // Se não tiver espaço (formato não é "Bearer <token>"), usa o valor completo como token
+    if (!token) {
+      token = authHeader;
+    }
 
     jwt.verify(token, chavePrivada, (err, decoded) => {
       if (err) {
-        console.log(`Token Split Não Autorizado: ${token}`)
-        console.log(`Token cru: ${req.headers["authorization"]}`)
+        console.log(`Token Split: ${token}`)
+        console.log(`Token Header: ${authHeader}`)
         console.log(`Erro: ${err}`)
         return res.status(401).json({
           message: 'Usuário não autorizado. (TOKEN)',
