@@ -13,7 +13,6 @@ class chamadasController {
 
     async getId(req, res) {
         const { id } = req.params;
-        console.log("GetId1")
         try {
 
             if(!id) {
@@ -26,7 +25,6 @@ class chamadasController {
                 },
             })
             if (chamada.length === 0) {
-                console.log("GetId2")
                 return res.status(404).json({ message: 'Chamada não encontrada.' }); 
             }
 
@@ -70,7 +68,6 @@ class chamadasController {
             const semestre = await prisma.semestre.findFirst({
                 where: {padrao: 0}
             })
-            console.log(semestre.id);
             if (!semestre) {
                 return res.status(404).json({ message: 'Semestre não encontrado.' });
             } 
@@ -194,7 +191,6 @@ class chamadasController {
             if (!chamada) {
                 return res.status(404).json({ message: 'Chamada não encontrada para ser finalizada.' })
             }
-            console.log("Hora final da chamada: " + chamada.data_hora_final)
             if (chamada.data_hora_final != null){
                 console.log("Chamada finalizada?")
                 return res.status(400).json({ message: 'Chamada já finalizada.' })
@@ -253,9 +249,6 @@ class chamadasController {
                 });
             }
 
-            console.log(`ID_PROFESSOR: ${id_professor}, ID_SEMESTRE: ${id_semestre}/${semestre.id}, ID_DISCIPLINA: ${id_disciplina}`)
-            console.log(chamadas)
-
             if(id_disciplina) {
                 const disciplina = await prisma.disciplina.findUnique({
                     where: { 
@@ -302,8 +295,6 @@ class chamadasController {
                 data_hora_inicio: c.data_hora_inicio,
                 data_hora_final: c.data_hora_final
             }));
-
-            console.log(chamadaProfessor) // LOG TESTE
 
             res.status(200).json(chamadaProfessor)
         } catch (e) {

@@ -41,15 +41,6 @@ export function permissao(tipoPermissoes) {
   return (req, res, next) => {
     try {
       const tipo = req.payload?.tipo;
-      console.log(`TIPO: ${tipo}`)
-
-      const authHeader = req.headers.authorization;
-      let token = authHeader.split(' ')[1];
-      if (!token) {
-        token = authHeader;
-      }
-      tipo2 = token.decoded.tipo;
-      console.log(`TIPO2: ${tipo2}`)
 
       if (tipo === undefined) {
         return res.status(403).json({ message: 'Sem nível de permissão' });
