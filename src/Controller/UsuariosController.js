@@ -43,6 +43,8 @@ class usuariosController {
             return res.status(400).json({ message: 'Campos nome e tipo são obrigatórios' })
         }
 
+        let usuario;
+
         if (tipo == 0) { //Aluno
             if (!ra || !cpf) {
                 return res.status(400).json({ message: 'RA e CPF são obrigatórios para os alunos' })
@@ -71,7 +73,7 @@ class usuariosController {
             }
 
             // Verificação de cadastros já realizados
-            let usuario = await prisma.usuario.findUnique({
+            usuario = await prisma.usuario.findUnique({
                 where: { email: email }
             })
             if (usuario) {
