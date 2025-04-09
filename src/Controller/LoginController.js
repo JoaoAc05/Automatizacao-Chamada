@@ -1,6 +1,6 @@
 import { prisma } from "../prisma.js";
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const chavePrivada = "Fasipe2024"
 

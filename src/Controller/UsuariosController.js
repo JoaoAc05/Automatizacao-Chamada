@@ -1,7 +1,7 @@
 import { prisma } from "../prisma.js";
 import { limparCPF, validarCPF, formatarCPF } from '../Utils/CpfUtils.js';
 import { validarEmail } from '../Utils/EmailUtils.js'
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 const chavePrivada = "Fasipe2024"
 
 class usuariosController {
