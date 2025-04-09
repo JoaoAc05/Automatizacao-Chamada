@@ -47,6 +47,13 @@ class usuariosController {
             if (!ra || !cpf) {
                 return res.status(400).json({ message: 'RA e CPF são obrigatórios para os alunos' })
             }
+
+            usuario = await prisma.usuario.findUnique({
+                where: { ra: ra }
+            })
+            if (usuario) {
+                return res.status(409).json({ message: 'RA já cadastrado' })
+            }
         } else { //Professor e Admin
             if (!email || !senha) {
                 return res.status(400).json({ message: 'Email e Senha são obrigatórios para os professores e administradores' })
@@ -57,6 +64,19 @@ class usuariosController {
             // const senhaHash = await bcrypt.hash(senha, saltRounds);
             // console.log(`Senha Req: ${senha} - Senha Hash: ${senhaHash}`)
             // req.body.senha = senhaHash
+
+            console.log(`Email: ${email} - VALIDAR EMAIL: ${validarEmail(email)}`)
+            if (!validarEmail(email)) {
+                return res.status(400).json({ message: 'Email inválido.' });
+            }
+
+            // Verificação de cadastros já realizados
+            let usuario = await prisma.usuario.findUnique({
+                where: { email: email }
+            })
+            if (usuario) {
+                return res.status(409).json({ message: 'Email já cadastrado' })
+            }
         }
 
         // Limpa e valida o CPF
@@ -68,26 +88,6 @@ class usuariosController {
 
         // Formata o CPF para salvar no banco
         req.body.cpf = formatarCPF(cpfLimpo);
-
-        console.log(`Email: ${email} - VALIDAR EMAIL: ${validarEmail(email)}`)
-        if (!validarEmail(email)) {
-            return res.status(400).json({ message: 'Email inválido.' });
-        }
-
-        // Verificação de cadastros já realizados
-        let usuario = await prisma.usuario.findUnique({
-            where: { email: email }
-        })
-        if (usuario) {
-            return res.status(409).json({ message: 'Email já cadastrado' })
-        }
-
-        usuario = await prisma.usuario.findUnique({
-            where: { ra: ra }
-        })
-        if (usuario) {
-            return res.status(409).json({ message: 'RA já cadastrado' })
-        }
 
         usuario = await prisma.usuario.findUnique({
             where: { cpf: cpf }
