@@ -36,11 +36,11 @@ class loginController {
             }  
 
             // // Comparar Hashing da senha
-            // const senhaValida = await bcrypt.compare(senha, usuario.senha);
-            // console.log(`Senha Req: ${senha} - Senha BD: ${usuario.senha} - Resultado: ${senhaValida}`)
-            // if (!senhaValida) {
-            //     return res.status(401).json({ message: "Senha incorreta" });
-            // }
+            const senhaValida = await bcrypt.compare(senha, usuario.senha);
+            console.log(`Senha Req: ${senha} - Senha BD: ${usuario.senha} - Resultado: ${senhaValida}`)
+            if (!senhaValida) {
+                return res.status(401).json({ message: "Senha incorreta" });
+            }
     
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {
@@ -112,11 +112,11 @@ class loginController {
             }
     
             // // Comparar Hashing da senha
-            // const senhaValida = await bcrypt.compare(senha, usuario.senha);
-            // console.log(`Senha Req: ${senha} - Senha BD: ${usuario.senha} - Resultado: ${senhaValida}`)
-            // if (!senhaValida) {
-            //     return res.status(401).json({ message: "Senha incorreta" });
-            // }
+            const senhaValida = await bcrypt.compare(senha, usuario.senha);
+            console.log(`Senha Req: ${senha} - Senha BD: ${usuario.senha} - Resultado: ${senhaValida}`)
+            if (!senhaValida) {
+                return res.status(401).json({ message: "Senha incorreta" });
+            }
 
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {

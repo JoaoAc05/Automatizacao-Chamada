@@ -61,11 +61,11 @@ class usuariosController {
                 return res.status(400).json({ message: 'Email e Senha são obrigatórios para os professores e administradores' })
             }
             // // HASHEAR A SENHA
-            // const saltRounds = 10;
+            const saltRounds = 10;
             // // Gera o hash da senha
-            // const senhaHash = await bcrypt.hash(senha, saltRounds);
-            // console.log(`Senha Req: ${senha} - Senha Hash: ${senhaHash}`)
-            // req.body.senha = senhaHash
+            const senhaHash = await bcrypt.hash(senha, saltRounds);
+            console.log(`Senha Req: ${senha} - Senha Hash: ${senhaHash}`)
+            req.body.senha = senhaHash
 
             console.log(`Email: ${email} - VALIDAR EMAIL: ${validarEmail(email)}`)
             if (!validarEmail(email)) {
@@ -141,11 +141,11 @@ class usuariosController {
         }
 
         // // HASHEAR A SENHA
-        // const saltRounds = 10;
+        const saltRounds = 10;
         // // Gera o hash da senha
-        // const senhaHash = await bcrypt.hash(senha, saltRounds);
-        // console.log(`Senha Req: ${senha} - Senha Hash: ${senhaHash}`)
-        // req.body.senha = senhaHash
+        const senhaHash = await bcrypt.hash(senha, saltRounds);
+        console.log(`Senha Req: ${senha} - Senha Hash: ${senhaHash}`)
+        req.body.senha = senhaHash
 
         try {
             // Se existir o cadastro, inserir as informações de email, senha e imei
