@@ -1,5 +1,7 @@
 import { prisma } from "../prisma.js";
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
 const chavePrivada = "Fasipe2024"
 
 class loginController {
@@ -27,11 +29,18 @@ class loginController {
                 return res.status(404).json({ message: 'Usuário não encontrado.' });
             }
             if (usuario.tipo !== 0) {
-                return res.status(401).json({ message: 'Usuário não é um aluno' });
+                return res.status(403).json({ message: 'Usuário não é um aluno' });
             }
             if (usuario.status !== 1) {
                 return res.status(401).json({ message: 'Seu cadastro não está valido! Realize o cadastro.' });
             }  
+
+            // // Comparar Hashing da senha
+            // const senhaValida = await bcrypt.compare(senha, usuario.senha);
+            // console.log(`Senha Req: ${senha} - Senha BD: ${usuario.senha} - Resultado: ${senhaValida}`)
+            // if (!senhaValida) {
+            //     return res.status(401).json({ message: "Senha incorreta" });
+            // }
     
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {
@@ -99,9 +108,16 @@ class loginController {
             } else if ( usuario.tipo == 2){
                 console.log("Administrador acessando")
             } else {
-                return res.status(400).json({ message: 'Tipo do usuário inválido para acesso'})
+                return res.status(403).json({ message: 'Tipo do usuário inválido para acesso'})
             }
     
+            // // Comparar Hashing da senha
+            // const senhaValida = await bcrypt.compare(senha, usuario.senha);
+            // console.log(`Senha Req: ${senha} - Senha BD: ${usuario.senha} - Resultado: ${senhaValida}`)
+            // if (!senhaValida) {
+            //     return res.status(401).json({ message: "Senha incorreta" });
+            // }
+
             // Compara a senha da req com a senha do banco de dados
             if (senha !== usuario.senha) {
                 return res.status(400).json({ message: 'Senha incorreta.' });
