@@ -39,8 +39,7 @@ class usuariosController {
     async cadastro(req, res) {
         const { tipo, nome, ra, cpf, email, senha } = req.body;
 
-        if (!nome || !tipo) {
-            console.log(req.body)
+        if (!nome || tipo === undefined || tipo === null) {
             return res.status(400).json({ message: 'Campos nome e tipo são obrigatórios' })
         }
 
@@ -78,6 +77,8 @@ class usuariosController {
             if (usuario) {
                 return res.status(409).json({ message: 'Email já cadastrado' })
             }
+
+            req.body.status = 1
         }
 
         if (tipo == 0 || tipo == 1) {
