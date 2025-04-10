@@ -135,6 +135,10 @@ class usuariosController {
             return res.status(403).json({ message: 'O cadastro do usuário se encontra em um status não autorizado para validar.' })
         }
 
+        if (!validarEmail(email)) {
+            return res.status(400).json({ message: 'Email inválido.' });
+        }
+
         const emailExistente = await prisma.usuario.findFirst({
             where: { email: email }
         });
@@ -146,7 +150,6 @@ class usuariosController {
         const saltRounds = 10;
         // Gera o hash da senha
         const senhaHash = await bcrypt.hash(senha, saltRounds);
-        req.body.senha = senhaHash
 
         try {
             // Se existir o cadastro, inserir as informações de email, senha e imei
@@ -156,7 +159,7 @@ class usuariosController {
                 },
                 data: {
                     email: email,
-                    senha: senha,
+                    senha: senhaHash,
                     imei: imei,
                     status: 1,
                 }
