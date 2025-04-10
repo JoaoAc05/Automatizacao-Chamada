@@ -40,6 +40,7 @@ class usuariosController {
         const { tipo, nome, ra, cpf, email, senha } = req.body;
 
         if (!nome || !tipo) {
+            console.log(req.body)
             return res.status(400).json({ message: 'Campos nome e tipo são obrigatórios' })
         }
 
