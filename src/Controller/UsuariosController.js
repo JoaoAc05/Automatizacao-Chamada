@@ -60,14 +60,12 @@ class usuariosController {
             if (!email || !senha) {
                 return res.status(400).json({ message: 'Email e Senha são obrigatórios para os professores e administradores' })
             }
-            // // HASHEAR A SENHA
+            // HASHEAR A SENHA
             const saltRounds = 10;
-            // // Gera o hash da senha
+            // Gera o hash da senha
             const senhaHash = await bcrypt.hash(senha, saltRounds);
-            console.log(`Senha Req: ${senha} - Senha Hash: ${senhaHash}`)
             req.body.senha = senhaHash
 
-            console.log(`Email: ${email} - VALIDAR EMAIL: ${validarEmail(email)}`)
             if (!validarEmail(email)) {
                 return res.status(400).json({ message: 'Email inválido.' });
             }
@@ -81,15 +79,15 @@ class usuariosController {
             }
         }
 
-        // Limpa e valida o CPF
-        const cpfLimpo = limparCPF(cpf);
-        console.log(`CPF BODY: ${cpf} - CPF LIMPO: ${cpfLimpo} - CPF FORMATADO: ${formatarCPF(cpfLimpo)}`) // LOG
-        if (!validarCPF(cpfLimpo)) {
-            return res.status(400).json({ message: 'CPF inválido.' });
-        }
+        if (tipo == 0 || tipo == 1) {
+            const cpfLimpo = limparCPF(cpf);
+            if (!validarCPF(cpfLimpo)) {
+                return res.status(400).json({ message: 'CPF inválido.' });
+            }
 
-        // Formata o CPF para salvar no banco
-        req.body.cpf = formatarCPF(cpfLimpo);
+            // Formata o CPF para salvar no banco
+            req.body.cpf = formatarCPF(cpfLimpo);
+        }        
 
         usuario = await prisma.usuario.findUnique({
             where: { cpf: cpf }
@@ -129,22 +127,20 @@ class usuariosController {
         if (aluno.status !== 0) {
             // Se status = 1 ele já esta valido, não precisa de uma nova validação. 
             // Se status = 2 então está inativo, não tem como validar.
-            console.log(`Status do Aluno: ${aluno.status} - ${Number(aluno.status)}`)
-            return res.status(400).json({ message: 'O cadastro do usuário se encontra em um status não autorizado para validar.' })
+            return res.status(403).json({ message: 'O cadastro do usuário se encontra em um status não autorizado para validar.' })
         }
 
         const emailExistente = await prisma.usuario.findFirst({
             where: { email: email }
         });
         if (emailExistente) {
-            return res.status(400).json({ message: 'E-mail informado já está cadastrado.' });
+            return res.status(409).json({ message: 'E-mail informado já está cadastrado.' });
         }
 
-        // // HASHEAR A SENHA
+        // HASHEAR A SENHA
         const saltRounds = 10;
-        // // Gera o hash da senha
+        // Gera o hash da senha
         const senhaHash = await bcrypt.hash(senha, saltRounds);
-        console.log(`Senha Req: ${senha} - Senha Hash: ${senhaHash}`)
         req.body.senha = senhaHash
 
         try {
@@ -179,7 +175,6 @@ class usuariosController {
 
         if (dataToUpdate.cpf) {
             const cpfLimpo = limparCPF(dataToUpdate.cpf);
-            console.log(`CPF BODY: ${dataToUpdate.cpf} - CPF LIMPO: ${cpfLimpo} - CPF FORMATADO: ${formatarCPF(cpfLimpo)}`) // LOG
             if (!validarCPF(cpfLimpo)) {
                 return res.status(400).json({ message: 'CPF inválido.' });
             }
@@ -190,13 +185,19 @@ class usuariosController {
                 return res.status(400).json({ message: 'Email inválido.' });
             }
         }
+        if(dataToUpdate.senha) {
+            const saltRounds = 10;
+            // Gera o hash da senha
+            const senhaHash = await bcrypt.hash(dataToUpdate.senha, saltRounds);
+            dataToUpdate.senha = senhaHash
+        }
 
         try {
             const updateUsuarios = await prisma.usuario.updateMany({
                 where: {
                     id: Number(id),
                 },
-                data: dataToUpdate,  // Passa diretamente o req.body
+                data: dataToUpdate, 
             });
 
             if (updateUsuarios.count === 0) {

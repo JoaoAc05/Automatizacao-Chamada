@@ -1,6 +1,7 @@
 import { prisma } from "../prisma.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { json } from "express";
 
 const chavePrivada = "Fasipe2024"
 
@@ -23,9 +24,7 @@ class loginController {
                     email: email 
                 },
             });
-
-            // Se o email não for encontrado, retorna um erro
-            if (!usuario) {
+            if (!usuario) {// Se o email não for encontrado
                 return res.status(404).json({ message: 'Usuário não encontrado.' });
             }
             if (usuario.tipo !== 0) {
@@ -103,12 +102,8 @@ class loginController {
             if (!usuario) {
                 return res.status(404).json({ message: 'Usuário não encontrado. Verifique seu email e senha!' });
             }
-            if (usuario.tipo == 1) {
-                console.log("Professor acessando")
-            } else if ( usuario.tipo == 2){
-                console.log("Administrador acessando")
-            } else {
-                return res.status(403).json({ message: 'Tipo do usuário inválido para acesso'})
+            if (usuario.tipo !== 1 || usuario.tipo !== 2) {
+                return res.status(403).json({ message: 'Nivel de acesso negado'})
             }
     
             // // Comparar Hashing da senha
