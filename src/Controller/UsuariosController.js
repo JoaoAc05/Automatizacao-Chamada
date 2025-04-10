@@ -9,7 +9,7 @@ class usuariosController {
         try {
             const usuarios = await prisma.usuario.findMany()
             if (!usuarios) {
-                return res.status(404).json({ message: 'Nenhum registro encontrado' })
+                return res.status(404).json({ message: 'Nenhum registro encontrado.' })
             }
 
             res.status(200).json(usuarios);
@@ -27,7 +27,7 @@ class usuariosController {
                 },
             })
             if (!usuario) {
-                return res.status(404).json({ message: 'Não encontrado nenhum registro deste usuario' })
+                return res.status(404).json({ message: 'Não encontrado nenhum registro deste usuario.' })
             }
 
             res.status(200).json(usuario)
@@ -40,25 +40,25 @@ class usuariosController {
         const { tipo, nome, ra, cpf, email, senha } = req.body;
 
         if (!nome || tipo === undefined || tipo === null) {
-            return res.status(400).json({ message: 'Campos nome e tipo são obrigatórios' })
+            return res.status(400).json({ message: 'Campos nome e tipo são obrigatórios.' })
         }
 
         let usuario;
 
         if (tipo == 0) { //Aluno
-            if (!ra || !cpf) {
-                return res.status(400).json({ message: 'RA e CPF são obrigatórios para os alunos' })
+            if (!ra) {
+                return res.status(400).json({ message: 'RA é obrigatório.' })
             }
 
             usuario = await prisma.usuario.findUnique({
                 where: { ra: ra }
             })
             if (usuario) {
-                return res.status(409).json({ message: 'RA já cadastrado' })
+                return res.status(409).json({ message: 'RA já cadastrado.' })
             }
         } else { //Professor e Admin
             if (!email || !senha) {
-                return res.status(400).json({ message: 'Email e Senha são obrigatórios para os professores e administradores' })
+                return res.status(400).json({ message: 'Email e Senha são obrigatórios.' })
             }
             // HASHEAR A SENHA
             const saltRounds = 10;
@@ -75,13 +75,16 @@ class usuariosController {
                 where: { email: email }
             })
             if (usuario) {
-                return res.status(409).json({ message: 'Email já cadastrado' })
+                return res.status(409).json({ message: 'Email já cadastrado.' })
             }
 
             req.body.status = 1
         }
 
         if (tipo == 0 || tipo == 1) {
+            if (!cpf) {
+                return res.status(400).json({ message: 'CPF é obrigatório.' });
+            }
             const cpfLimpo = limparCPF(cpf);
             if (!validarCPF(cpfLimpo)) {
                 return res.status(400).json({ message: 'CPF inválido.' });
@@ -89,14 +92,14 @@ class usuariosController {
 
             // Formata o CPF para salvar no banco
             req.body.cpf = formatarCPF(cpfLimpo);
-        }        
 
-        usuario = await prisma.usuario.findUnique({
+            usuario = await prisma.usuario.findUnique({
             where: { cpf: cpf }
-        })
-        if (usuario) {
-            return res.status(409).json({ message: 'CPF já cadastrado' })
-        }
+            })
+            if (usuario) {
+                return res.status(409).json({ message: 'CPF já cadastrado.' })
+            }
+        }        
 
         try {
             const createUsuario = await prisma.usuario.create({ data: req.body });

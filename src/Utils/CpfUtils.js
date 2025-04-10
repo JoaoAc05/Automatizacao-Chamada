@@ -1,5 +1,8 @@
 // Remover caracteres do cpf
 export function limparCPF(cpf) {
+  if (!cpf) {
+    throw new Error('CPF não fornecido');
+  }
     return cpf.replace(/[^\d]+/g, '');
 }
 
