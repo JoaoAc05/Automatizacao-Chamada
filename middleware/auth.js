@@ -6,7 +6,6 @@ export default function auth(req, res, next) {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      console.log(`Header: ${req.headers} - authorization ${req.headers.authorization} `)
       return res.status(403).json({
         error: 'Token não encontrado',
       });

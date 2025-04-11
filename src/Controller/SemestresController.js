@@ -33,7 +33,25 @@ class semestresController {
     };
 
     async cadastro(req, res, next) {
+        const { padrao } = req.body;
+
         try {
+            if (Number(padrao) == 0) {
+                const SemestrePadrao = await prisma.semestre.findFirst({
+                    where: {
+                        padrao: 0
+                    }
+                })
+                const updateSemestrePadrao = await prisma.semestre.updateMany({
+                    where: {
+                        id: SemestrePadrao.id,
+                    },
+                    data: {
+                        padrao: 1
+                    },
+                });
+            }
+
             const createSemestres = await prisma.semestre.create({ data: req.body });
             res.status(201).json(createSemestres);
         } catch (e) {
@@ -42,7 +60,7 @@ class semestresController {
     }
 
     async alterar(req, res, next) {
-        const { id } = req.body;
+        const { id, padrao } = req.body;
         const dataToUpdate = req.body;
     
         // Verifica se o body está vazio
@@ -51,6 +69,22 @@ class semestresController {
         }
     
         try {
+            if (Number(padrao) == 0) {
+                const SemestrePadrao = await prisma.semestre.findFirst({
+                    where: {
+                        padrao: 0
+                    }
+                })
+                const updateSemestrePadrao = await prisma.semestre.updateMany({
+                    where: {
+                        id: SemestrePadrao.id,
+                    },
+                    data: {
+                        padrao: 1
+                    },
+                });
+            }
+
             const updateSemestres = await prisma.semestre.updateMany({
                 where: {
                     id: Number(id),
