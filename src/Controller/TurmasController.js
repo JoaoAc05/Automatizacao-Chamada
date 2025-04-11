@@ -4,7 +4,7 @@ class turmasController {
     async getAll(req, res) { 
         try {
             const turmas = await prisma.turma.findMany()
-            if (!turmas) {
+            if (turmas.length === 0) {
                 return res.status(404).json({message: 'Nenhum registro encontrado'})
             }
 
@@ -116,7 +116,17 @@ class turmasController {
     async deletar(req, res) {
         const { id } = req.params;
         try {
-            const deleteTurmas = await prisma.turma.deleteMany({
+
+            const turma = await prisma.turma.findUnique({
+                where: { 
+                    id: Number(id)
+                },
+            });
+            if (!turma) {
+                return res.status(404).json({ message: 'Turma não encontrada.' });
+            }
+
+            const deleteTurma = await prisma.turma.deleteMany({
                 where: { 
                     id: Number(id), 
                 },

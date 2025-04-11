@@ -8,7 +8,7 @@ class usuariosController {
     async getAll(req, res) {
         try {
             const usuarios = await prisma.usuario.findMany()
-            if (!usuarios) {
+            if (usuarios.length === 0) {
                 return res.status(404).json({ message: 'Nenhum registro encontrado.' })
             }
 
@@ -221,7 +221,17 @@ class usuariosController {
     async deletar(req, res) {
         const { id } = req.params;
         try {
-            const deleteUsuarios = await prisma.usuario.delete({
+
+            const usuario = await prisma.usuario.findUnique({
+                where: { 
+                    id: Number(id)
+                },
+            });
+            if (!usuario) {
+                return res.status(404).json({ message: 'Usuario não encontrado.' });
+            }
+
+            const deleteUsuario = await prisma.usuario.delete({
                 where: {
                     id: Number(id),
                 },

@@ -4,6 +4,9 @@ class turmaDisciplinasController {
     async getAll(req, res) { 
         try {
             const turmas = await prisma.turmaDisciplinas.findMany()
+            if (turmas.length === 0) {
+                return res.status(404).json({message: 'Nenhum vinculo encontrado'})
+            }
 
             res.status(200).json(turmas);
         } catch (e) {
@@ -154,6 +157,16 @@ class turmaDisciplinasController {
     async deletar(req, res) {
         const { id_disciplina } = req.params;
         try {
+
+            const disciplpinaTurma = await prisma.turmaDisciplinas.findFirst({
+                where: {
+                    id_disciplina: Number(id_disciplina)
+                }
+            })
+            if (!disciplpinaTurma) {
+                return res.status(404).json({ message: 'Esta disciplina não pertence a nenhuma turma' })
+            }
+
             const deleteTurmaDisciplinas = await prisma.turmaDisciplinas.deleteMany({
                 where: { 
                     id_disciplina: Number(id_disciplina), 

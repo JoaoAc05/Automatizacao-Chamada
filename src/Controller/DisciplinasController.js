@@ -95,7 +95,17 @@ class disciplinasController {
     async deletar(req, res, next) {
         const { id } = req.params;
         try {
-            const deleteDisciplinas = await prisma.disciplina.deleteMany({
+
+            const disciplina = await prisma.disciplina.findUnique({
+                where: { 
+                    id: Number(id)
+                },
+            });
+            if (!disciplina) {
+                return res.status(404).json({ message: 'Disciplina não encontrada.' });
+            }
+
+            const deleteDisciplina = await prisma.disciplina.deleteMany({
                 where: { 
                     id: Number(id), 
                 },

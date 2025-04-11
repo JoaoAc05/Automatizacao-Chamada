@@ -4,7 +4,7 @@ class semestresController {
     async getAll(req, res, next) { 
         try {
             const semestres = await prisma.semestre.findMany()
-            if (!semestres) {
+            if (semestres.length === 0) {
                 return res.status(404).json({ message: 'Nenhum registro encontrado'} )
             }
 
@@ -105,7 +105,17 @@ class semestresController {
     async deletar(req, res, next) {
         const { id } = req.params;
         try {
-            const deleteSemestres = await prisma.semestre.deleteMany({
+
+            const semestre = await prisma.semestre.findUnique({
+                where: { 
+                    id: Number(id)
+                },
+            });
+            if (!semestre) {
+                return res.status(404).json({ message: 'Semestre não encontrado.' });
+            }
+
+            const deleteSemestre = await prisma.semestre.deleteMany({
                 where: { 
                     id: Number(id), 
                 },

@@ -6,7 +6,6 @@ class semestreDisciplinasController {
     async getAll(req, res) { 
         try {
             const semestreDisciplinas = await prisma.semestreProfessorDisciplinas.findMany()
-
             if (semestreDisciplinas.length === 0) {
                 return res.status(404).json({ message: 'Nenhum vinculo encontrado.' }); 
             }
@@ -141,7 +140,17 @@ class semestreDisciplinasController {
     async deletar(req, res) {
         const { id } = req.params;
         try {
-            const deleteSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.deleteMany({
+
+            const semestreProfessorDisciplina = await prisma.semestreProfessorDisciplinas.findUnique({
+                where: { 
+                    id: Number(id)
+                },
+            });
+            if (!semestreProfessorDisciplina) {
+                return res.status(404).json({ message: 'SemestreDisciplinas não encontrada.' });
+            }
+
+            const deleteSemestreDisciplina = await prisma.semestreProfessorDisciplinas.deleteMany({
                 where: { 
                     id: Number(id), 
                 },

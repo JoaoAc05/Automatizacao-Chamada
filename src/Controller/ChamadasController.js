@@ -4,7 +4,10 @@ class chamadasController {
     async getAll(req, res) { 
         try {
             const chamadas = await prisma.chamada.findMany()
-            
+            if (chamadas.length === 0) {
+                return res.status(404).json({message: 'Nenhum registro encontrado'})
+            }
+           
             res.status(200).json(chamadas);
         } catch (e) {
             res.status(500).json({ message: 'Erro ao retornar chamadas: ' + e.message });
@@ -164,7 +167,17 @@ class chamadasController {
     async deletar(req, res) {
         const { id } = req.params;
         try {
-            const deleteTurmas = await prisma.chamada.deleteMany({
+
+            const chamada = await prisma.chamada.findUnique({
+                where: { 
+                    id: Number(id)
+                },
+            });
+            if (!disciplina) {
+                return res.status(404).json({ message: 'Chamada não encontrada.' });
+            }
+
+            const deleteChamada = await prisma.chamada.deleteMany({
                 where: { 
                     id: Number(id), 
                 },
