@@ -5,7 +5,7 @@ class chamadaAlunosController {
         try {
             const chamadasAlunos = await prisma.chamadaAlunos.findMany()
             if (chamadasAlunos.length === 0) {
-                return res.status(404).json({message: 'Nenhum registro encontrado'})
+                return res.status(204).json({message: 'Nenhum registro encontrado'})
             }
  
             res.status(200).json(chamadasAlunos);
@@ -41,7 +41,7 @@ class chamadaAlunosController {
         }
     };
 
-    async presenca (req, res, next) {
+    async presenca (req, res) {
         const { hora_post, id_chamada, id_aluno } = req.body;
         try {
             // Verifica se a hora_post está presente e é uma data válida
@@ -128,8 +128,9 @@ class chamadaAlunosController {
         }
     }
 
-    async alterar(req, res, next) {
+    async alterar(req, res) {
         const { id, id_chamada, id_aluno } = req.body;
+        const dataToUpdate = req.body;
 
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
@@ -184,7 +185,7 @@ class chamadaAlunosController {
     async deletar(req, res) { // As presenças não podem ser excluidas de forma alguma, então será dado apenas o update no status
         const { id_chamada, id_aluno } = req.params;
         try {
-            
+
             const deleteChamadaAluno = await prisma.chamadaAlunos.updateMany({
                 where: { 
                     id_chamada: Number(id_chamada),

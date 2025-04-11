@@ -7,7 +7,7 @@ class semestreDisciplinasController {
         try {
             const semestreDisciplinas = await prisma.semestreProfessorDisciplinas.findMany()
             if (semestreDisciplinas.length === 0) {
-                return res.status(404).json({ message: 'Nenhum vinculo encontrado.' }); 
+                return res.status(204).json({ message: 'Nenhum vinculo encontrado.' }); 
             }
             
             res.status(200).json(semestreDisciplinas);
