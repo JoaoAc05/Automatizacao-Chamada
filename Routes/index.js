@@ -1,4 +1,7 @@
 import express from "express";
+
+import auth from "../middleware/auth.js";
+
 import { UsuariosRouter } from "./UsuariosRouter.js";
 import { DisciplinasRouter } from "./DisciplinasRouter.js";
 import { CursosRouter } from "./CursosRouter.js";
@@ -28,7 +31,7 @@ router.use("/semestres", SemestresRouter)
 router.use("/turmas", TurmasRouter)
 router.use("/turma/alunos", TurmaAlunosRouter)
 router.use("/turma/disciplinas", TurmaDisciplinasRouter)
-router.use("/semestre", SemestreDisciplinasRouter)
+router.use("/semestre", auth, SemestreDisciplinasRouter)
 router.use("/chamadas", ChamadasRouter)
 router.use("/chamada", ChamadaAlunosRouter)
 router.use("/login", LoginRouter)
