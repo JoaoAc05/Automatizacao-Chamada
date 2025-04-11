@@ -184,7 +184,7 @@ class semestreDisciplinasController {
                     return res.status(404).json({ message: 'Semestre não encontrado.' });
                 }
             } else if(!id_semestre) {
-                const semestre = await prisma.semestre.findUnique({
+                const semestre = await prisma.semestre.findFirst({
                     where: { 
                         padrao: 0
                     },
