@@ -173,7 +173,7 @@ class chamadasController {
                     id: Number(id)
                 },
             });
-            if (!disciplina) {
+            if (!chamada) {
                 return res.status(404).json({ message: 'Chamada não encontrada.' });
             }
 
