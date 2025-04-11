@@ -22,7 +22,7 @@ class disciplinasController {
                     id: Number(id),
                 },
             })
-            if (disciplina.length === 0) {
+            if (!disciplina) {
                 return res.status(404).json({ message: 'Disciplina não encontrada.' }); 
             }
 
