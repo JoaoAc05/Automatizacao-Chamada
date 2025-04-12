@@ -3,12 +3,12 @@ import { prisma } from "../prisma.js";
 class turmaAlunosController {
     async getAll(req, res) { 
         try {
-            const turmas = await prisma.turmaAlunos.findMany()
-            if (turmas.length === 0) {
+            const turmaAlunos = await prisma.turmaAlunos.findMany()
+            if (turmaAlunos.length === 0) {
                 return res.status(204)
             }
 
-            res.status(200).json(turmas);
+            res.status(200).json(turmaAlunos);
         } catch (e) {
             res.status(500).json({ message: 'Erro ao retornar vinculo turma alunos: ' + e.message });
         }
@@ -17,16 +17,16 @@ class turmaAlunosController {
     async getId(req, res) {
         const { id_turma } = req.params;
         try {
-            const turma = await prisma.turmaAlunos.findUnique({
+            const turmaAlunos = await prisma.turmaAlunos.findMany({
                 where: {
                     id_turma: Number(id_turma),
                 },
             })
-            if (!turma) {
+            if (turmaAlunos.length === 0) {
                 return res.status(404).json({ message: 'Não encontrado nenhum registro de aluno desta turma'} )
             }
 
-            res.status(200).json(turma)
+            res.status(200).json(turmaAlunos)
         } catch (e) {
             res.status(500).json({ message: 'Erro ao retornar alunos da turma: ' + e.message })
         }
