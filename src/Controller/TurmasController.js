@@ -60,7 +60,8 @@ class turmasController {
                     semestre_curso: semestre_curso
                 }
             })
-            if (!turma) {
+            if (turma) {
+                console.log(turma)
                 return res.status(400).json({message: 'Já existe uma turma deste curso neste semestre'})
             }
             
