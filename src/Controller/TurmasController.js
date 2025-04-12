@@ -33,7 +33,7 @@ class turmasController {
     };
 
     async cadastro(req, res) {
-        const {semestre_curso, id_curso} = req.body
+        let {semestre_curso, id_curso} = req.body
         try {
             //Verifica se veio todas as informações
             if (!semestre_curso || !id_curso) {
