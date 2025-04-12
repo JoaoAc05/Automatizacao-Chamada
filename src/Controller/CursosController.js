@@ -5,7 +5,7 @@ class cursosController {
         try {
             const cursos = await prisma.curso.findMany()
             if (cursos.length === 0) {
-                return res.status(204).json({message: 'Nenhum registro encontrado'})
+                return res.status(204)
             }
 
             res.status(200).json(cursos);

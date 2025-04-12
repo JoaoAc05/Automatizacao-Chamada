@@ -5,7 +5,7 @@ class turmasController {
         try {
             const turmas = await prisma.turma.findMany()
             if (turmas.length === 0) {
-                return res.status(204).json({message: 'Nenhum registro encontrado'})
+                return res.status(204)
             }
 
             res.status(200).json(turmas);
@@ -40,10 +40,13 @@ class turmasController {
                 return res.status(400).json({ message: 'Os campos semestre_curso e id_curso são obrigatórios.' });
             }
 
+            id_curso = Number(id_curso);
+            semestre_curso = Number(semestre_curso);
+
             // Verifica se o curso existe
             const curso = await prisma.curso.findUnique({
                 where: { 
-                    id: Number(id_curso) 
+                    id: id_curso
                 },
             });
             if (!curso) {
@@ -51,13 +54,13 @@ class turmasController {
             }
 
 
-            const turma = await prisma.turma.findMany({
+            const turma = await prisma.turma.findFirst({
                 where: {
-                    id_curso: Number(id_curso),
+                    id_curso: id_curso,
                     semestre_curso: semestre_curso
                 }
             })
-            if (turma) {
+            if (!turma) {
                 return res.status(400).json({message: 'Já existe uma turma deste curso neste semestre'})
             }
             

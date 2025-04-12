@@ -5,7 +5,7 @@ class disciplinasController {
         try {
             const disciplinas = await prisma.disciplina.findMany()
             if (disciplinas.length === 0) {
-                return res.status(204).json({ message: 'Nenhuma disciplina encontrada.' }); 
+                return res.status(204)
             }
 
             res.status(200).json(disciplinas);

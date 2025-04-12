@@ -5,7 +5,7 @@ class semestresController {
         try {
             const semestres = await prisma.semestre.findMany()
             if (semestres.length === 0) {
-                return res.status(204).json({ message: 'Nenhum registro encontrado'} )
+                return res.status(204)
             }
 
             res.status(200).json(semestres);
@@ -33,10 +33,14 @@ class semestresController {
     };
 
     async cadastro(req, res, next) {
-        const { padrao } = req.body;
+        const { descricao, data_inicio, data_final, padrao } = req.body;
+
+        if(!descricao || !data_inicio || !data_final) {
+            return res.status(400).json({ message: 'Descricao, data_inicio e data_final são campos obrigatórios.'})
+        }
 
         try {
-            if (Number(padrao) == 0) {
+            if (Number(padrao) === 0) {
                 const SemestrePadrao = await prisma.semestre.findFirst({
                     where: {
                         padrao: 0
@@ -69,7 +73,7 @@ class semestresController {
         }
     
         try {
-            if (Number(padrao) == 0) {
+            if (Number(padrao) === 0) {
                 const SemestrePadrao = await prisma.semestre.findFirst({
                     where: {
                         padrao: 0
