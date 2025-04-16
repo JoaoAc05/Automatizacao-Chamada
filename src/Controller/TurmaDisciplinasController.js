@@ -17,12 +17,12 @@ class turmaDisciplinasController {
     async getId(req, res) {
         const { id_turma } = req.params;
         try {
-            const turma = await prisma.turmaDisciplinas.findUnique({
+            const turma = await prisma.turmaDisciplinas.findMany({
                 where: {
                     id_turma: Number(id_turma),
                 },
             })
-            if (!turma) {
+            if (turmas.length === 0) {
                 return res.status(404).json({message: 'Não encontrado nenhum registro de disciplina desta turma'})
             }
 
