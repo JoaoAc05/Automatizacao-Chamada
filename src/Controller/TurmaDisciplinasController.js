@@ -22,7 +22,7 @@ class turmaDisciplinasController {
                     id_turma: Number(id_turma),
                 },
             })
-            if (turmas.length === 0) {
+            if (turma.length === 0) {
                 return res.status(404).json({message: 'Não encontrado nenhum registro de disciplina desta turma'})
             }
 
