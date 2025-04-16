@@ -71,7 +71,7 @@ class turmaDisciplinasController {
             const disciplinaTurma = await prisma.turmaDisciplinas.findFirst({
                 where: {
                     id_disciplina: Number(id_disciplina),
-                    id_turma: Number(id_turma),
+                    id_turma: Number(id_turma),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
                     id_semestre: Number(id_semestre)
                 }
             })
@@ -118,22 +118,27 @@ class turmaDisciplinasController {
             }
         }
 
-        const disciplina = await prisma.disciplina.findUnique({
+        if(id_disciplina) {
+            const disciplina = await prisma.disciplina.findUnique({
             where: {
                 id: Number(id_disciplina)
             }
-        })
-        if (!disciplina) {
-            return res.status(404).json({message: 'Disciplina não encontrada'})
-        }
+            })
+            if (!disciplina) {
+                return res.status(404).json({message: 'Disciplina não encontrada'})
+            }
 
-        const semestre = await prisma.semestre.findUnique({
+        }
+        
+        if (id_semestre) {
+            const semestre = await prisma.semestre.findUnique({
             where: {
                 id: Number(id_semestre)
             }
-        })
-        if (!semestre) {
-            return res.status(404).json({message: 'Semestre não encontrado'})
+            })
+            if (!semestre) {
+                return res.status(404).json({message: 'Semestre não encontrado'})
+            }
         }
     
         try {
