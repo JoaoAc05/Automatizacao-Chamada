@@ -160,24 +160,73 @@ class turmaDisciplinasController {
     }
 
     async deletar(req, res) {
-        const { id_disciplina } = req.params;
+        const { id_disciplina, id_turma } = req.query;
         try {
 
-            const disciplpinaTurma = await prisma.turmaDisciplinas.findFirst({
-                where: {
-                    id_disciplina: Number(id_disciplina)
+            if (id_disciplina) {
+                const disciplina = await prisma.disciplina.findUnique({
+                    where: {
+                        id: Number(id_disciplina)
+                    }
+                })
+                if (!disciplina) {
+                    return res.status(404).json({ message: 'Disciplina não encontrada'})
                 }
-            })
-            if (!disciplpinaTurma) {
-                return res.status(404).json({ message: 'Esta disciplina não pertence a nenhuma turma' })
+
+                const disciplpinaTurma = await prisma.turmaDisciplinas.findFirst({
+                    where: {
+                        id_disciplina: Number(id_disciplina)
+                    }
+                })
+                if (!disciplpinaTurma) {
+                    return res.status(404).json({ message: 'Esta disciplina não pertence a nenhuma turma' })
+                }
+            }
+            if (id_turma){
+                const turma = await prisma.turma.findUnique({
+                    where: {
+                        id: Number(id_turma)
+                    }
+                })
+                if (!turma) {
+                    return res.status(404).json({ message: 'Turma não encontrada'})
+                }
+
+                const disciplpinaTurma = await prisma.turmaDisciplinas.findFirst({
+                    where: {
+                        id_turma: Number(id_turma)
+                    }
+                })
+                if (!disciplpinaTurma) {
+                    return res.status(404).json({ message: 'Esta turma não possui nenhuma disciplina' })
+                }
             }
 
-            const deleteTurmaDisciplinas = await prisma.turmaDisciplinas.deleteMany({
+            if (id_turma && id_disciplina) {
+                const deleteTurmaDisciplinas = await prisma.turmaDisciplinas.deleteMany({
                 where: { 
-                    id_disciplina: Number(id_disciplina), 
+                    id_disciplina: Number(id_disciplina),
+                    id_turma: Number(id_turma),
                 },
-            })
-            res.status(200).json({message: 'Vinculo Disciplina Turma deletado com sucesso.'})
+                })
+                res.status(200).json({message: 'Vinculo Disciplina Turma deletado com sucesso.'})
+            } else if (id_turma && !id_disciplina) {
+                const deleteTurmaDisciplinas = await prisma.turmaDisciplinas.deleteMany({
+                where: { 
+                    id_turma: Number(id_turma),
+                },
+                })
+                res.status(200).json({message: 'Vinculo Disciplina Turma deletado com sucesso.'})
+            } else if (!id_turma && id_disciplina) {
+                const deleteTurmaDisciplinas = await prisma.turmaDisciplinas.deleteMany({
+                where: { 
+                    id_disciplina: Number(id_disciplina),
+                },
+                })
+                res.status(200).json({message: 'Vinculo Disciplina Turma deletado com sucesso.'})
+            }
+        
+            return res.status(500).json({ message: 'Passou pelas validações'})
         } catch (e) {
             res.status(500).json({message: 'Erro ao deletar vinculo disciplina turma: ' + e.message})
         }
