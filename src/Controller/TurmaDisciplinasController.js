@@ -33,7 +33,7 @@ class turmaDisciplinasController {
     };
 
     async cadastro(req, res) {
-        const {id_turma, id_disciplina, id_semestre, semestre_curso} = req.body
+        const {id_turma, id_disciplina, id_semestre} = req.body
         try {
             //Verifica se veio todas as informações
             if (!id_turma || !id_disciplina || !id_semestre) {
@@ -71,11 +71,12 @@ class turmaDisciplinasController {
             const disciplinaTurma = await prisma.turmaDisciplinas.findFirst({
                 where: {
                     id_disciplina: Number(id_disciplina),
-                    id_turma: Number(id_turma)
+                    id_turma: Number(id_turma),
+                    id_semestre: Number(id_semestre)
                 }
             })
             if (disciplinaTurma) {
-                return res.status(400).json({message: 'Esta disciplina já está vinculada a está turma'})
+                return res.status(400).json({message: 'Esta disciplina já está vinculada a está turma neste semestre'})
             }
 
             const createTurmaDisicplinas = await prisma.turmaDisciplinas.create({ 
@@ -88,8 +89,7 @@ class turmaDisciplinasController {
                     },
                     Semestre: {
                         connect: {id: id_semestre}
-                    },
-                    semestre_curso: semestre_curso // Verificar necessidade deste campo!!!!!
+                    }
                 }
             });
             res.status(201).json(createTurmaDisicplinas);
