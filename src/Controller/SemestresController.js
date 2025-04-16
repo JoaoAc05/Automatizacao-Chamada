@@ -89,6 +89,7 @@ class semestresController {
                 });
             }
 
+            delete dataToUpdate.id;
             const updateSemestres = await prisma.semestre.updateMany({
                 where: {
                     id: Number(id),

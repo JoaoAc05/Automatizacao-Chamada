@@ -100,6 +100,7 @@ class turmasController {
         }
     
         try {
+            delete dataToUpdate.id;
             const updateTurmas = await prisma.turma.updateMany({
                 where: {
                     id: Number(id),

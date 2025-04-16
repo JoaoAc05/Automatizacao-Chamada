@@ -75,11 +75,12 @@ class disciplinasController {
         }
     
         try {
+            delete dataToUpdate.id;
             const updateDisciplinas = await prisma.disciplina.updateMany({
                 where: {
                     id: Number(id),
                 },
-                data: dataToUpdate,  // Passa diretamente o req.body
+                data: dataToUpdate, 
             });
     
             if (updateDisciplinas.count === 0) {

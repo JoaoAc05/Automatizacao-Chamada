@@ -142,13 +142,13 @@ class turmaDisciplinasController {
         }
     
         try {
+            delete dataToUpdate.id;
             const updateTurmaDisciplinas = await prisma.turmaDisciplinas.updateMany({
                 where: {
                     id: Number(id),
                 },
                 data: dataToUpdate,
             });
-    
             if (updateTurmaDisciplinas.count === 0) {
                 return res.status(404).json({ message: 'Vinculo Disciplina Turma não encontrado.' });
             }

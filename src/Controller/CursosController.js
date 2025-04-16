@@ -57,6 +57,7 @@ class cursosController {
         }
     
         try {
+            delete dataToUpdate.id;
             const updateCursos = await prisma.curso.updateMany({
                 where: {
                     id: Number(id),

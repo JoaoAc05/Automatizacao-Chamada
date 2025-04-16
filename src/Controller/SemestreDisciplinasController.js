@@ -120,6 +120,7 @@ class semestreDisciplinasController {
         }
     
         try {
+            delete dataToUpdate.id;
             const updateSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.updateMany({
                 where: {
                     id: Number(id),

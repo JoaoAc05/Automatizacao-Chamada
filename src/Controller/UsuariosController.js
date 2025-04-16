@@ -201,6 +201,7 @@ class usuariosController {
         }
 
         try {
+            delete dataToUpdate.id;
             const updateUsuarios = await prisma.usuario.updateMany({
                 where: {
                     id: Number(id),

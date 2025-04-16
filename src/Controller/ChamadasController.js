@@ -147,6 +147,7 @@ class chamadasController {
         }
 
         try {
+            delete dataToUpdate.id;
             const updateChamadas = await prisma.chamada.updateMany({
                 where: {
                     id: Number(id),
