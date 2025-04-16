@@ -9,6 +9,6 @@ TurmaDisciplinasRouter.get('/:id_turma', auth, permissao([2]), TurmaDisciplinasC
 TurmaDisciplinasRouter.get('/', auth, permissao([2]), TurmaDisciplinasController.getAll); 
 TurmaDisciplinasRouter.post('/', auth, permissao([2]), TurmaDisciplinasController.cadastro); 
 TurmaDisciplinasRouter.put('/', auth, permissao([2]), TurmaDisciplinasController.alterar); 
-TurmaDisciplinasRouter.delete('/:id_disciplina', auth, permissao([2]), TurmaDisciplinasController.deletar); // ID Disciplina
+TurmaDisciplinasRouter.delete('/', auth, permissao([2]), TurmaDisciplinasController.deletar); // ID Disciplina
 
 export { TurmaDisciplinasRouter };
