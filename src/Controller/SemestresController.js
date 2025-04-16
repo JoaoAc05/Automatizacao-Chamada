@@ -5,7 +5,7 @@ class semestresController {
         try {
             const semestres = await prisma.semestre.findMany()
             if (semestres.length === 0) {
-                return res.status(204)
+                return res.status(204).end();
             }
 
             res.status(200).json(semestres);

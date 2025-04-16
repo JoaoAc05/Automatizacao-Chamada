@@ -5,7 +5,7 @@ class chamadasController {
         try {
             const chamadas = await prisma.chamada.findMany()
             if (chamadas.length === 0) {
-                return res.status(204)
+                return res.status(204).end();
             }
            
             res.status(200).json(chamadas);

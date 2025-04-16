@@ -5,7 +5,7 @@ class turmaDisciplinasController {
         try {
             const turmas = await prisma.turmaDisciplinas.findMany()
             if (turmas.length === 0) {
-                return res.status(204)
+                return res.status(204).end();
             }
 
             res.status(200).json(turmas);
