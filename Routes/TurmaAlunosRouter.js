@@ -9,6 +9,6 @@ TurmaAlunosRouter.get('/:id_turma', auth, permissao([2]), TurmaAlunosController.
 TurmaAlunosRouter.get('/', auth, permissao([2]), TurmaAlunosController.getAll); 
 TurmaAlunosRouter.post('/', auth, permissao([2]), TurmaAlunosController.cadastro); 
 TurmaAlunosRouter.put('/', auth, permissao([2]), TurmaAlunosController.alterar); 
-TurmaAlunosRouter.delete('/:id_aluno', auth, permissao([2]), TurmaAlunosController.deletar); // ID Aluno
+TurmaAlunosRouter.delete('/', auth, permissao([2]), TurmaAlunosController.deletar); // ID Aluno
 
 export { TurmaAlunosRouter };
