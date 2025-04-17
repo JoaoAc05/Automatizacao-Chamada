@@ -161,6 +161,11 @@ class turmaDisciplinasController {
 
     async deletar(req, res) {
         const { id_disciplina, id_turma } = req.query;
+
+        if (!id_turma && !id_disciplina) {
+                return res.status(400).json({ message: 'Nenhum parâmetro informado.'})
+        }
+
         try {
 
             if (id_disciplina) {
@@ -170,18 +175,19 @@ class turmaDisciplinasController {
                     }
                 })
                 if (!disciplina) {
-                    return res.status(404).json({ message: 'Disciplina não encontrada'})
+                    return res.status(404).json({ message: 'Disciplina não encontrada.'})
                 }
 
-                const disciplpinaTurma = await prisma.turmaDisciplinas.findFirst({
+                const disciplinaTurma = await prisma.turmaDisciplinas.findFirst({
                     where: {
                         id_disciplina: Number(id_disciplina)
                     }
                 })
-                if (!disciplpinaTurma) {
+                if (!disciplinaTurma) {
                     return res.status(404).json({ message: 'Esta disciplina não pertence a nenhuma turma' })
                 }
             }
+
             if (id_turma){
                 const turma = await prisma.turma.findUnique({
                     where: {
@@ -192,44 +198,36 @@ class turmaDisciplinasController {
                     return res.status(404).json({ message: 'Turma não encontrada'})
                 }
 
-                const disciplpinaTurma = await prisma.turmaDisciplinas.findFirst({
+                const disciplinaTurma = await prisma.turmaDisciplinas.findFirst({
                     where: {
                         id_turma: Number(id_turma)
                     }
                 })
-                if (!disciplpinaTurma) {
+                if (!disciplinaTurma) {
                     return res.status(404).json({ message: 'Esta turma não possui nenhuma disciplina' })
                 }
             }
 
-            if (id_turma && id_disciplina) {
-                const deleteTurmaDisciplinas = await prisma.turmaDisciplinas.deleteMany({
-                where: { 
-                    id_disciplina: Number(id_disciplina),
-                    id_turma: Number(id_turma),
-                },
-                })
-                res.status(200).json({message: 'Vinculo Disciplina Turma deletado com sucesso.'})
-            } else if (id_turma && !id_disciplina) {
-                const deleteTurmaDisciplinas = await prisma.turmaDisciplinas.deleteMany({
-                where: { 
-                    id_turma: Number(id_turma),
-                },
-                })
-                res.status(200).json({message: 'Vinculo Disciplina Turma deletado com sucesso.'})
-            } else if (!id_turma && id_disciplina) {
-                const deleteTurmaDisciplinas = await prisma.turmaDisciplinas.deleteMany({
-                where: { 
-                    id_disciplina: Number(id_disciplina),
-                },
-                })
-                res.status(200).json({message: 'Vinculo Disciplina Turma deletado com sucesso.'})
+            const deleteWhere = {};
+            if (id_turma) {
+                deleteWhere.id_turma = Number(id_turma);
             }
-        
-            return res.status(500).json({ message: 'Passou pelas validações'})
-        } catch (e) {
-            res.status(500).json({message: 'Erro ao deletar vinculo disciplina turma: ' + e.message})
-        }
+            if (id_disciplina) {
+               deleteWhere.id_disciplina = Number(id_disciplina); 
+            } 
+                
+            const deleted = await prisma.turmaDisciplinas.deleteMany({
+                where: deleteWhere
+            });
+            if (deleted.count === 0) {
+                return res.status(404).json({ message: 'Nenhum vínculo encontrado para deletar.' });
+            }
+
+            res.status(200).json({message: 'Vinculo Disciplina-Turma deletado com sucesso.'})
+            
+            } catch (e) {
+                res.status(500).json({message: 'Erro ao deletar vinculo disciplina turma: ' + e.message})
+            }
     }
 }
 export { turmaDisciplinasController };
