@@ -15,24 +15,63 @@ class chamadaAlunosController {
     }
 
     async getId(req, res) {
-        const { id_chamada } = req.params;
+        const { id_chamada, id_aluno, id_vinculo } = req.query;
+
+        if(!id_chamada  && !id_aluno && !id_vinculo) {
+            return res.status(400).json({ message: 'Nenhum dado fornecido para consulta'})
+        }
+
         try {
-            const chamada = await prisma.chamada.findMany({
+
+            if (id_vinculo) {
+                const chamada = await prisma.chamadaAlunos.findUnique({
+                    where: {
+                        id: Number(id_vinculo)
+                    }
+                })
+                if (!chamada) {
+                    return res.status(404).json({ message: 'Não existe vinculo com esse id.'})
+                }
+
+               return res.status(200).json(chamada)
+            }
+
+            const getWhere = {};
+            if (id_chamada) {
+                const chamada = await prisma.chamada.findUnique({
                 where: {
                     id: Number(id_chamada),
                 },
-            })
-            if (chamada.length === 0) {
-                return res.status(404).json({ message: 'Chamada não encontrada.' }); 
+                })
+                if (!chamada) {
+                    return res.status(404).json({ message: 'Chamada não encontrada.' }); 
+                }
+
+                getWhere.id_chamada = Number(id_chamada);
+            } 
+
+            if (id_aluno) {
+                const aluno = await prisma.usuario.findUnique({
+                    where: {
+                        id: Number(id_aluno)
+                    }
+                })
+                if (!aluno) {
+                    return res.status(404).json({ message: 'Aluno não encontrado' })
+                }
+                if(aluno.tipo !== 0) {
+                    return res.status(401).json({ message: 'Usuário não é um aluno.' });
+                }
+
+                getWhere.id_aluno = Number(id_aluno);
             }
+            
 
             const chamadaAlunos = await prisma.chamadaAlunos.findMany({
-                where: {
-                    id_chamada: Number(id_chamada),
-                },
+                where: getWhere,
             })
             if (chamadaAlunos.length === 0) {
-                return res.status(404).json({ message: 'Lista de presença desta chamada não foi encontrada.' }); 
+                return res.status(404).json({ message: 'Não foi encontrada nenhuma chamada.' }); 
             }
 
             return res.status(200).json(chamadaAlunos)

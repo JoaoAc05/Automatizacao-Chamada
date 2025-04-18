@@ -178,7 +178,7 @@ class turmaDisciplinasController {
                     return res.status(404).json({ message: 'Não existe vinculo com esse id' })
                 }
 
-                await prisma.turmaDisciplinas.delete({
+                const deleted = await prisma.turmaDisciplinas.delete({
                     where: {
                         id: Number(id_vinculo)
                     }
