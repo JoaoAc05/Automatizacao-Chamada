@@ -152,12 +152,12 @@ class turmaAlunosController {
         try {
 
             if (id_vinculo) {
-                const disciplinaTurma = await prisma.turmaDisciplinas.findUnique({
+                const alunoTurma = await prisma.turmaAlunos.findUnique({
                     where: {
                         id: Number(id_vinculo)
                     }
                 })
-                if (!disciplinaTurma) {
+                if (!alunoTurma) {
                     return res.status(404).json({ message: 'Não existe vinculo com esse id' })
                 }
 

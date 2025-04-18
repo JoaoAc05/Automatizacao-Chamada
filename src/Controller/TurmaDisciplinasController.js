@@ -8,9 +8,9 @@ class turmaDisciplinasController {
                 return res.status(204).end();
             }
 
-            res.status(200).json(turmas);
+            return res.status(200).json(turmas);
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar vinculo turma alunos: ' + e.message});
+            return res.status(500).json({message: 'Erro ao retornar vinculo turma alunos: ' + e.message});
         }
     }
 
@@ -26,9 +26,9 @@ class turmaDisciplinasController {
                 return res.status(404).json({message: 'Não encontrado nenhum registro de disciplina desta turma'})
             }
 
-            res.status(200).json(turma)
+            return res.status(200).json(turma)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar disciplinas da turma: ' + e.message})
+            return res.status(500).json({message: 'Erro ao retornar disciplinas da turma: ' + e.message})
         }
     };
 
@@ -92,9 +92,9 @@ class turmaDisciplinasController {
                     }
                 }
             });
-            res.status(201).json(createTurmaDisicplinas);
+            return res.status(201).json(createTurmaDisicplinas);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao criar vinculo de disciplina na turma: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao criar vinculo de disciplina na turma: ' + e.message });
         }
     }
 
@@ -153,9 +153,9 @@ class turmaDisciplinasController {
                 return res.status(404).json({ message: 'Vinculo Disciplina Turma não encontrado.' });
             }
     
-            res.status(200).json({ message: 'Vinculo Disciplina Turma alterado com sucesso.' });
+            return res.status(200).json({ message: 'Vinculo Disciplina Turma alterado com sucesso.' });
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao alterar vinculo disciplina turma: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao alterar vinculo disciplina turma: ' + e.message });
         }
     }
 
@@ -243,7 +243,7 @@ class turmaDisciplinasController {
             return res.status(200).json({message: `${deleted.count} vínculo(s) Disciplina-Turma deletado(s) com sucesso.`})
             
             } catch (e) {
-                res.status(500).json({message: 'Erro ao deletar vinculo Disciplina-Turma: ' + e.message})
+                return res.status(500).json({message: 'Erro ao deletar vinculo Disciplina-Turma: ' + e.message})
             }
     }
 }
