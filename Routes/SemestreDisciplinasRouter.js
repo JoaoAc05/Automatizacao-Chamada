@@ -5,7 +5,7 @@ import { semestreDisciplinasController } from "../src/Controller/SemestreDiscipl
 const SemestreDisciplinasRouter = express.Router();
 const SemestreDisciplinasController = new semestreDisciplinasController();
 
-SemestreDisciplinasRouter.get('/professor/:id_professor', auth, permissao([1, 2]), SemestreDisciplinasController.disciplinaProfessor);
+SemestreDisciplinasRouter.get('/professor/', auth, permissao([1, 2]), SemestreDisciplinasController.disciplinaProfessor);
 SemestreDisciplinasRouter.get('/:id_semestre/disciplinas',  auth, permissao([2]), SemestreDisciplinasController.getId); // ID DO SEMESTRE DO ANO
 SemestreDisciplinasRouter.get('/disciplinas', auth, permissao([2]), SemestreDisciplinasController.getAll); 
 SemestreDisciplinasRouter.post('/disciplinas', auth, permissao([2]), SemestreDisciplinasController.cadastro); 
