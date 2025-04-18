@@ -8,9 +8,9 @@ class disciplinasController {
                 return res.status(204).end();
             }
 
-            res.status(200).json(disciplinas);
+            return res.status(200).json(disciplinas);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar disciplinas: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao retornar disciplinas: ' + e.message });
         }
     }
 
@@ -26,9 +26,9 @@ class disciplinasController {
                 return res.status(404).json({ message: 'Disciplina não encontrada.' }); 
             }
 
-            res.status(200).json(disciplina)
+            return res.status(200).json(disciplina)
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar disciplina: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao retornar disciplina: ' + e.message })
         }
     };
 
@@ -59,9 +59,9 @@ class disciplinasController {
                     carga_horario: carga_horario
                 }
             });
-            res.status(201).json(createDisciplinas);
+            return res.status(201).json(createDisciplinas);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao criar disciplina: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao criar disciplina: ' + e.message });
         }
     }
 
@@ -87,9 +87,9 @@ class disciplinasController {
                 return res.status(404).json({ message: 'Disciplina não encontrado.' });
             }
     
-            res.status(200).json({ message: 'Displina alterado com sucesso.' });
+            return res.status(200).json({ message: 'Displina alterado com sucesso.' });
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao alterar disciplina: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao alterar disciplina: ' + e.message });
         }
     }
 
@@ -111,9 +111,9 @@ class disciplinasController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({ message: 'Disciplina deletado com sucesso.' })
+            return res.status(200).json({ message: 'Disciplina deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao deletar disciplina: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao deletar disciplina: ' + e.message })
         }
     }
 }

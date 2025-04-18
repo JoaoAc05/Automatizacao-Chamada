@@ -8,9 +8,9 @@ class chamadasController {
                 return res.status(204).end();
             }
            
-            res.status(200).json(chamadas);
+            return res.status(200).json(chamadas);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar chamadas: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao retornar chamadas: ' + e.message });
         }
     }
 
@@ -31,9 +31,9 @@ class chamadasController {
                 return res.status(404).json({ message: 'Chamada não encontrada.' }); 
             }
 
-            res.status(200).json(chamada)
+            return res.status(200).json(chamada)
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar chamada: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao retornar chamada: ' + e.message })
         }
     };
 
@@ -90,9 +90,9 @@ class chamadasController {
                 }
                 
             });
-            res.status(201).json(createChamadas);
+            return res.status(201).json(createChamadas);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao criar chamada: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao criar chamada: ' + e.message });
         }
     }
 
@@ -159,9 +159,9 @@ class chamadasController {
                 return res.status(404).json({ message: 'Chamada não encontrada.' });
             }
     
-            res.status(200).json({ message: 'Chamada alterada com sucesso.' });
+            return res.status(200).json({ message: 'Chamada alterada com sucesso.' });
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao alterar chamada: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao alterar chamada: ' + e.message });
         }
     }
 
@@ -183,9 +183,9 @@ class chamadasController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({ message: 'Chamada deletado com sucesso.' })
+            return res.status(200).json({ message: 'Chamada deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao deletar chamada.' + e.message })
+            return res.status(500).json({ message: 'Erro ao deletar chamada.' + e.message })
         }
     }
 
@@ -218,9 +218,9 @@ class chamadasController {
                     data_hora_final: data_hora_final
                 },  
             });
-            res.status(200).json({ message: 'Chamada finalizada com sucesso.' })
+            return res.status(200).json({ message: 'Chamada finalizada com sucesso.' })
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao finalizar chamada: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao finalizar chamada: ' + e.message })
         }
     }
 
@@ -310,9 +310,9 @@ class chamadasController {
                 data_hora_final: c.data_hora_final
             }));
 
-            res.status(200).json(chamadaProfessor)
+            return res.status(200).json(chamadaProfessor)
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar chamadas do professor: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao retornar chamadas do professor: ' + e.message })
         }
     }
 }

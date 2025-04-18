@@ -73,7 +73,7 @@ class loginController {
                     console.log(`Erro ao gerar autenticação: ${err}`)
                     return res.status(500).json({ message: 'Erro ao gerar autenticação' });
                 }
-                res.status(200).json({auth: true, token});
+                return res.status(200).json({auth: true, token});
             });
     
         } catch (e) {
@@ -131,7 +131,7 @@ class loginController {
                     console.log(`Erro ao gerar autenticação: ${err}`)
                     return res.status(500).json({ message: 'Erro ao gerar autenticação' });
                 }
-                res.status(200).json({auth: true, token});
+                return res.status(200).json({auth: true, token});
             });
     
         } catch (e) {

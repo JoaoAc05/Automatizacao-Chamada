@@ -8,9 +8,9 @@ class turmasController {
                 return res.status(204).end();
             }
 
-            res.status(200).json(turmas);
+            return res.status(200).json(turmas);
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar turmas: ' + e.message});
+            return res.status(500).json({message: 'Erro ao retornar turmas: ' + e.message});
         }
     }
 
@@ -26,9 +26,9 @@ class turmasController {
                 return res.status(404).json({message: 'Não encontrado nenhum registro desta turma'})
             }
 
-            res.status(200).json(turma)
+            return res.status(200).json(turma)
         } catch (e) {
-            res.status(500).json({message: 'Erro ao retornar turma: ' + e.message})
+            return res.status(500).json({message: 'Erro ao retornar turma: ' + e.message})
         }
     };
 
@@ -73,9 +73,9 @@ class turmasController {
                     } 
                 }
             });
-            res.status(201).json(createTurmas);
+            return res.status(201).json(createTurmas);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao criar turma: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao criar turma: ' + e.message });
         }
     }
 
@@ -112,9 +112,9 @@ class turmasController {
                 return res.status(404).json({ message: 'Turma não encontrado.' });
             }
     
-            res.status(200).json({ message: 'Turma alterado com sucesso.' });
+            return res.status(200).json({ message: 'Turma alterado com sucesso.' });
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao alterar turma: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao alterar turma: ' + e.message });
         }
     }
 
@@ -136,9 +136,9 @@ class turmasController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({message: 'Turma deletado com sucesso.'})
+            return res.status(200).json({message: 'Turma deletado com sucesso.'})
         } catch (e) {
-            res.status(500).json({message: 'Erro ao deletar turma: ' + e.message})
+            return res.status(500).json({message: 'Erro ao deletar turma: ' + e.message})
         }
     }
 }

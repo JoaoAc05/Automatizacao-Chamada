@@ -8,9 +8,9 @@ class semestresController {
                 return res.status(204).end();
             }
 
-            res.status(200).json(semestres);
+            return res.status(200).json(semestres);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar semestres: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao retornar semestres: ' + e.message });
         }
     }
 
@@ -26,9 +26,9 @@ class semestresController {
                 return res.status(404).json({ message: 'Não encontrado nenhum registro deste semestre' })
             }
 
-            res.status(200).json(semestre)
+            return res.status(200).json(semestre)
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar semestre: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao retornar semestre: ' + e.message })
         }
     };
 
@@ -57,9 +57,9 @@ class semestresController {
             }
 
             const createSemestres = await prisma.semestre.create({ data: req.body });
-            res.status(201).json(createSemestres);
+            return res.status(201).json(createSemestres);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao criar semestre: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao criar semestre: ' + e.message });
         }
     }
 
@@ -101,9 +101,9 @@ class semestresController {
                 return res.status(404).json({ message: 'Semestre não encontrado.' });
             }
     
-            res.status(200).json({ message: 'Semestre alterado com sucesso.' });
+            return res.status(200).json({ message: 'Semestre alterado com sucesso.' });
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao alterar semestre: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao alterar semestre: ' + e.message });
         }
     }
 
@@ -125,9 +125,9 @@ class semestresController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({ message: 'Semestre deletado com sucesso.' })
+            return res.status(200).json({ message: 'Semestre deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao deletar semestre:' + e.message })
+            return res.status(500).json({ message: 'Erro ao deletar semestre:' + e.message })
         }
     }
 }

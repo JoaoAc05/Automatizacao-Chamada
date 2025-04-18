@@ -12,9 +12,9 @@ class usuariosController {
                 return res.status(204).end();
             }
 
-            res.status(200).json(usuarios);
+            return res.status(200).json(usuarios);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar usuario: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao retornar usuario: ' + e.message });
         }
     }
 
@@ -30,9 +30,9 @@ class usuariosController {
                 return res.status(404).json({ message: 'Não encontrado nenhum registro deste usuario.' })
             }
 
-            res.status(200).json(usuario)
+            return res.status(200).json(usuario)
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar usuario: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao retornar usuario: ' + e.message })
         }
     };
 
@@ -103,9 +103,9 @@ class usuariosController {
 
         try {
             const createUsuario = await prisma.usuario.create({ data: req.body });
-            res.status(201).json(createUsuario);
+            return res.status(201).json(createUsuario);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao criar usuario: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao criar usuario: ' + e.message });
         }
     }
 
@@ -165,9 +165,9 @@ class usuariosController {
                 }
             })
 
-            res.status(200).json({ message: 'Aluno validado com sucesso' })
+            return res.status(200).json({ message: 'Aluno validado com sucesso' })
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao validar usuario: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao validar usuario: ' + e.message });
         }
 
     }
@@ -213,9 +213,9 @@ class usuariosController {
                 return res.status(404).json({ message: 'Usuario não encontrado.' });
             }
 
-            res.status(200).json({ message: 'Usuario alterado com sucesso.' });
+            return res.status(200).json({ message: 'Usuario alterado com sucesso.' });
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao alterar usuario: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao alterar usuario: ' + e.message });
         }
     }
 
@@ -237,9 +237,9 @@ class usuariosController {
                     id: Number(id),
                 },
             })
-            res.status(200).json({ message: 'Usuario deletado com sucesso.' })
+            return res.status(200).json({ message: 'Usuario deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao deletar usuario. ' + e.message })
+            return res.status(500).json({ message: 'Erro ao deletar usuario. ' + e.message })
         }
     }
 }

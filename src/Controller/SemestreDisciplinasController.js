@@ -10,9 +10,9 @@ class semestreDisciplinasController {
                 return res.status(204).end();
             }
             
-            res.status(200).json(semestreDisciplinas);
+            return res.status(200).json(semestreDisciplinas);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar os vinculos de disciplina, semestre e professor: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao retornar os vinculos de disciplina, semestre e professor: ' + e.message });
         }
     }
 
@@ -29,9 +29,9 @@ class semestreDisciplinasController {
                 return res.status(404).json({ message: 'Nenhum vinculo de disciplina encontrado deste semestre.' }); 
             }
 
-            res.status(200).json(semestreDisciplinas)
+            return res.status(200).json(semestreDisciplinas)
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao retornar disciplinas do semestre: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao retornar disciplinas do semestre: ' + e.message })
         }
     };
 
@@ -104,9 +104,9 @@ class semestreDisciplinasController {
             }
         });
 
-            res.status(201).json(createSemestreDisciplinas);
+            return res.status(201).json(createSemestreDisciplinas);
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao criar semestreDisciplinas: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao criar semestreDisciplinas: ' + e.message });
         }
     }
 
@@ -132,9 +132,9 @@ class semestreDisciplinasController {
                 return res.status(404).json({ message: 'Vinculo semestre_disciplina não encontrado.' });
             }
     
-            res.status(200).json({ message: 'Vinculo semestre_disciplina alterado com sucesso.' });
+            return res.status(200).json({ message: 'Vinculo semestre_disciplina alterado com sucesso.' });
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao alterar vinculo semestre_disciplina: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao alterar vinculo semestre_disciplina: ' + e.message });
         }
     }
 
@@ -162,7 +162,7 @@ class semestreDisciplinasController {
 
             return res.status(200).json({ message: 'Semestre deletado com sucesso.' })
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao deletar semestreDisciplinas:' + e.message })
+            return res.status(500).json({ message: 'Erro ao deletar semestreDisciplinas:' + e.message })
         }
     }
 
@@ -221,11 +221,9 @@ class semestreDisciplinasController {
                 id: d.id_disciplina,
                 descricao: d.Disciplina.descricao
             }));
-
-            res.status(200).json(disciplinas)
-
+            return res.status(200).json(disciplinas)
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao consultar disciplinas: ' + e.message });
+            return res.status(500).json({ message: 'Erro ao consultar disciplinas: ' + e.message });
         }
     }
 }
