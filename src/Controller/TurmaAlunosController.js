@@ -143,14 +143,37 @@ class turmaAlunosController {
     }
 
     async deletar(req, res) {
-        const { id_aluno, id_turma } = req.query;
+        const { id_aluno, id_turma, id_vinculo } = req.query;
 
-        if (!id_turma && !id_aluno) {
+        if (!id_turma && !id_aluno && !id_vinculo) {
             return res.status(400).json({ message: 'Nenhum parâmetro informado.'})
         }
 
         try {
 
+            if (id_vinculo) {
+                const disciplinaTurma = await prisma.turmaDisciplinas.findUnique({
+                    where: {
+                        id: Number(id_vinculo)
+                    }
+                })
+                if (!disciplinaTurma) {
+                    return res.status(404).json({ message: 'Não existe vinculo com esse id' })
+                }
+
+                const deleted = await prisma.turmaAlunos.delete({
+                    where: {
+                        id: Number(id_vinculo)
+                    }
+                });
+                if (!deleted) {
+                    return res.status(404).json({ message: 'Nenhum vínculo encontrado para deletar.' });
+                }
+
+                return res.status(200).json({message: 'Vinculo Disciplina-Turma deletado com sucesso.'})
+            }
+            
+            const deleteWhere = {};
             if (id_aluno) {
                 const aluno = await prisma.usuario.findUnique({
                     where: {
@@ -169,6 +192,7 @@ class turmaAlunosController {
                 if (!alunoTurma) {
                     return res.status(404).json({ message: 'Este aluno não pertence a nenhuma turma.' })
                 }
+                deleteWhere.id_aluno = Number(id_aluno); 
             }
 
             if (id_turma) {
@@ -189,16 +213,9 @@ class turmaAlunosController {
                 if (!alunoTurma) {
                     return res.status(404).json({ message: 'Esta turma não possui nenhum aluno' })
                 }
-            }
-
-            const deleteWhere = {};
-            if (id_turma) {
                 deleteWhere.id_turma = Number(id_turma);
             }
-            if (id_aluno) {
-               deleteWhere.id_aluno = Number(id_aluno); 
-            } 
-                
+
             const deleted = await prisma.turmaAlunos.deleteMany({
                 where: deleteWhere
             });
@@ -206,10 +223,10 @@ class turmaAlunosController {
                 return res.status(404).json({ message: 'Nenhum vínculo encontrado para deletar.' });
             }
             
-            res.status(200).json({message: 'Vinculo Aluno-Turma deletado com sucesso.'})
+            return res.status(200).json({message: `${deleted.count} vínculo(s) Aluno-Turma deletado(s) com sucesso.`})
             
         } catch (e) {
-            res.status(500).json({ message: 'Erro ao deletar vinculo aluno turma: ' + e.message })
+            res.status(500).json({ message: 'Erro ao deletar vinculo Aluno-Turma: ' + e.message })
         }
     }
 }

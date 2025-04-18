@@ -156,17 +156,28 @@ class semestreDisciplinasController {
                     id: Number(id), 
                 },
             })
-            res.status(200).json({ message: 'Semestre deletado com sucesso.' })
+            if (deleteSemestreDisciplina.count === 0) {
+                return res.status(404).json({ message: 'Nenhum vínculo encontrado para deletar.' });
+            }
+
+            return res.status(200).json({ message: 'Semestre deletado com sucesso.' })
         } catch (e) {
             res.status(500).json({ message: 'Erro ao deletar semestreDisciplinas:' + e.message })
         }
     }
 
     async disciplinaProfessor(req, res) {
-        const {id_professor, id_semestre} = req.params;
+        const {id_professor, id_semestre} = req.query;
+
+        if (!id_professor) {
+            return res.status(400).json({ message: 'Id_professor é obrigatório.'})
+        }
+
         try{
             const professor = await prisma.usuario.findUnique({
-                where: { id: Number(id_professor) },
+                where: { 
+                    id: Number(id_professor) 
+                },
             });
             if (!professor) {
                 return res.status(404).json({ message: 'Não encontrado usuario com o ID ' + id_professor });
@@ -185,7 +196,7 @@ class semestreDisciplinasController {
                 if (!semestre) {
                     return res.status(404).json({ message: 'Semestre não encontrado.' });
                 }
-            } else if(!id_semestre) {
+            } else {
                 semestre = await prisma.semestre.findFirst({
                     where: { 
                         padrao: 0
@@ -193,7 +204,7 @@ class semestreDisciplinasController {
                 });
             }
 
-            const D_P_S = await prisma.semestreProfessorDisciplinas.findMany({ //Pegar todas as disciplinas que o professor irá aplicar no semestre padrão
+            const dps = await prisma.semestreProfessorDisciplinas.findMany({ //Pegar todas as disciplinas que o professor irá aplicar no semestre
                 where: {
                     id_professor: Number(id_professor),
                     id_semestre: Number(semestre.id)
@@ -202,11 +213,11 @@ class semestreDisciplinasController {
                     Disciplina: true // Trazer detalhes da disciplina
                 }
             })
-            if(D_P_S.length === 0){
-                return res.status(404).json({ message: 'Disciplina não encontrada para este professor neste semestre' })
+            if(dps.length === 0){
+                return res.status(404).json({ message: 'Nenhuma disciplina atribuída ao professor neste semestre.' })
             }
 
-            const disciplinas = D_P_S.map((d) => ({
+            const disciplinas = dps.map((d) => ({
                 id: d.id_disciplina,
                 descricao: d.Disciplina.descricao
             }));
