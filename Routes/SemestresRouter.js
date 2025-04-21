@@ -81,8 +81,6 @@ SemestresRouter.get('/', auth, permissao([2]),  SemestresController.getAll);
  *             type: object
  *             required:
  *               - descricao
- *               - data_inicio
- *               - data_final
  *             properties:
  *               descricao:
  *                 type: string

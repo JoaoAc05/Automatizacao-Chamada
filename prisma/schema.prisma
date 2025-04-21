@@ -122,7 +122,7 @@ model Chamada {
   id_professor     Int
   id_disciplina    Int
   id_semestre      Int
-  data_hora_inicio DateTime?
+  data_hora_inicio DateTime
   data_hora_final  DateTime?
 
   // Relacionamentos

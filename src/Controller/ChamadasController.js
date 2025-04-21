@@ -16,6 +16,11 @@ class chamadasController {
 
     async getId(req, res) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório'})
+        }
+
         try {
 
             if(!id) {
@@ -38,11 +43,11 @@ class chamadasController {
     };
 
     async cadastro(req, res) {
-        const {id_professor, id_disciplina, data_hora_inicio} = req.body
+        const {id_professor, id_disciplina, data_hora_inicio, id_semestre} = req.body
         try {
             //Verifica se veio todas as informações
             if (!id_professor || !id_disciplina || !data_hora_inicio) {
-                return res.status(400).json({ message: 'Os campos id_professor, id_disciplina, id_semestre e data_hora_inicio são obrigatórios.' });
+                return res.status(400).json({ message: 'Os campos id_professor, id_disciplina e data_hora_inicio são obrigatórios.' });
             }
 
             // Verifica se o professor existe
@@ -68,13 +73,27 @@ class chamadasController {
                 return res.status(404).json({ message: 'Disciplina não encontrada.' });
             }
 
-            const semestre = await prisma.semestre.findFirst({
-                where: {padrao: 0}
-            })
-            if (!semestre) {
-                return res.status(404).json({ message: 'Semestre não encontrado.' });
-            } 
-            
+            let semestre;
+            if (id_semestre) {
+                semestre = await prisma.semestre.findUnique({
+                    where: {
+                        id: Number(id_semestre)
+                    }
+                })
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre não encontrado.' });
+                } 
+            } else {
+                semestre = await prisma.semestre.findFirst({
+                    where: {
+                        padrao: 0
+                    }
+                }) 
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre padrão não encontrado.' });
+                } 
+            }
+
             const createChamadas = await prisma.chamada.create({ 
                 data: {
                     Professor: {
@@ -97,8 +116,7 @@ class chamadasController {
     }
 
     async alterar(req, res) {
-        const { id } = req.body;
-        const {id_professor, id_disciplina, id_semestre} = req.body
+        const {id, id_professor, id_disciplina, id_semestre} = req.body
         const dataToUpdate = req.body;
     
         // Verifica se o body está vazio
@@ -167,6 +185,11 @@ class chamadasController {
 
     async deletar(req, res) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório.'})
+        }
+
         try {
 
             const chamada = await prisma.chamada.findUnique({
@@ -178,11 +201,14 @@ class chamadasController {
                 return res.status(404).json({ message: 'Chamada não encontrada.' });
             }
 
-            const deleteChamada = await prisma.chamada.deleteMany({
+            const deleteChamada = await prisma.chamada.delete({
                 where: { 
                     id: Number(id), 
                 },
             })
+            if (!deleteChamada) {
+                return res.status(404).json({ message: 'Nenhuma chamada encontrada para deletar.'})
+            }
             return res.status(200).json({ message: 'Chamada deletado com sucesso.' })
         } catch (e) {
             return res.status(500).json({ message: 'Erro ao deletar chamada.' + e.message })
@@ -206,7 +232,7 @@ class chamadasController {
                 return res.status(404).json({ message: 'Chamada não encontrada para ser finalizada.' })
             }
             if (chamada.data_hora_final != null){
-                console.log("Chamada finalizada?")
+                console.log(`Chamada já finalizada: ${chamada.data_hora_final}`)
                 return res.status(400).json({ message: 'Chamada já finalizada.' })
             }
 
@@ -228,6 +254,10 @@ class chamadasController {
         const { id_professor, id_semestre, id_disciplina } = req.query;
         // .../professor/?id_professor=1&id_semestre=1&id_disciplina=1
         
+        if (!id_professor) {
+            return res.status(400).json({ message: 'Id_professor é obrigatório.'})
+        }
+
         try {
             let semestre;
             let chamadas = [];

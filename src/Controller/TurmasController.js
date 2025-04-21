@@ -16,6 +16,11 @@ class turmasController {
 
     async getId(req, res) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório'})
+        }
+
         try {
             const turma = await prisma.turma.findUnique({
                 where: {
@@ -120,6 +125,11 @@ class turmasController {
 
     async deletar(req, res) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório.'})
+        }
+
         try {
 
             const turma = await prisma.turma.findUnique({
@@ -131,11 +141,15 @@ class turmasController {
                 return res.status(404).json({ message: 'Turma não encontrada.' });
             }
 
-            const deleteTurma = await prisma.turma.deleteMany({
+            const deleteTurma = await prisma.turma.delete({
                 where: { 
                     id: Number(id), 
                 },
             })
+            if (!deleteTurma) {
+                return res.status(404).json({ message: 'Turma não encontrada para deletar.' });
+            }
+
             return res.status(200).json({message: 'Turma deletado com sucesso.'})
         } catch (e) {
             return res.status(500).json({message: 'Erro ao deletar turma: ' + e.message})
