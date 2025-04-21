@@ -16,6 +16,11 @@ class cursosController {
 
     async getId(req, res) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório'})
+        }
+
         try {
             const curso = await prisma.curso.findUnique({
                 where: {
@@ -64,7 +69,6 @@ class cursosController {
                 },
                 data: dataToUpdate,
             });
-    
             if (updateCursos.count === 0) {
                 return res.status(404).json({ message: 'Curso não encontrado.' });
             }
@@ -77,6 +81,11 @@ class cursosController {
 
     async deletar(req, res) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório'})
+        }
+
         try {
             const curso = await prisma.curso.findUnique({
                 where: { 
@@ -87,11 +96,15 @@ class cursosController {
                 return res.status(404).json({ message: 'Curso não encontrado.' });
             }
 
-            const deleteCurso = await prisma.curso.deleteMany({
+            const deleteCurso = await prisma.curso.delete({
                 where: { 
                     id: Number(id), 
                 },
             })
+            if (!deleteCurso) {
+                return res.status(404).json({ message: 'Curso não encontrado para deletar.' });
+            }
+
             return res.status(200).json({ message: 'Curso deletado com sucesso.' })
         } catch (e) {
             return res.status(500).json({ message: 'Erro ao deletar curso: ' + e.message })

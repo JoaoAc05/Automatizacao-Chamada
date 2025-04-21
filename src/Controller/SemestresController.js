@@ -16,6 +16,11 @@ class semestresController {
 
     async getId(req, res, next) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório'})
+        }
+
         try {
             const semestre = await prisma.semestre.findUnique({
                 where: {
@@ -109,6 +114,11 @@ class semestresController {
 
     async deletar(req, res, next) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório'})
+        }
+
         try {
 
             const semestre = await prisma.semestre.findUnique({
@@ -120,11 +130,14 @@ class semestresController {
                 return res.status(404).json({ message: 'Semestre não encontrado.' });
             }
 
-            const deleteSemestre = await prisma.semestre.deleteMany({
+            const deleteSemestre = await prisma.semestre.delete({
                 where: { 
                     id: Number(id), 
                 },
             })
+            if (!deleteSemestre) {
+                return res.status(404).json({ message: 'Semestre não encontrado para deletar.' });
+            }
             return res.status(200).json({ message: 'Semestre deletado com sucesso.' })
         } catch (e) {
             return res.status(500).json({ message: 'Erro ao deletar semestre:' + e.message })
