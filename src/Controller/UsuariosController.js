@@ -20,6 +20,11 @@ class usuariosController {
 
     async getId(req, res) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório.'})
+        }
+
         try {
             const usuario = await prisma.usuario.findUnique({
                 where: {
@@ -221,6 +226,11 @@ class usuariosController {
 
     async deletar(req, res) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório.'})
+        }
+
         try {
 
             const usuario = await prisma.usuario.findUnique({
@@ -237,6 +247,10 @@ class usuariosController {
                     id: Number(id),
                 },
             })
+            if (!deleteUsuario) {
+                return res.status(404).json({ message: 'Nenhum usuário encontrado para deletar.'})
+            }
+
             return res.status(200).json({ message: 'Usuario deletado com sucesso.' })
         } catch (e) {
             return res.status(500).json({ message: 'Erro ao deletar usuario. ' + e.message })
