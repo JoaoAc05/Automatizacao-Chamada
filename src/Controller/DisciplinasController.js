@@ -16,6 +16,11 @@ class disciplinasController {
 
     async getId(req, res, next) {
         const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório.'})
+        }
+
         try {
             const disciplina = await prisma.disciplina.findUnique({
                 where: {
@@ -95,8 +100,12 @@ class disciplinasController {
 
     async deletar(req, res, next) {
         const { id } = req.params;
-        try {
 
+        if (!id) {
+            return res.status(400).json({ message: 'Id é obrigatório.'})
+        }
+
+        try {
             const disciplina = await prisma.disciplina.findUnique({
                 where: { 
                     id: Number(id)
@@ -111,6 +120,10 @@ class disciplinasController {
                     id: Number(id), 
                 },
             })
+            if (deleteDisciplina.count === 0) {
+                return res.status(404).json({ message: 'Nenhuma disciplina encontrada para deletar.'})
+            }
+
             return res.status(200).json({ message: 'Disciplina deletado com sucesso.' })
         } catch (e) {
             return res.status(500).json({ message: 'Erro ao deletar disciplina: ' + e.message })

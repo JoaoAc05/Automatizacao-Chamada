@@ -55,7 +55,7 @@ UsuariosRouter.get('/:id', auth, permissao([1, 2]), UsuariosController.getId);
  *       200:
  *         description: Lista de usuários
  *       204:
- *         description: Deu certo, porem não tem retorno
+ *         description: Requisição bem-sucedida, mas sem conteúdo
  *       401:
  *         description: Não autorizado
  *       403:

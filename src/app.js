@@ -2,8 +2,8 @@ import express from "express";
 import index from "../Routes/index.js";
 import cors from "cors";
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('../docs/swagger');
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "../docs/swagger.js";
 
 const app = express();
 

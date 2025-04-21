@@ -1,9 +1,13 @@
-const swaggerJSDoc = require('swagger-jsdoc');
+import swaggerJSDoc from 'swagger-jsdoc';
 
 const options = {
   definition: {
     openapi: '3.0.0',
-    info: { /* ... */ },
+    info: {
+      title: 'API da Plataforma Educacional UniFasipe',
+      version: '1.0.0',
+      description: 'Documentação das rotas da API do sistema acadêmico.',
+    },
     components: {
       securitySchemes: {
         bearerAuth: {
@@ -19,9 +23,9 @@ const options = {
       },
     ],
   },
-  apis: ['./Routes/*.js'],
+  apis: ['./Routes/*.js'], // garante que todas as rotas com JSDoc serão incluídas
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
-module.exports = swaggerSpec;
+export default swaggerSpec;
