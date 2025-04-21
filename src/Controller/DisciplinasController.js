@@ -115,12 +115,12 @@ class disciplinasController {
                 return res.status(404).json({ message: 'Disciplina não encontrada.' });
             }
 
-            const deleteDisciplina = await prisma.disciplina.deleteMany({
+            const deleteDisciplina = await prisma.disciplina.delete({
                 where: { 
                     id: Number(id), 
                 },
             })
-            if (deleteDisciplina.count === 0) {
+            if (!deleteDisciplina) {
                 return res.status(404).json({ message: 'Nenhuma disciplina encontrada para deletar.'})
             }
 

@@ -134,7 +134,7 @@ UsuariosRouter.post('/', auth, permissao([2]), UsuariosController.cadastro);
  *             properties:
  *               nome:
  *                 type: string
- *                ra:
+ *               ra:
  *                 type: string
  *               email:
  *                 type: string
