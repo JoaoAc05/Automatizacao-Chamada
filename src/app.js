@@ -4,6 +4,7 @@ import cors from "cors";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "../docs/swagger.js";
+import swaggerUiRouter from "../Routes/swaggerPage.js";
 
 const app = express();
 
@@ -17,8 +18,10 @@ app.get('/api-docs/swagger.json', (req, res) => {
     res.send(swaggerSpec);
   });
   
-  // Swagger UI apontando para o JSON
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Swagger UI apontando para o JSON
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use('/docs', swaggerUiRouter);
 
 //Rotas
 app.use('/', index);
