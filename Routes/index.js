@@ -1,6 +1,5 @@
 import express from "express";
-
-import auth from "../middleware/auth.js";
+import swaggerSpec from "../docs/swagger.js";
 
 import { UsuariosRouter } from "./UsuariosRouter.js";
 import { DisciplinasRouter } from "./DisciplinasRouter.js";
@@ -17,13 +16,22 @@ import { LoginRouter } from "./LoginRouter.js";
 const router = express.Router();
 
 //rota default
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     res.json({
         "statuscode": 200,
         "sucesso": "Rota default - V4.0 Auth"
     });
 });
-//router.use("/aluno", AlunoRouter);   V 2.0
+
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {
+    swaggerUrl: '/api-docs/swagger.json',
+}));
+
+router.get('/api-docs/swagger.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+});
+
 router.use("/usuarios", UsuariosRouter)
 router.use("/disciplinas", DisciplinasRouter)
 router.use("/cursos", CursosRouter)
