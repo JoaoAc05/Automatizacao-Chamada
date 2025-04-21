@@ -1,4 +1,5 @@
 import express from "express";
+import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "../docs/swagger.js";
 
 import { UsuariosRouter } from "./UsuariosRouter.js";
