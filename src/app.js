@@ -11,9 +11,16 @@ app.use(cors());
 
 app.use(express.json());
 
-
-// Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Servir JSON diretamente
+app.get('/api-docs/swagger.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+  });
+  
+  // Swagger UI apontando para o JSON
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {
+    swaggerUrl: '/api-docs/swagger.json'
+  }));
 
 //Rotas
 app.use('/', index);

@@ -1,6 +1,4 @@
 import express from "express";
-import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "../docs/swagger.js";
 
 import { UsuariosRouter } from "./UsuariosRouter.js";
 import { DisciplinasRouter } from "./DisciplinasRouter.js";
@@ -22,15 +20,6 @@ router.get('/', (req, res) => {
         "statuscode": 200,
         "sucesso": "Rota default - V4.0 Auth"
     });
-});
-
-router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {
-    swaggerUrl: '/api-docs/swagger.json',
-}));
-
-router.get('/api-docs/swagger.json', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(swaggerSpec);
 });
 
 router.use("/usuarios", UsuariosRouter)
