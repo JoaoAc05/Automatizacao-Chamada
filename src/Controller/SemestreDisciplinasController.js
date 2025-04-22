@@ -19,7 +19,22 @@ class semestreDisciplinasController {
     //Get de acordo com o ID do semestre do ano
     async getId(req, res) {
         const { id_semestre } = req.params;
+
+        if (!id_semestre) {
+            return res.status(400).json({ message: 'Id_semestre é obrigatório.'})
+        }
+
         try {
+
+            const semestre = await prisma.semestre.findUnique({
+                where: {
+                    id: Number(id_semestre)
+                }
+            })
+            if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre não encontrado'})
+            }
+
             const semestreDisciplinas = await prisma.semestreProfessorDisciplinas.findMany({
                 where: {
                     id_semestre: Number(id_semestre),
@@ -111,7 +126,7 @@ class semestreDisciplinasController {
     }
 
     async alterar(req, res) {
-        const { id } = req.body;
+        const { id, id_disciplina, id_professor, id_semestre } = req.body;
         const dataToUpdate = req.body;
     
         // Verifica se o body está vazio
@@ -120,6 +135,42 @@ class semestreDisciplinasController {
         }
     
         try {
+            if (id_disciplina){
+                const disciplina = await prisma.disciplina.findUnique({
+                where: { 
+                    id: Number(id_disciplina) 
+                },
+                });
+                if (!disciplina) {
+                    return res.status(404).json({ message: 'Disciplina não encontrada.' });
+                }
+            }
+            if (id_professor) {
+                const professor = await prisma.usuario.findUnique({
+                where: { 
+                    id: Number(id_professor) 
+                },
+                });
+                if (!professor) {
+                    return res.status(404).json({ message: 'Não encontrado usuario com o ID ' + id_professor });
+                }
+                if (professor.tipo !== 1) {
+                    return res.status(400).json({ message: 'Usuário não é um professor.' });
+                }
+            }
+            if (id_semestre) {
+
+                const semestre = await prisma.semestre.findUnique({
+                    where: { 
+                        id: Number(id_semestre) 
+    
+                    },
+                });
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre não encontrado.' });
+                }
+            }
+
             delete dataToUpdate.id;
             const updateSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.updateMany({
                 where: {
@@ -151,12 +202,12 @@ class semestreDisciplinasController {
                 return res.status(404).json({ message: 'SemestreDisciplinas não encontrada.' });
             }
 
-            const deleteSemestreDisciplina = await prisma.semestreProfessorDisciplinas.deleteMany({
+            const deleteSemestreDisciplina = await prisma.semestreProfessorDisciplinas.delete({
                 where: { 
                     id: Number(id), 
                 },
             })
-            if (deleteSemestreDisciplina.count === 0) {
+            if (!deleteSemestreDisciplina) {
                 return res.status(404).json({ message: 'Nenhum vínculo encontrado para deletar.' });
             }
 
