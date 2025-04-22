@@ -11,3 +11,6 @@ A finalidade deste projeto é desenvolver um sistema automatizado para o control
   <img align="center" alt="Prisma" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/prisma/prisma-original.svg">
   <img align="center" alt="Express" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/express/express-original.svg">
 </div>
+
+## Documentação em Swagger
+https://automatizacao-chamada.onrender.com/docs/#/
