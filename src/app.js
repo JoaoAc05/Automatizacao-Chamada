@@ -19,7 +19,7 @@ app.get('/api-docs/swagger.json', (req, res) => {
   });
   
 // Swagger UI apontando para o JSON
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/docs', swaggerUiRouter);
 
