@@ -4,7 +4,7 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API da Plataforma Educacional UniFasipe',
+      title: 'API Sistema de Chamadas UniFasipe',
       version: '1.0.0',
       description: 'Documentação das rotas da API do sistema acadêmico.',
     },

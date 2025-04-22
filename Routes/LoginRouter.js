@@ -34,6 +34,9 @@ const LoginController = new loginController();
  *               senha:
  *                 type: string
  *                 example: senha123
+ *               imei:
+ *                 type: string
+ *                 example: "SP1A.200812.010"
  *     responses:
  *       200:
  *         description: Login bem-sucedido, retorna token JWT

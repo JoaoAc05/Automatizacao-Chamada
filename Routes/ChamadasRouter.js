@@ -256,7 +256,7 @@ ChamadasRouter.put('/', auth, permissao([2]), ChamadasController.alterar); // [A
  * @swagger
  * /chamadas/{id}:
  *   delete:
- *     summary: Deletar chamada por ID (Admin)
+ *     summary: Deletar chamada por ID
  *     tags: [Chamadas]
  *     security:
  *       - bearerAuth: []

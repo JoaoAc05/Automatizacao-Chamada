@@ -144,7 +144,7 @@ class chamadaAlunosController {
                 }
             })
             if (presenca) {
-                 return res.status(400).json({ message: 'Presença registrada com sucesso!' })
+                 return res.status(409).json({ message: 'Aluno já está presente nesta chamada.' })
             }
 
             const createChamadaAluno = await prisma.chamadaAlunos.create({ 
@@ -223,9 +223,38 @@ class chamadaAlunosController {
     }
     
     async deletar(req, res) { // As presenças não podem ser excluidas de forma alguma, então será dado apenas o update no status
-        const { id_chamada, id_aluno } = req.params;
+        const { id_chamada, id_aluno, id_vinculo } = req.query;
+
+        if (id_vinculo) {
+            const chamadaAluno = await prisma.findUnique({
+                where: {
+                    id: Number(id_vinculo)
+                }
+            })
+            if (!chamadaAluno) {
+                return res.status(404).json({ message: 'Presença não encontrada.'})
+            }
+
+            const deletePresenca = await prisma.chamadaAlunos.update({
+                where: { 
+                    id: Number(id_vinculo)
+                },
+                data: {
+                    status: 1 // Presença Removida
+                }
+            })
+            if (!deletePresenca) {
+                return res.status(404).json({ message: 'Presença não encontrada para remover.'})
+            }
+
+            return res.status(200).json({ message: 'Presença do aluno removida com sucesso.' })
+        }
+
         try {
 
+            if (!id_aluno || !id_chamada) {
+                return res.status(400).json({ message: 'Id_aluno e Id_chamada são obrigatórios quando não informado Id_vinculo'})
+            }
             const deleteChamadaAluno = await prisma.chamadaAlunos.updateMany({
                 where: { 
                     id_chamada: Number(id_chamada),
@@ -236,7 +265,7 @@ class chamadaAlunosController {
                 }
             })
             if (deleteChamadaAluno.count === 0) {
-                return res.status(404).json({ message: 'Registro de presença não encontrado.' });
+                return res.status(404).json({ message: 'Registro de presença não encontrado para remover.' });
             }
 
             return res.status(200).json({ message: 'Presença do aluno removida com sucesso.' })
