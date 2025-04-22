@@ -102,7 +102,7 @@ class loginController {
             if (!usuario) {
                 return res.status(404).json({ message: 'Usuário não encontrado. Verifique seu email e senha!' });
             }
-            if (usuario.tipo !== 1 || usuario.tipo !== 2) {
+            if (usuario.tipo !== 1 && usuario.tipo !== 2) {
                 return res.status(403).json({ message: 'Nivel de acesso negado'})
             }
     
