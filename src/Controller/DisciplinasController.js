@@ -73,6 +73,7 @@ class disciplinasController {
     async alterar(req, res, next) {
         const { id } = req.body;
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
@@ -81,14 +82,14 @@ class disciplinasController {
     
         try {
             delete dataToUpdate.id;
-            const updateDisciplinas = await prisma.disciplina.updateMany({
+            const updateDisciplinas = await prisma.disciplina.update({
                 where: {
                     id: Number(id),
                 },
                 data: dataToUpdate, 
             });
     
-            if (updateDisciplinas.count === 0) {
+            if (!updateDisciplinas) {
                 return res.status(404).json({ message: 'Disciplina não encontrado.' });
             }
     

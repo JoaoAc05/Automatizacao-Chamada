@@ -170,6 +170,7 @@ class chamadaAlunosController {
     async alterar(req, res) {
         const { id, id_chamada, id_aluno } = req.body;
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
 
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {

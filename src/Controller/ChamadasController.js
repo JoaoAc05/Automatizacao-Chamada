@@ -1,4 +1,5 @@
 import { prisma } from "../prisma.js";
+import { dataValida, dataFinalMaiorOuIgual } from '../Utils/DataUtils.js';
 
 class chamadasController {
     async getAll(req, res) { 
@@ -48,6 +49,10 @@ class chamadasController {
             //Verifica se veio todas as informações
             if (!id_professor || !id_disciplina || !data_hora_inicio) {
                 return res.status(400).json({ message: 'Os campos id_professor, id_disciplina e data_hora_inicio são obrigatórios.' });
+            }
+
+            if (!dataValida(data_hora_inicio)) {
+                return res.status(400).json({ message: 'Formato de data-hora inválido.' });
             }
 
             // Verifica se o professor existe
@@ -116,8 +121,9 @@ class chamadasController {
     }
 
     async alterar(req, res) {
-        const {id, id_professor, id_disciplina, id_semestre} = req.body
+        const {id, id_professor, id_disciplina, id_semestre, data_hora_inicio, data_hora_final} = req.body
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
@@ -127,45 +133,78 @@ class chamadasController {
         if (!id) {
             return res.status(400).josn({ message: 'O campo id é obrigatório'})
         }
-
-        if (id_professor) {
-            const professor = await prisma.usuario.findUnique({
-                where: { 
-                    id: Number(id_professor)
-                },
-            });
-            if (!professor) {
-                return res.status(404).json({ message: 'Usuario não encontrado.' });
-            }
-            if (professor.tipo !== 1) {
-                return res.status(400).json({ message: 'Usuário informado não é um professor.' })
-            }
-        }
         
-        if (id_disciplina) {
-            const disciplina = await prisma.disciplina.findUnique({
-                where: { 
-                    id: Number(id_disciplina) 
-                },
-            });
-            if (!disciplina) {
-                return res.status(404).json({ message: 'Disciplina não encontrada.' });
-            }
-        }
-
-        if (id_semestre) {
-            const semestre = await prisma.semestre.findUnique({
-                where: { 
-                    id: Number(id_semestre) 
-                },
-            });
-            if (!semestre) {
-                return res.status(404).json({ message: 'Semestre não encontrado.' });
-            }
-        }
-
         try {
-            delete dataToUpdate.id;
+            const chamada = await prisma.chamada.findUnique({
+                where: {
+                    id: Number(id)
+                }
+            })
+            if (!chamada) {
+                return res.status(404).json({ message: 'Chamada não encontrada.'})
+            }
+
+            if (data_inicio && data_final) {
+                if (!dataFinalMaiorOuIgual(data_hora_inicio, data_hora_final)) {
+                    return res.status(400).json({ message: 'A data final deve ser maior ou igual à data de início.' });
+                }
+            } else {
+                if (data_inicio) {
+                    if (!dataValida(data_hora_inicio)) {
+                        return res.status(400).json({ message: 'Data de início inválida.' });
+                    }
+                    if (!dataFinalMaiorOuIgual(data_hora_inicio, chamada.data_hora_final)) {
+                        return res.status(400).json({ message: 'A nova data de início não pode ser maior que a data final atual.' });
+                    }
+                }
+        
+                if (data_final) {
+                    if (!dataValida(data_hora_final)) {
+                        return res.status(400).json({ message: 'Data final inválida.' });
+                    }
+                    if (!dataFinalMaiorOuIgual(chamada.data_hora_inicio, data_hora_final)) {
+                        return res.status(400).json({ message: 'A nova data final não pode ser menor que a data de início atual.' });
+                    }
+                }
+            }
+
+
+            if (id_professor) {
+                const professor = await prisma.usuario.findUnique({
+                    where: { 
+                        id: Number(id_professor)
+                    },
+                });
+                if (!professor) {
+                    return res.status(404).json({ message: 'Usuario não encontrado.' });
+                }
+                if (professor.tipo !== 1) {
+                    return res.status(400).json({ message: 'Usuário informado não é um professor.' })
+                }
+            }
+            
+            if (id_disciplina) {
+                const disciplina = await prisma.disciplina.findUnique({
+                    where: { 
+                        id: Number(id_disciplina) 
+                    },
+                });
+                if (!disciplina) {
+                    return res.status(404).json({ message: 'Disciplina não encontrada.' });
+                }
+            }
+    
+            if (id_semestre) {
+                const semestre = await prisma.semestre.findUnique({
+                    where: { 
+                        id: Number(id_semestre) 
+                    },
+                });
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre não encontrado.' });
+                }
+            }
+
             const updateChamadas = await prisma.chamada.updateMany({
                 where: {
                     id: Number(id),
@@ -222,6 +261,10 @@ class chamadasController {
             return res.status(400).json({ message: 'Os dados id e data_hora_final são obrigatórios.' });
         }
 
+        if (!dataValida(data_hora_final)) {
+            return res.status(400).json({ message: 'Formato de data-hora inválido.' });
+        }
+
         try {
             const chamada = await prisma.chamada.findUnique({
                 where: {
@@ -236,7 +279,12 @@ class chamadasController {
                 return res.status(400).json({ message: 'Chamada já finalizada.' })
             }
 
-            const updateChamadas = await prisma.chamada.updateMany({
+            if (!dataFinalMaiorOuIgual(chamada.data_hora_inicio, data_final)) {
+                return res.status(400).json({ message: 'A data final deve ser igual ou posterior à data inicial.' });
+            }
+    
+
+            const updateChamadas = await prisma.chamada.update({
                 where: {
                     id: Number(id),
                 },
@@ -244,6 +292,10 @@ class chamadasController {
                     data_hora_final: data_hora_final
                 },  
             });
+            if (!updateChamadas) {
+                return res.status(404).json({ message: 'Chamada não encontrada para finalizar.'})
+            }
+
             return res.status(200).json({ message: 'Chamada finalizada com sucesso.' })
         } catch (e) {
             return res.status(500).json({ message: 'Erro ao finalizar chamada: ' + e.message })

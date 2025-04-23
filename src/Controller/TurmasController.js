@@ -121,14 +121,14 @@ class turmasController {
     
         try {
             delete dataToUpdate.id;
-            const updateTurmas = await prisma.turma.updateMany({
+            const updateTurmas = await prisma.turma.update({
                 where: {
                     id: Number(id),
                 },
                 data: dataToUpdate,  // Passa diretamente o req.body
             });
     
-            if (updateTurmas.count === 0) {
+            if (!updateTurmas) {
                 return res.status(404).json({ message: 'Turma não encontrado.' });
             }
     

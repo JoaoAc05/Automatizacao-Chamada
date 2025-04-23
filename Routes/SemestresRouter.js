@@ -81,9 +81,12 @@ SemestresRouter.get('/', auth, permissao([2]),  SemestresController.getAll);
  *             type: object
  *             required:
  *               - descricao
+ *               - data_inicio
+ *               - data_final
  *             properties:
  *               descricao:
  *                 type: string
+ *                 example: "2025/1"
  *               data_inicio:
  *                 type: string
  *                 format: date
@@ -92,6 +95,9 @@ SemestresRouter.get('/', auth, permissao([2]),  SemestresController.getAll);
  *                 format: date
  *               padrao:
  *                 type: integer
+ *                 enum: [0, 1]
+ *                 description: Define se o semestre será o padrão atual.
+ *                 example: 0
  *     responses:
  *       201:
  *         description: Semestre cadastrado com sucesso
@@ -125,6 +131,7 @@ SemestresRouter.post('/', auth, permissao([2]), SemestresController.cadastro);
  *                 type: integer
  *               descricao:
  *                 type: string
+ *                 example: "2025/1"
  *               data_inicio:
  *                 type: string
  *                 format: date
@@ -133,6 +140,9 @@ SemestresRouter.post('/', auth, permissao([2]), SemestresController.cadastro);
  *                 format: date
  *               padrao:
  *                 type: integer
+ *                 enum: [0, 1]
+ *                 description: Define se o semestre será o padrão atual.
+ *                 example: 0
  *     responses:
  *       200:
  *         description: Semestre alterado com sucesso

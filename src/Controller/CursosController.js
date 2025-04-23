@@ -55,6 +55,7 @@ class cursosController {
     async alterar(req, res) {
         const { id } = req.body;
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
@@ -63,13 +64,13 @@ class cursosController {
     
         try {
             delete dataToUpdate.id;
-            const updateCursos = await prisma.curso.updateMany({
+            const updateCursos = await prisma.curso.update({
                 where: {
                     id: Number(id),
                 },
                 data: dataToUpdate,
             });
-            if (updateCursos.count === 0) {
+            if (!updateCursos) {
                 return res.status(404).json({ message: 'Curso não encontrado.' });
             }
     

@@ -97,39 +97,40 @@ class turmaAlunosController {
     async alterar(req, res) {
         const {id_turma, id_aluno, id} = req.body
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
             return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
-
-        if (id_turma) {
-            const turma = await prisma.turma.findUnique({
-                where: { 
-                    id: Number(id_turma) 
-                },
-            });
-            if (!turma) {
-                return res.status(404).json({ message: 'Turma não encontrada.' });
-            }
-        }
-
-        if (id_aluno) {
-            const aluno = await prisma.usuario.findUnique({
-                where: {
-                    id: Number(id_aluno)
-                }
-            })
-            if (!aluno) {
-                return res.status(404).json({ message: 'Aluno não encontrado' })
-            }
-            if(aluno.tipo !== 0) {
-                return res.status(401).json({ message: 'Usuário não é um aluno.' });
-            }
-        }
-    
+        
         try {
-            delete dataToUpdate.id;
+
+            if (id_turma) {
+                const turma = await prisma.turma.findUnique({
+                    where: { 
+                        id: Number(id_turma) 
+                    },
+                });
+                if (!turma) {
+                    return res.status(404).json({ message: 'Turma não encontrada.' });
+                }
+            }
+    
+            if (id_aluno) {
+                const aluno = await prisma.usuario.findUnique({
+                    where: {
+                        id: Number(id_aluno)
+                    }
+                })
+                if (!aluno) {
+                    return res.status(404).json({ message: 'Aluno não encontrado' })
+                }
+                if(aluno.tipo !== 0) {
+                    return res.status(401).json({ message: 'Usuário não é um aluno.' });
+                }
+            }
+
             const updateTurmaAlunos = await prisma.turmaAlunos.updateMany({
                 where: {
                     id: Number(id),

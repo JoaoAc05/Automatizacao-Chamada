@@ -128,6 +128,7 @@ class semestreDisciplinasController {
     async alterar(req, res) {
         const { id, id_disciplina, id_professor, id_semestre } = req.body;
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {

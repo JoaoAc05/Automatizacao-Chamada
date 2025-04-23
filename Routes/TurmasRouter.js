@@ -85,7 +85,8 @@ TurmasRouter.get('/', auth, permissao([2]), TurmasController.getAll);
  *             properties:
  *               semestre_curso:
  *                 type: integer
- *                 example: Em qual semestre a turma se encontra
+ *                 description: Em qual semestre a turma se encontra (ex 5º Semestre, 6º Semestre ...)
+ *                 example: 4
  *               id_curso:
  *                 type: integer
  *               status:

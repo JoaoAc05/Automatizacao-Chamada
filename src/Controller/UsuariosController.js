@@ -180,6 +180,7 @@ class usuariosController {
     async alterar(req, res) {
         const { id } = req.body;
         const dataToUpdate = req.body;
+        delete dataToUpdate.data_cadastro;
 
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {

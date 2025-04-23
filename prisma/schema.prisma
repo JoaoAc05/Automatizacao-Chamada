@@ -79,7 +79,7 @@ model Disciplina { // Matéria
 
 model Turma {
   id              Int  @id @default(autoincrement())
-  semestre_curso  Int  // 1º Semestre, 2º semestre, 3º Semestre ...
+  semestre_curso  Int  @default(1)// 1º Semestre, 2º semestre, 3º Semestre ...
   id_curso        Int
   status          Int  @default(0) // 0 - Cursando , 1 - Concluido
 
