@@ -3,7 +3,11 @@ import { prisma } from "../prisma.js";
 class turmasController {
     async getAll(req, res) { 
         try {
-            const turmas = await prisma.turma.findMany()
+            const turmas = await prisma.turma.findMany({
+                include: {
+                    Curso: true // Trazer detalhes do curso
+                }
+            })
             if (turmas.length === 0) {
                 return res.status(204).end();
             }
