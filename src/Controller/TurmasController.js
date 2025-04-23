@@ -26,6 +26,9 @@ class turmasController {
                 where: {
                     id: Number(id),
                 },
+                include: {
+                    Curso: true // Trazer detalhes do curso
+                }
             })
             if (!turma) {
                 return res.status(404).json({message: 'Não encontrado nenhum registro desta turma'})
