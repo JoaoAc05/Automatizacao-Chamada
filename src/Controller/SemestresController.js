@@ -1,4 +1,5 @@
 import { prisma } from "../prisma.js";
+import { dataValida, dataFinalMaiorOuIgual } from '../Utils/DataUtils.js';
 
 class semestresController {
     async getAll(req, res, next) { 
@@ -44,6 +45,14 @@ class semestresController {
             return res.status(400).json({ message: 'Descricao, data_inicio e data_final são campos obrigatórios.'})
         }
 
+        if (!dataValida(data_inicio) || !dataValida(data_final)) {
+            return res.status(400).json({ message: 'Formato de data inválido.' });
+        }
+    
+        if (!dataFinalMaiorOuIgual(data_inicio, data_final)) {
+            return res.status(400).json({ message: 'A data final deve ser igual ou posterior à data inicial.' });
+        }
+
         try {
             if (Number(padrao) === 0) {
                 const SemestrePadrao = await prisma.semestre.findFirst({
@@ -73,40 +82,78 @@ class semestresController {
     }
 
     async alterar(req, res, next) {
-        const { id, padrao } = req.body;
+        const { id, padrao, data_inicio, data_final } = req.body;
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
+
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
             return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
-    
+
         try {
+
+            const semestre = await prisma.semestre.findUnique({
+                where: {
+                    id: Number(id)
+                }
+            });
+            if (!semestre) {
+                return res.status(400).json({ message: 'Semestre não encontrado.' });
+            }
+            
+            if (data_inicio && data_final) {
+                if (!dataFinalMaiorOuIgual(data_inicio, data_final)) {
+                    return res.status(400).json({ message: 'A data final deve ser maior ou igual à data de início.' });
+                }
+            } else {
+                if (data_inicio) {
+                    if (!dataValida(data_inicio)) {
+                        return res.status(400).json({ message: 'Data de início inválida.' });
+                    }
+                    if (!dataFinalMaiorOuIgual(data_inicio, semestre.data_final)) {
+                        return res.status(400).json({ message: 'A nova data de início não pode ser maior que a data final atual.' });
+                    }
+                }
+        
+                if (data_final) {
+                    if (!dataValida(data_final)) {
+                        return res.status(400).json({ message: 'Data final inválida.' });
+                    }
+                    if (!dataFinalMaiorOuIgual(semestre.data_inicio, data_final)) {
+                        return res.status(400).json({ message: 'A nova data final não pode ser menor que a data de início atual.' });
+                    }
+                }
+            }
+    
+
             if (Number(padrao) === 0) {
                 const SemestrePadrao = await prisma.semestre.findFirst({
                     where: {
                         padrao: 0
                     }
                 })
-                const updateSemestrePadrao = await prisma.semestre.updateMany({
-                    where: {
-                        id: SemestrePadrao.id,
-                    },
-                    data: {
-                        padrao: 1
-                    },
-                });
+                if (SemestrePadrao){
+                   await prisma.semestre.update({
+                        where: {
+                            id: SemestrePadrao.id,
+                        },
+                        data: {
+                            padrao: 1
+                        },
+                    }); 
+                }
             }
 
-            delete dataToUpdate.id;
-            const updateSemestres = await prisma.semestre.updateMany({
+            const updateSemestres = await prisma.semestre.update({
                 where: {
                     id: Number(id),
                 },
-                data: dataToUpdate,  // Passa diretamente o req.body
+                data: dataToUpdate,
             });
     
-            if (updateSemestres.count === 0) {
+            if (!updateSemestres) {
                 return res.status(404).json({ message: 'Semestre não encontrado.' });
             }
     
