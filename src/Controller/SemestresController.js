@@ -51,14 +51,18 @@ class semestresController {
                         padrao: 0
                     }
                 })
-                const updateSemestrePadrao = await prisma.semestre.updateMany({
-                    where: {
-                        id: SemestrePadrao.id,
-                    },
-                    data: {
-                        padrao: 1
-                    },
-                });
+                if (SemestrePadrao){
+                   await prisma.semestre.update({
+                        where: {
+                            id: SemestrePadrao.id,
+                        },
+                        data: {
+                            padrao: 1
+                        },
+                    }); 
+                }
+            } else {
+                req.body.padrao = 1;
             }
 
             const createSemestres = await prisma.semestre.create({ data: req.body });

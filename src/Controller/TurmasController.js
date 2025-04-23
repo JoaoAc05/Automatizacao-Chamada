@@ -5,7 +5,11 @@ class turmasController {
         try {
             const turmas = await prisma.turma.findMany({
                 include: {
-                    Curso: true // Trazer detalhes do curso
+                    Curso: {
+                        select: {
+                            descricao: true
+                        }
+                    }
                 }
             })
             if (turmas.length === 0) {
@@ -31,7 +35,11 @@ class turmasController {
                     id: Number(id),
                 },
                 include: {
-                    Curso: true // Trazer detalhes do curso
+                    Curso: {
+                        select: {
+                            descricao: true
+                        }
+                    }
                 }
             })
             if (!turma) {
