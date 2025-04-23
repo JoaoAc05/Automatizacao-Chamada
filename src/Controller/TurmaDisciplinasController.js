@@ -16,17 +16,32 @@ class turmaDisciplinasController {
 
     async getId(req, res) {
         const { id_turma } = req.params;
+
+        if (!id_turma) {
+            return res.status(400).json({ message: 'Id_turma é obrigatório.'})
+        }
+
         try {
-            const turma = await prisma.turmaDisciplinas.findMany({
+            const turma = await prisma.turma.findUnique({
+                where: {
+                    id: Number(id_turma)
+                }
+            })
+            if (!turma) {
+                return res.status(404).json({ message: 'Turma não encontrada.'})
+            }
+
+
+            const turmaDisc = await prisma.turmaDisciplinas.findMany({
                 where: {
                     id_turma: Number(id_turma),
                 },
             })
-            if (turma.length === 0) {
+            if (turmaDisc.length === 0) {
                 return res.status(404).json({message: 'Não encontrado nenhum registro de disciplina desta turma'})
             }
 
-            return res.status(200).json(turma)
+            return res.status(200).json(turmaDisc)
         } catch (e) {
             return res.status(500).json({message: 'Erro ao retornar disciplinas da turma: ' + e.message})
         }

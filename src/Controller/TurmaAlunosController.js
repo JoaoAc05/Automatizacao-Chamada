@@ -16,6 +16,11 @@ class turmaAlunosController {
 
     async getId(req, res) {
         const { id_turma } = req.params;
+
+        if (!id_turma) {
+            return res.sta(400).json({ message: 'Id_turma é obrigatório.'})
+        }
+        
         try {
             const turmaAlunos = await prisma.turmaAlunos.findMany({
                 where: {
