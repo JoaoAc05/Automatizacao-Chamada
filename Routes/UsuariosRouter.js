@@ -101,7 +101,7 @@ UsuariosRouter.get('/', auth, permissao([2]), UsuariosController.getAll);
  *       201:
  *         description: Usuário cadastrado com sucesso
  *       400:
- *         description: Erro nos dados fornecidos
+ *         descripton: Dados enviados inválidos ou faltando
  *       401:
  *         description: Não autorizado
  *       403:

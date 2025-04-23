@@ -41,7 +41,7 @@ const LoginController = new loginController();
  *       200:
  *         description: Login bem-sucedido, retorna token JWT
  *       400:
- *         descripton: Dados enviados inválidos ou faltando
+ *         description: Dados inválidos
  *       401:
  *         description: Credenciais inválidas
  *       403:
@@ -78,6 +78,8 @@ LoginRouter.post('/app', LoginController.app);
  *     responses:
  *       200:
  *         description: Login bem-sucedido, retorna token JWT
+ *       400:
+ *         description: Dados inválidos
  *       401:
  *         description: Credenciais inválidas
  *       404:
