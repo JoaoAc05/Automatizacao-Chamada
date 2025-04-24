@@ -69,9 +69,9 @@ class cursosController {
         }
 
         if (Number(qtd_semestres) > 12) {
-            qtd_semestres = 12
+            req.body.qtd_semestres = 12
         } else if (Number(qtd_semestres) < 4) {
-            qtd_semestres = 4
+            req.body.qtd_semestres = 4
         }
     
         try {

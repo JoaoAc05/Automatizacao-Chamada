@@ -52,7 +52,7 @@ class usuariosController {
         
         let usuario;
         
-        if (tipo !== 0 && tipo !== 1 && tipo !== 2) {
+        if (Number(tipo) !== 0 && Number(tipo) !== 1 && Number(tipo) !== 2) {
             return res.status(400).json({ message: 'Tipo inválido.'})
         }
         
