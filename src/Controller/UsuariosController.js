@@ -52,9 +52,13 @@ class usuariosController {
 
         let usuario;
 
+        if (tipo !== 0 && tipo !== 1 && tipo !== 2) {
+            return res.status(400).json({ message: 'Tipo inválido'})
+        }
+
         if (tipo == 0) { //Aluno
-            if (!ra) {
-                return res.status(400).json({ message: 'RA é obrigatório.' })
+            if (!nome || !ra || !cpf) {
+                return res.status(400).json({ message: 'Nome, RA e CPF são obrigatórios.' })
             }
 
             usuario = await prisma.usuario.findUnique({
@@ -126,40 +130,40 @@ class usuariosController {
             return res.status(400).json({ message: 'Campos nome, ra, email e senha são obrigatórios' })
         }
 
-        // Primeiro é necessario encontrar o cadastro do Aluno, pelo nome e pelo RA.
-        const aluno = await prisma.usuario.findFirst({
-            where: {
-                nome: String(nome),
-                ra: String(ra)
-            },
-        });
-
-        if (!aluno) {
-            return res.status(404).json({ message: 'Cadastro não encontrado.' });
-        }
-        if (aluno.status !== 0) {
-            // Se status = 1 ele já esta valido, não precisa de uma nova validação. 
-            // Se status = 2 então está inativo, não tem como validar.
-            return res.status(403).json({ message: 'O cadastro do usuário se encontra em um status não autorizado para validar.' })
-        }
-
-        if (!validarEmail(email)) {
-            return res.status(400).json({ message: 'Email inválido.' });
-        }
-
-        const emailExistente = await prisma.usuario.findFirst({
-            where: { email: email }
-        });
-        if (emailExistente) {
-            return res.status(409).json({ message: 'E-mail informado já está cadastrado.' });
-        }
-
-        // HASHEAR A SENHA
-        const saltRounds = 10;
-        // Gera o hash da senha
-        const senhaHash = await bcrypt.hash(senha, saltRounds);
-
         try {
+            // Primeiro é necessario encontrar o cadastro do Aluno, pelo nome e pelo RA.
+            const aluno = await prisma.usuario.findFirst({
+                where: {
+                    nome: String(nome),
+                    ra: String(ra)
+                },
+            });
+    
+            if (!aluno) {
+                return res.status(404).json({ message: 'Cadastro não encontrado.' });
+            }
+            if (aluno.status !== 0) {
+                // Se status = 1 ele já esta valido, não precisa de uma nova validação. 
+                // Se status = 2 então está inativo, não tem como validar.
+                return res.status(403).json({ message: 'O cadastro do usuário se encontra em um status não autorizado para validar.' })
+            }
+    
+            if (!validarEmail(email)) {
+                return res.status(400).json({ message: 'Email inválido.' });
+            }
+    
+            const emailExistente = await prisma.usuario.findFirst({
+                where: { email: email }
+            });
+            if (emailExistente) {
+                return res.status(409).json({ message: 'E-mail informado já está cadastrado.' });
+            }
+    
+            // HASHEAR A SENHA
+            const saltRounds = 10;
+            // Gera o hash da senha
+            const senhaHash = await bcrypt.hash(senha, saltRounds);
+
             // Se existir o cadastro, inserir as informações de email, senha e imei
             const validacaoAluno = await prisma.usuario.updateMany({
                 where: {
@@ -184,6 +188,7 @@ class usuariosController {
     async alterar(req, res) {
         const { id } = req.body;
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
         delete dataToUpdate.data_cadastro;
 
         // Verifica se o body está vazio
