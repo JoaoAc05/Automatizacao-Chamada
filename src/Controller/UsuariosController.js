@@ -14,7 +14,8 @@ class usuariosController {
 
             return res.status(200).json(usuarios);
         } catch (e) {
-            return res.status(500).json({ message: 'Erro ao retornar usuario: ' + e.message });
+            console.log('Erro ao retornar usuarios: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao retornar usuarios: ' + e.message });
         }
     }
 
@@ -37,6 +38,7 @@ class usuariosController {
 
             return res.status(200).json(usuario)
         } catch (e) {
+            console.log('Erro ao retornar usuario: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar usuario: ' + e.message })
         }
     };
@@ -110,6 +112,7 @@ class usuariosController {
             const createUsuario = await prisma.usuario.create({ data: req.body });
             return res.status(201).json(createUsuario);
         } catch (e) {
+            console.log('Erro ao criar usuario: ' + e.message)
             return res.status(500).json({ message: 'Erro ao criar usuario: ' + e.message });
         }
     }
@@ -172,6 +175,7 @@ class usuariosController {
 
             return res.status(200).json({ message: 'Aluno validado com sucesso' })
         } catch (e) {
+            console.log('Erro ao validar usuario: ' + e.message)
             return res.status(500).json({ message: 'Erro ao validar usuario: ' + e.message });
         }
 
@@ -221,6 +225,7 @@ class usuariosController {
 
             return res.status(200).json({ message: 'Usuario alterado com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar usuario: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar usuario: ' + e.message });
         }
     }
@@ -254,6 +259,7 @@ class usuariosController {
 
             return res.status(200).json({ message: 'Usuario deletado com sucesso.' })
         } catch (e) {
+            console.log('Erro ao deletar usuario: ' + e.message)
             return res.status(500).json({ message: 'Erro ao deletar usuario. ' + e.message })
         }
     }
