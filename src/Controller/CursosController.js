@@ -44,6 +44,12 @@ class cursosController {
             return res.status(400).json({ message: 'Os campos descricao e qtd_semestres são obrigatórios.' });
         }
 
+        if (Number(qtd_semestres) > 12) {
+            qtd_semestres = 12
+        } else if (Number(qtd_semestres) < 4) {
+            qtd_semestres = 4
+        }
+
         try {
             const createCursos = await prisma.curso.create({ data: req.body });
             return res.status(201).json(createCursos);
@@ -53,13 +59,19 @@ class cursosController {
     }
 
     async alterar(req, res) {
-        const { id } = req.body;
+        const { id, qtd_semestres } = req.body;
         const dataToUpdate = req.body;
         delete dataToUpdate.id;
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
             return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
+        }
+
+        if (Number(qtd_semestres) > 12) {
+            qtd_semestres = 12
+        } else if (Number(qtd_semestres) < 4) {
+            qtd_semestres = 4
         }
     
         try {
