@@ -10,6 +10,7 @@ class cursosController {
 
             return res.status(200).json(cursos);
         } catch (e) {
+            console.log('Erro ao retornar cursos: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar cursos: ' + e.message });
         }
     }
@@ -33,6 +34,7 @@ class cursosController {
 
             res.status(200).json(curso)
         } catch (e) {
+            console.log('Erro ao retornar curso: ' + e.message)
             res.status(500).json({ message: 'Erro ao retornar curso: ' + e.message })
         }
     };
@@ -54,6 +56,7 @@ class cursosController {
             const createCursos = await prisma.curso.create({ data: req.body });
             return res.status(201).json(createCursos);
         } catch (e) {
+            console.log('Erro ao criar curso: ' + e.message)
             return res.status(500).json({ message: 'Erro ao criar curso: ' + e.message });
         }
     }
@@ -88,6 +91,7 @@ class cursosController {
     
             return res.status(200).json({ message: 'Curso alterado com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar curso: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar curso: ' + e.message });
         }
     }
@@ -120,6 +124,7 @@ class cursosController {
 
             return res.status(200).json({ message: 'Curso deletado com sucesso.' })
         } catch (e) {
+            console.log('Erro ao deletar curso: ' + e.message)
             return res.status(500).json({ message: 'Erro ao deletar curso: ' + e.message })
         }
     }

@@ -12,6 +12,7 @@ class semestreDisciplinasController {
             
             return res.status(200).json(semestreDisciplinas);
         } catch (e) {
+            console.log('Erro ao retornar inculos de disciplina, semestre e professor: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar os vinculos de disciplina, semestre e professor: ' + e.message });
         }
     }
@@ -46,6 +47,7 @@ class semestreDisciplinasController {
 
             return res.status(200).json(semestreDisciplinas)
         } catch (e) {
+            console.log('Erro ao retornar disciplinas do semestre: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar disciplinas do semestre: ' + e.message })
         }
     };
@@ -121,7 +123,8 @@ class semestreDisciplinasController {
 
             return res.status(201).json(createSemestreDisciplinas);
         } catch (e) {
-            return res.status(500).json({ message: 'Erro ao criar semestreDisciplinas: ' + e.message });
+            console.log('Erro ao alterar vinculo semestre_disciplina: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao criar semestre_disciplina: ' + e.message });
         }
     }
 
@@ -186,6 +189,7 @@ class semestreDisciplinasController {
     
             return res.status(200).json({ message: 'Vinculo semestre_disciplina alterado com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar vinculo semestre_disciplina: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar vinculo semestre_disciplina: ' + e.message });
         }
     }
@@ -214,7 +218,8 @@ class semestreDisciplinasController {
 
             return res.status(200).json({ message: 'Semestre deletado com sucesso.' })
         } catch (e) {
-            return res.status(500).json({ message: 'Erro ao deletar semestreDisciplinas:' + e.message })
+            console.log('Erro ao deletar semestre_disciplina: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao deletar semestre_disciplina:' + e.message })
         }
     }
 
@@ -275,6 +280,7 @@ class semestreDisciplinasController {
             }));
             return res.status(200).json(disciplinas)
         } catch (e) {
+            console.log('Erro ao consultar disciplinas: ' + e.message)
             return res.status(500).json({ message: 'Erro ao consultar disciplinas: ' + e.message });
         }
     }

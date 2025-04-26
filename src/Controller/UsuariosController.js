@@ -46,13 +46,13 @@ class usuariosController {
     async cadastro(req, res) {
         const { tipo, nome, ra, cpf, email, senha } = req.body;
         
-        if (!nome || tipo === undefined || tipo === null) {
+        if (!nome || tipo === undefined || tipo === null || tipo === NaN || !tipo) {
             return res.status(400).json({ message: 'Campos nome e tipo são obrigatórios.' })
         }
-        
+
         let usuario;
         
-        if (Number(tipo) !== 0 && Number(tipo) !== 1 && Number(tipo) !== 2) {
+        if (tipo !== 0 && tipo !== 1 && tipo !== 2) {
             return res.status(400).json({ message: 'Tipo inválido.'})
         }
         
@@ -196,26 +196,42 @@ class usuariosController {
             return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
 
-        if (dataToUpdate.cpf) {
-            const cpfLimpo = limparCPF(dataToUpdate.cpf);
-            if (!validarCPF(cpfLimpo)) {
-                return res.status(400).json({ message: 'CPF inválido.' });
-            }
-            dataToUpdate.cpf = formatarCPF(cpfLimpo);
-        }
-        if (dataToUpdate.email) {
-            if (!validarEmail(dataToUpdate.email)) {
-                return res.status(400).json({ message: 'Email inválido.' });
-            }
-        }
-        if(dataToUpdate.senha) {
-            const saltRounds = 10;
-            // Gera o hash da senha
-            const senhaHash = await bcrypt.hash(dataToUpdate.senha, saltRounds);
-            dataToUpdate.senha = senhaHash
-        }
-
         try {
+            let usuario;
+
+            if (dataToUpdate.cpf) {
+                const cpfLimpo = limparCPF(dataToUpdate.cpf);
+                if (!validarCPF(cpfLimpo)) {
+                    return res.status(400).json({ message: 'CPF inválido.' });
+                }
+                dataToUpdate.cpf = formatarCPF(cpfLimpo);
+
+                usuario = await prisma.usuario.findUnique({
+                where: { cpf: cpf }
+                })
+                if (usuario && usuario.id !== id) {
+                    return res.status(409).json({ message: 'CPF já cadastrado.' })
+                }
+            }
+            if (dataToUpdate.email) {
+                if (!validarEmail(dataToUpdate.email)) {
+                    return res.status(400).json({ message: 'Email inválido.' });
+                }
+
+                usuario = await prisma.usuario.findUnique({
+                    where: { email: email }
+                })
+                if (usuario  && usuario.id !== id) {
+                    return res.status(409).json({ message: 'Email já cadastrado.' })
+                }
+            }
+            if(dataToUpdate.senha) {
+                const saltRounds = 10;
+                // Gera o hash da senha
+                const senhaHash = await bcrypt.hash(dataToUpdate.senha, saltRounds);
+                dataToUpdate.senha = senhaHash
+            }
+
             delete dataToUpdate.id;
             const updateUsuarios = await prisma.usuario.updateMany({
                 where: {

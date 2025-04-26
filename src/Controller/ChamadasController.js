@@ -11,6 +11,7 @@ class chamadasController {
            
             return res.status(200).json(chamadas);
         } catch (e) {
+            console.log('Erro ao retornar chamadas: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar chamadas: ' + e.message });
         }
     }
@@ -39,6 +40,7 @@ class chamadasController {
 
             return res.status(200).json(chamada)
         } catch (e) {
+            console.log('Erro ao retornar chamada: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar chamada: ' + e.message })
         }
     };
@@ -116,6 +118,7 @@ class chamadasController {
             });
             return res.status(201).json(createChamadas);
         } catch (e) {
+            console.log('Erro ao criar chamada: ' + e.message)
             return res.status(500).json({ message: 'Erro ao criar chamada: ' + e.message });
         }
     }
@@ -218,6 +221,7 @@ class chamadasController {
     
             return res.status(200).json({ message: 'Chamada alterada com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar chamada: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar chamada: ' + e.message });
         }
     }
@@ -250,6 +254,7 @@ class chamadasController {
             }
             return res.status(200).json({ message: 'Chamada deletado com sucesso.' })
         } catch (e) {
+            console.log('Erro ao deletar chamada.' + e.message )
             return res.status(500).json({ message: 'Erro ao deletar chamada.' + e.message })
         }
     }
@@ -298,6 +303,7 @@ class chamadasController {
 
             return res.status(200).json({ message: 'Chamada finalizada com sucesso.' })
         } catch (e) {
+            console.log('Erro ao finalizar chamada: ' + e.message)
             return res.status(500).json({ message: 'Erro ao finalizar chamada: ' + e.message })
         }
     }
@@ -306,7 +312,7 @@ class chamadasController {
         const { id_professor, id_semestre, id_disciplina } = req.query;
         // .../professor/?id_professor=1&id_semestre=1&id_disciplina=1
         
-        if (!id_professor) {
+        if (!id_professor || id_professor === undefined || id_professor === NaN || id_professor == null) {
             return res.status(400).json({ message: 'Id_professor é obrigatório.'})
         }
 
@@ -337,7 +343,7 @@ class chamadasController {
                 if (!semestre) {
                     return res.status(404).json({ message: 'Semestre não encontrado.' });
                 }
-            } else if(!id_semestre) {
+            } else {
                 semestre = await prisma.semestre.findFirst({
                     where: { 
                         padrao: 0
@@ -394,6 +400,7 @@ class chamadasController {
 
             return res.status(200).json(chamadaProfessor)
         } catch (e) {
+            console.log('Erro ao retornar chamadas do professor: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar chamadas do professor: ' + e.message })
         }
     }

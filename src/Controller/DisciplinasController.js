@@ -10,6 +10,7 @@ class disciplinasController {
 
             return res.status(200).json(disciplinas);
         } catch (e) {
+            console.log('Erro ao retornar disciplinas: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar disciplinas: ' + e.message });
         }
     }
@@ -33,6 +34,7 @@ class disciplinasController {
 
             return res.status(200).json(disciplina)
         } catch (e) {
+            console.log('Erro ao retornar disciplina: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar disciplina: ' + e.message })
         }
     };
@@ -66,6 +68,7 @@ class disciplinasController {
             });
             return res.status(201).json(createDisciplinas);
         } catch (e) {
+            console.log('Erro ao criar disciplina: ' + e.message)
             return res.status(500).json({ message: 'Erro ao criar disciplina: ' + e.message });
         }
     }
@@ -95,6 +98,7 @@ class disciplinasController {
     
             return res.status(200).json({ message: 'Displina alterado com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar disciplina: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar disciplina: ' + e.message });
         }
     }
@@ -127,6 +131,7 @@ class disciplinasController {
 
             return res.status(200).json({ message: 'Disciplina deletado com sucesso.' })
         } catch (e) {
+            console.log('Erro ao deletar disciplina: ' + e.message)
             return res.status(500).json({ message: 'Erro ao deletar disciplina: ' + e.message })
         }
     }

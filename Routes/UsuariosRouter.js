@@ -192,6 +192,8 @@ UsuariosRouter.post('/valida', UsuariosController.validacao);
  *         description: Sem nível de permissão
  *       404:
  *         description: Usuário não encontrado
+ *       409:
+ *         description: Dado informado já está cadastrado
  *       500:
  *         description: Erro interno do servidor
  */

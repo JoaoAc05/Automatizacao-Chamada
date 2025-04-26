@@ -18,6 +18,7 @@ class turmasController {
 
             return res.status(200).json(turmas);
         } catch (e) {
+            console.log('Erro ao retornar turmas: ' + e.message)
             return res.status(500).json({message: 'Erro ao retornar turmas: ' + e.message});
         }
     }
@@ -48,6 +49,7 @@ class turmasController {
 
             return res.status(200).json(turma)
         } catch (e) {
+            console.log('Erro ao retornar turma: ' + e.message)
             return res.status(500).json({message: 'Erro ao retornar turma: ' + e.message})
         }
     };
@@ -95,6 +97,7 @@ class turmasController {
             });
             return res.status(201).json(createTurmas);
         } catch (e) {
+            console.log('Erro ao criar turma: ' + e.message)
             return res.status(500).json({ message: 'Erro ao criar turma: ' + e.message });
         }
     }
@@ -108,18 +111,18 @@ class turmasController {
             return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
 
-        if (id_curso) {
-            const curso = await prisma.curso.findUnique({
-                where: { 
-                    id:  Number(id_curso) 
-                },
-            });
-            if (!curso) {
-                return res.status(404).json({ message: 'Curso não encontrado.' });
-            }
-        }
-    
         try {
+            if (id_curso) {
+                const curso = await prisma.curso.findUnique({
+                    where: { 
+                        id:  Number(id_curso) 
+                    },
+                });
+                if (!curso) {
+                    return res.status(404).json({ message: 'Curso não encontrado.' });
+                }
+            }
+    
             delete dataToUpdate.id;
             const updateTurmas = await prisma.turma.update({
                 where: {
@@ -134,6 +137,7 @@ class turmasController {
     
             return res.status(200).json({ message: 'Turma alterado com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar turma: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar turma: ' + e.message });
         }
     }
@@ -167,6 +171,7 @@ class turmasController {
 
             return res.status(200).json({message: 'Turma deletado com sucesso.'})
         } catch (e) {
+            console.log('Erro ao deletar turma: ' + e.message)
             return res.status(500).json({message: 'Erro ao deletar turma: ' + e.message})
         }
     }

@@ -14,7 +14,7 @@ const ChamadasController = new chamadasController();
 
 /**
  * @swagger
- * /chamadas/professor:
+ * /chamadas/professor/:
  *   get:
  *     summary: Listar chamadas de um professor no semestre
  *     tags: [Chamadas]

@@ -11,6 +11,7 @@ class semestresController {
 
             return res.status(200).json(semestres);
         } catch (e) {
+            console.log()
             return res.status(500).json({ message: 'Erro ao retornar semestres: ' + e.message });
         }
     }

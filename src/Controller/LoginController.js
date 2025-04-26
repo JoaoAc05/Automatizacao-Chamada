@@ -77,7 +77,6 @@ class loginController {
             });
     
         } catch (e) {
-            // Erro interno do servidor
             return res.status(500).json({ message: 'Erro interno no servidor: ' + e.message });
         }
     }
@@ -108,7 +107,6 @@ class loginController {
     
             // // Comparar Hashing da senha
             const senhaValida = await bcrypt.compare(senha, usuario.senha);
-            console.log(`Senha Req: ${senha} - Senha BD: ${usuario.senha} - Resultado: ${senhaValida}`)
             if (!senhaValida) {
                 return res.status(401).json({ message: "Senha incorreta" });
             }
@@ -131,9 +129,9 @@ class loginController {
                     console.log(`Erro ao gerar autenticação: ${err}`)
                     return res.status(500).json({ message: 'Erro ao gerar autenticação' });
                 }
+                console.log(`Login: ${usuarioPayload.nome}`)
                 return res.status(200).json({auth: true, token});
-            });
-    
+            });    
         } catch (e) {
             // Erro interno do servidor
             return res.status(500).json({ message: 'Erro interno no servidor: ' + e.message });
