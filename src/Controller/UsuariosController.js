@@ -207,7 +207,7 @@ class usuariosController {
                 dataToUpdate.cpf = formatarCPF(cpfLimpo);
 
                 usuario = await prisma.usuario.findUnique({
-                where: { cpf: cpf }
+                where: { cpf: dataToUpdate.cpf }
                 })
                 if (usuario && usuario.id !== id) {
                     return res.status(409).json({ message: 'CPF já cadastrado.' })
@@ -219,7 +219,7 @@ class usuariosController {
                 }
 
                 usuario = await prisma.usuario.findUnique({
-                    where: { email: email }
+                    where: { email: dataToUpdate.email }
                 })
                 if (usuario  && usuario.id !== id) {
                     return res.status(409).json({ message: 'Email já cadastrado.' })
@@ -232,15 +232,14 @@ class usuariosController {
                 dataToUpdate.senha = senhaHash
             }
 
-            delete dataToUpdate.id;
-            const updateUsuarios = await prisma.usuario.updateMany({
+            const updateUsuarios = await prisma.usuario.update({
                 where: {
                     id: Number(id),
                 },
                 data: dataToUpdate, 
             });
 
-            if (updateUsuarios.count === 0) {
+            if (!updateUsuarios) {
                 return res.status(404).json({ message: 'Usuario não encontrado.' });
             }
 

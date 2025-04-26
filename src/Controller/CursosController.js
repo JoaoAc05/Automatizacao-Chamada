@@ -32,10 +32,10 @@ class cursosController {
                 return res.status(404).json({ message: 'Curso não encontrado.' }); 
             }
 
-            res.status(200).json(curso)
+            return res.status(200).json(curso)
         } catch (e) {
             console.log('Erro ao retornar curso: ' + e.message)
-            res.status(500).json({ message: 'Erro ao retornar curso: ' + e.message })
+            return res.status(500).json({ message: 'Erro ao retornar curso: ' + e.message })
         }
     };
 

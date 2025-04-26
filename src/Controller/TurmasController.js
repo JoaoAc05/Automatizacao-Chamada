@@ -105,6 +105,7 @@ class turmasController {
     async alterar(req, res) {
         const { id, id_curso } = req.body;
         const dataToUpdate = req.body;
+        delete dataToUpdate.id;
     
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
@@ -123,12 +124,11 @@ class turmasController {
                 }
             }
     
-            delete dataToUpdate.id;
             const updateTurmas = await prisma.turma.update({
                 where: {
                     id: Number(id),
                 },
-                data: dataToUpdate,  // Passa diretamente o req.body
+                data: dataToUpdate, 
             });
     
             if (!updateTurmas) {

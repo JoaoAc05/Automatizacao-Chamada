@@ -119,48 +119,48 @@ class turmaDisciplinasController {
     async alterar(req, res) {
         const {id_turma, id_disciplina, id_semestre, id} = req.body
         const dataToUpdate = req.body;
-    
+        delete dataToUpdate.id;
+        
         // Verifica se o body está vazio
         if (Object.keys(dataToUpdate).length === 0) {
             return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
-
-        if (id_turma) {
-            const turma = await prisma.turma.findUnique({
-                where: { 
-                    id: Number(id_turma) 
-                },
-            });
-            if (!turma) {
-                return res.status(404).json({ message: 'Turma não encontrado.' });
-            }
-        }
-
-        if(id_disciplina) {
-            const disciplina = await prisma.disciplina.findUnique({
-            where: {
-                id: Number(id_disciplina)
-            }
-            })
-            if (!disciplina) {
-                return res.status(404).json({message: 'Disciplina não encontrada'})
-            }
-
-        }
         
-        if (id_semestre) {
-            const semestre = await prisma.semestre.findUnique({
-            where: {
-                id: Number(id_semestre)
-            }
-            })
-            if (!semestre) {
-                return res.status(404).json({message: 'Semestre não encontrado'})
-            }
-        }
-    
         try {
-            delete dataToUpdate.id;
+            if (id_turma) {
+                const turma = await prisma.turma.findUnique({
+                    where: { 
+                        id: Number(id_turma) 
+                    },
+                });
+                if (!turma) {
+                    return res.status(404).json({ message: 'Turma não encontrado.' });
+                }
+            }
+
+            if(id_disciplina) {
+                const disciplina = await prisma.disciplina.findUnique({
+                where: {
+                    id: Number(id_disciplina)
+                }
+                })
+                if (!disciplina) {
+                    return res.status(404).json({message: 'Disciplina não encontrada'})
+                }
+
+            }
+            
+            if (id_semestre) {
+                const semestre = await prisma.semestre.findUnique({
+                where: {
+                    id: Number(id_semestre)
+                }
+                })
+                if (!semestre) {
+                    return res.status(404).json({message: 'Semestre não encontrado'})
+                }
+            }
+    
             const updateTurmaDisciplinas = await prisma.turmaDisciplinas.updateMany({
                 where: {
                     id: Number(id),
