@@ -10,6 +10,7 @@ class chamadaAlunosController {
  
             return res.status(200).json(chamadasAlunos);
         } catch (e) {
+            console.log('Erro ao retornar presenças das chamadas: ' + e.message)
             return res.status(500).json({message: 'Erro ao retornar presenças das chamadas: ' + e.message});
         }
     }
@@ -76,6 +77,7 @@ class chamadaAlunosController {
 
             return res.status(200).json(chamadaAlunos)
         } catch (e) {
+            console.log('Erro ao retornar presenças da chamada: ' + e.message)
             return res.status(500).json({message: 'Erro ao retornar presenças da chamada: ' + e.message})
         }
     };
@@ -163,6 +165,7 @@ class chamadaAlunosController {
 
             return res.status(201).json(createChamadaAluno);
         } catch (e) {
+            console.log('Erro ao definir presenca: ' + e.message)
             return res.status(500).json({ message: 'Erro ao definir presenca: ' + e.message });
         }
     }
@@ -219,6 +222,7 @@ class chamadaAlunosController {
     
             return res.status(200).json({ message: 'Presença alterada com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar presença: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar presença: ' + e.message });
         }
     }
@@ -271,6 +275,7 @@ class chamadaAlunosController {
 
             return res.status(200).json({ message: 'Presença do aluno removida com sucesso.' })
         } catch (e) {
+            console.log('Erro ao remover presença: ' + e.message)
             return res.status(500).json({ message: 'Erro ao remover presença: ' + e.message })
         }
     }

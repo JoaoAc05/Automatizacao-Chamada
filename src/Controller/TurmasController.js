@@ -84,7 +84,7 @@ class turmasController {
             })
             if (turma) {
                 console.log(turma)
-                return res.status(400).json({message: 'Já existe uma turma deste curso neste semestre'})
+                return res.status(409).json({message: 'Já existe uma turma deste curso neste semestre'})
             }
             
             const createTurmas = await prisma.turma.create({ 
@@ -132,10 +132,10 @@ class turmasController {
             });
     
             if (!updateTurmas) {
-                return res.status(404).json({ message: 'Turma não encontrado.' });
+                return res.status(404).json({ message: 'Turma não encontrada.' });
             }
     
-            return res.status(200).json({ message: 'Turma alterado com sucesso.' });
+            return res.status(200).json({ message: 'Turma alterada com sucesso.' });
         } catch (e) {
             console.log('Erro ao alterar turma: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar turma: ' + e.message });
@@ -169,7 +169,7 @@ class turmasController {
                 return res.status(404).json({ message: 'Turma não encontrada para deletar.' });
             }
 
-            return res.status(200).json({message: 'Turma deletado com sucesso.'})
+            return res.status(200).json({message: 'Turma deletada com sucesso.'})
         } catch (e) {
             console.log('Erro ao deletar turma: ' + e.message)
             return res.status(500).json({message: 'Erro ao deletar turma: ' + e.message})

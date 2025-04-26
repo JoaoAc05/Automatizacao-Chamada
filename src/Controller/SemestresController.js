@@ -11,7 +11,7 @@ class semestresController {
 
             return res.status(200).json(semestres);
         } catch (e) {
-            console.log()
+            console.log('Erro ao retornar semestres: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar semestres: ' + e.message });
         }
     }
@@ -35,6 +35,7 @@ class semestresController {
 
             return res.status(200).json(semestre)
         } catch (e) {
+            console.log('Erro ao retornar semestre: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar semestre: ' + e.message })
         }
     };
@@ -78,6 +79,7 @@ class semestresController {
             const createSemestres = await prisma.semestre.create({ data: req.body });
             return res.status(201).json(createSemestres);
         } catch (e) {
+            console.log('Erro ao criar semestre: ' + e.message)
             return res.status(500).json({ message: 'Erro ao criar semestre: ' + e.message });
         }
     }
@@ -160,6 +162,7 @@ class semestresController {
     
             return res.status(200).json({ message: 'Semestre alterado com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar semestre: ' + e.message)
             return res.status(500).json({ message: 'Erro ao alterar semestre: ' + e.message });
         }
     }
@@ -192,6 +195,7 @@ class semestresController {
             }
             return res.status(200).json({ message: 'Semestre deletado com sucesso.' })
         } catch (e) {
+            console.log('Erro ao deletar semestre:' + e.message)
             return res.status(500).json({ message: 'Erro ao deletar semestre:' + e.message })
         }
     }

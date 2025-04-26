@@ -10,6 +10,7 @@ class turmaAlunosController {
 
             res.status(200).json(turmaAlunos);
         } catch (e) {
+            console.log('Erro ao retornar vinculo turma alunos: ' + e.message)
             res.status(500).json({ message: 'Erro ao retornar vinculo turma alunos: ' + e.message });
         }
     }
@@ -33,6 +34,7 @@ class turmaAlunosController {
 
             res.status(200).json(turmaAlunos)
         } catch (e) {
+            console.log('Erro ao retornar alunos da turma: ' + e.message)
             res.status(500).json({ message: 'Erro ao retornar alunos da turma: ' + e.message })
         }
     };
@@ -90,6 +92,7 @@ class turmaAlunosController {
             });
             res.status(201).json(createTurmaAlunos);
         } catch (e) {
+            console.log('Erro ao criar vinculo de aluno na turma: ' + e.message)
             res.status(500).json({ message: 'Erro ao criar vinculo de aluno na turma: ' + e.message });
         }
     }
@@ -144,6 +147,7 @@ class turmaAlunosController {
     
             res.status(200).json({ message: 'Vinculo Aluno Turma alterado com sucesso.' });
         } catch (e) {
+            console.log('Erro ao alterar vinculo aluno turma: ' + e.message)
             res.status(500).json({ message: 'Erro ao alterar vinculo aluno turma: ' + e.message });
         }
     }
@@ -232,6 +236,7 @@ class turmaAlunosController {
             return res.status(200).json({message: `${deleted.count} vínculo(s) Aluno-Turma deletado(s) com sucesso.`})
             
         } catch (e) {
+            console.log('Erro ao deletar vinculo Aluno-Turma: ' + e.message)
             res.status(500).json({ message: 'Erro ao deletar vinculo Aluno-Turma: ' + e.message })
         }
     }

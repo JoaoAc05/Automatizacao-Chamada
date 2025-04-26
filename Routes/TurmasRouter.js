@@ -102,6 +102,8 @@ TurmasRouter.get('/', auth, permissao([2]), TurmasController.getAll);
  *         description: Sem nível de permissão
  *       404:
  *         description: Curso não encontrado
+ *       409:
+ *         description: Dado informado já está cadastrado
  *       500:
  *         description: Erro interno do servidor
  */

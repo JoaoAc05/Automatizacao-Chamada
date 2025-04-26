@@ -10,7 +10,8 @@ class turmaDisciplinasController {
 
             return res.status(200).json(turmas);
         } catch (e) {
-            return res.status(500).json({message: 'Erro ao retornar vinculo turma alunos: ' + e.message});
+            console.log('Erro ao retornar vinculo Disciplina-Turma: ' + e.message)
+            return res.status(500).json({message: 'Erro ao retornar vinculo Disciplina-Turma : ' + e.message});
         }
     }
 
@@ -43,6 +44,7 @@ class turmaDisciplinasController {
 
             return res.status(200).json(turmaDisc)
         } catch (e) {
+            console.log('Erro ao retornar disciplina da turma: ' + e.message)
             return res.status(500).json({message: 'Erro ao retornar disciplinas da turma: ' + e.message})
         }
     };
@@ -109,7 +111,8 @@ class turmaDisciplinasController {
             });
             return res.status(201).json(createTurmaDisicplinas);
         } catch (e) {
-            return res.status(500).json({ message: 'Erro ao criar vinculo de disciplina na turma: ' + e.message });
+            console.log('Erro ao criar vinculo de Disciplina-Turma: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao criar vinculo de Disciplina-Turma: ' + e.message });
         }
     }
 
@@ -165,12 +168,13 @@ class turmaDisciplinasController {
                 data: dataToUpdate,
             });
             if (updateTurmaDisciplinas.count === 0) {
-                return res.status(404).json({ message: 'Vinculo Disciplina Turma não encontrado.' });
+                return res.status(404).json({ message: 'Vinculo Disciplina-Turma não encontrado.' });
             }
     
-            return res.status(200).json({ message: 'Vinculo Disciplina Turma alterado com sucesso.' });
+            return res.status(200).json({ message: 'Vinculo Disciplina-Turma alterado com sucesso.' });
         } catch (e) {
-            return res.status(500).json({ message: 'Erro ao alterar vinculo disciplina turma: ' + e.message });
+            console.log('Erro ao alterar vinculo Disciplina-Turma: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao alterar vinculo Disciplina-Turma: ' + e.message });
         }
     }
 
@@ -228,38 +232,39 @@ class turmaDisciplinasController {
             }
 
             if (id_turma){
-                const turma = await prisma.turma.findUnique({
-                    where: {
-                        id: Number(id_turma)
-                    }
-                })
-                if (!turma) {
-                    return res.status(404).json({ message: 'Turma não encontrada'})
+            const turma = await prisma.turma.findUnique({
+                where: {
+                    id: Number(id_turma)
                 }
-
-                const disciplinaTurma = await prisma.turmaDisciplinas.findFirst({
-                    where: {
-                        id_turma: Number(id_turma)
-                    }
-                })
-                if (!disciplinaTurma) {
-                    return res.status(404).json({ message: 'Esta turma não possui nenhuma disciplina' })
-                }
-                deleteWhere.id_turma = Number(id_turma);
-            }
-                
-            const deleted = await prisma.turmaDisciplinas.deleteMany({
-                where: deleteWhere
-            });
-            if (deleted.count === 0) {
-                return res.status(404).json({ message: 'Nenhum vínculo encontrado para deletar.' });
+            })
+            if (!turma) {
+                return res.status(404).json({ message: 'Turma não encontrada'})
             }
 
-            return res.status(200).json({message: `${deleted.count} vínculo(s) Disciplina-Turma deletado(s) com sucesso.`})
+            const disciplinaTurma = await prisma.turmaDisciplinas.findFirst({
+                where: {
+                    id_turma: Number(id_turma)
+                }
+            })
+            if (!disciplinaTurma) {
+                return res.status(404).json({ message: 'Esta turma não possui nenhuma disciplina' })
+            }
+            deleteWhere.id_turma = Number(id_turma);
+        }
             
-            } catch (e) {
-                return res.status(500).json({message: 'Erro ao deletar vinculo Disciplina-Turma: ' + e.message})
-            }
+        const deleted = await prisma.turmaDisciplinas.deleteMany({
+            where: deleteWhere
+        });
+        if (deleted.count === 0) {
+            return res.status(404).json({ message: 'Nenhum vínculo encontrado para deletar.' });
+        }
+
+        return res.status(200).json({message: `${deleted.count} vínculo(s) Disciplina-Turma deletado(s) com sucesso.`})
+        
+        } catch (e) {
+            console.log('Erro ao deletar vinculo Disciplina-Turma: ' + e.message)
+            return res.status(500).json({message: 'Erro ao deletar vinculo Disciplina-Turma: ' + e.message})
+        }
     }
 }
 export { turmaDisciplinasController };

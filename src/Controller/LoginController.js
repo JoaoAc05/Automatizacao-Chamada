@@ -41,11 +41,6 @@ class loginController {
                 return res.status(401).json({ message: "Senha incorreta" });
             }
     
-            // Compara a senha da req com a senha do banco de dados
-            // if (senha !== usuario.senha) {
-            //     return res.status(400).json({ message: 'Senha incorreta.' });
-            // } 
-            
             const usuarioPayload = {
                 id: usuario.id,
                 nome: usuario.nome,
@@ -63,6 +58,9 @@ class loginController {
                         imei: imei,
                     },
                 });
+                if (!updateImei) {
+                    console.log(`Usuário não encontrado para atualizar o imei.\nId_Usuario: ${usuario.id} Email: ${usuario.email} - Imei: ${imei}`)
+                }
 
             } else if (imei !== usuario.imei) {
                  return res.status(400).json({ message: 'IMEI diferente do usuário ou inválido.' });
@@ -73,10 +71,12 @@ class loginController {
                     console.log(`Erro ao gerar autenticação: ${err}`)
                     return res.status(500).json({ message: 'Erro ao gerar autenticação' });
                 }
+                console.log(`Login: ${usuarioPayload.nome}`)
                 return res.status(200).json({auth: true, token});
             });
     
         } catch (e) {
+            console.log('Erro interno no servidor: ' + e.message)
             return res.status(500).json({ message: 'Erro interno no servidor: ' + e.message });
         }
     }
@@ -111,11 +111,6 @@ class loginController {
                 return res.status(401).json({ message: "Senha incorreta" });
             }
 
-            // Compara a senha da req com a senha do banco de dados
-            // if (senha !== usuario.senha) {
-            //     return res.status(400).json({ message: 'Senha incorreta.' });
-            // }
-
             const usuarioPayload = {
                 id: usuario.id,
                 nome: usuario.nome,
@@ -123,7 +118,6 @@ class loginController {
                 tipo: usuario.tipo
             };
 
-            // return res.status(200).json({ message: 'Login bem-sucedido.' });
             jwt.sign(usuarioPayload, chavePrivada, (err, token) => { //Adcionar o expiresIn com 10 minutos, e uma forma do token dar refresh ao usar o aplicativo
                 if (err) {
                     console.log(`Erro ao gerar autenticação: ${err}`)
@@ -133,7 +127,7 @@ class loginController {
                 return res.status(200).json({auth: true, token});
             });    
         } catch (e) {
-            // Erro interno do servidor
+            console.log('Erro interno no servidor: ' + e.message)
             return res.status(500).json({ message: 'Erro interno no servidor: ' + e.message });
         }
     }
