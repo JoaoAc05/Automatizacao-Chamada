@@ -10,6 +10,9 @@ class turmasController {
                             descricao: true
                         }
                     }
+                },
+                orderBy: {
+                    id: 'asc'
                 }
             })
             if (turmas.length === 0) {

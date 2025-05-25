@@ -4,7 +4,11 @@ import { dataValida, dataFinalMaiorOuIgual } from '../Utils/DataUtils.js';
 class chamadasController {
     async getAll(req, res) { 
         try {
-            const chamadas = await prisma.chamada.findMany()
+            const chamadas = await prisma.chamada.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             if (chamadas.length === 0) {
                 return res.status(204).end();
             }

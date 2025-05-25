@@ -3,7 +3,11 @@ import { prisma } from "../prisma.js";
 class chamadaAlunosController {
     async getAll(req, res) { 
         try {
-            const chamadasAlunos = await prisma.chamadaAlunos.findMany()
+            const chamadasAlunos = await prisma.chamadaAlunos.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             if (chamadasAlunos.length === 0) {
                 return res.status(204).end();
             }

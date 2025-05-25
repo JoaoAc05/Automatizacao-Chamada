@@ -4,7 +4,11 @@ import { dataValida, dataFinalMaiorOuIgual } from '../Utils/DataUtils.js';
 class semestresController {
     async getAll(req, res, next) { 
         try {
-            const semestres = await prisma.semestre.findMany()
+            const semestres = await prisma.semestre.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             if (semestres.length === 0) {
                 return res.status(204).end();
             }

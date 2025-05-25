@@ -3,7 +3,11 @@ import { prisma } from "../prisma.js";
 class disciplinasController {
     async getAll(req, res, next) { 
         try {
-            const disciplinas = await prisma.disciplina.findMany()
+            const disciplinas = await prisma.disciplina.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             if (disciplinas.length === 0) {
                 return res.status(204).end();
             }

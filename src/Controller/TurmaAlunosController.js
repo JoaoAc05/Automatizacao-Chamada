@@ -3,7 +3,11 @@ import { prisma } from "../prisma.js";
 class turmaAlunosController {
     async getAll(req, res) { 
         try {
-            const turmaAlunos = await prisma.turmaAlunos.findMany()
+            const turmaAlunos = await prisma.turmaAlunos.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             if (turmaAlunos.length === 0) {
                 return res.status(204).end();
             }

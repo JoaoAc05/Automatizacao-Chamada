@@ -5,7 +5,11 @@ import { prisma } from "../prisma.js";
 class semestreDisciplinasController {
     async getAll(req, res) { 
         try {
-            const semestreDisciplinas = await prisma.semestreProfessorDisciplinas.findMany()
+            const semestreDisciplinas = await prisma.semestreProfessorDisciplinas.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             if (semestreDisciplinas.length === 0) {
                 return res.status(204).end();
             }

@@ -3,7 +3,11 @@ import { prisma } from "../prisma.js";
 class cursosController {
     async getAll(req, res) { 
         try {
-            const cursos = await prisma.curso.findMany()
+            const cursos = await prisma.curso.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             if (cursos.length === 0) {
                 return res.status(204).end();
             }

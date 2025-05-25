@@ -7,7 +7,11 @@ const chavePrivada = "Fasipe2024"
 class usuariosController {
     async getAll(req, res) {
         try {
-            const usuarios = await prisma.usuario.findMany()
+            const usuarios = await prisma.usuario.findMany({
+                orderBy: {
+                    id: 'asc'
+                }
+            })
             if (usuarios.length === 0) {
                 return res.status(204).end();
             }
