@@ -83,7 +83,7 @@ class chamadaAlunosController {
     };
 
     async presenca (req, res) {
-        const { hora_post, id_chamada, id_aluno } = req.body;
+        const { hora_post, id_chamada, id_aluno, geo_professor, geo_aluno } = req.body;
         try {
             // Verifica se a hora_post está presente e é uma data válida
             if (!hora_post || isNaN(new Date(hora_post))) {
@@ -113,6 +113,12 @@ class chamadaAlunosController {
                     postTime: postTime.toISOString(),
                 });
             }
+
+            // if (!geo_professor || !geo_aluno) {
+
+            // }
+            delete req.body.geo_professor;
+            delete req.body.geo_aluno;
 
             if (!id_aluno || !id_chamada) {
                 return res.status(400).json({ message: 'Os campos id_aluno e id_chamada são obrigatórios.' });
