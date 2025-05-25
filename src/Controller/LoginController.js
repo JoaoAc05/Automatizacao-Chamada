@@ -123,7 +123,7 @@ class loginController {
                     console.log(`Erro ao gerar autenticação: ${err}`)
                     return res.status(500).json({ message: 'Erro ao gerar autenticação' });
                 }
-                console.log(`Login: ${usuarioPayload.nome}`)
+                console.log(`Login: ${usuarioPayload.nome}, Tipo: ${usuarioPayload.tipo}`)
                 return res.status(200).json({auth: true, token});
             });    
         } catch (e) {

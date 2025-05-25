@@ -43,6 +43,7 @@ export function permissao(tipoPermissoes) {
       const tipo = req.payload?.tipo;
 
       if (tipo === undefined) {
+        console.log(`Payload: ${req.payload}`)
         return res.status(403).json({ message: 'Sem nível de permissão' });
       }
       // Os níveis permitidos para o acesso são definitos no ROUTER
