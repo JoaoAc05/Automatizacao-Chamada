@@ -4,6 +4,13 @@ class disciplinasController {
     async getAll(req, res, next) { 
         try {
             const disciplinas = await prisma.disciplina.findMany({
+                include: {
+                    Curso: {
+                        select: {
+                            descricao: true
+                        }
+                    }
+                },
                 orderBy: {
                     id: 'asc'
                 }
@@ -31,6 +38,13 @@ class disciplinasController {
                 where: {
                     id: Number(id),
                 },
+                include: {
+                    Curso: {
+                        select: {
+                            descricao: true
+                        }
+                    }
+                }
             })
             if (!disciplina) {
                 return res.status(404).json({ message: 'Disciplina não encontrada.' }); 
