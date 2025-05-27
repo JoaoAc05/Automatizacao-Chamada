@@ -288,7 +288,7 @@ class chamadasController {
                 return res.status(400).json({ message: 'Chamada já finalizada.' })
             }
 
-            if (!dataFinalMaiorOuIgual(chamada.data_hora_inicio, data_final)) {
+            if (!dataFinalMaiorOuIgual(chamada.data_hora_inicio, data_hora_final)) {
                 return res.status(400).json({ message: 'A data final deve ser igual ou posterior à data inicial.' });
             }
     
