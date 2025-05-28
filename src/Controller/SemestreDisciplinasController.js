@@ -271,7 +271,8 @@ class semestreDisciplinasController {
                     id_semestre: Number(semestre.id)
                 },
                 include: {
-                    Disciplina: true // Trazer detalhes da disciplina
+                    Disciplina: true, // Trazer detalhes da disciplina,
+                    Semestre: true
                 }
             })
             if(dps.length === 0){
@@ -280,7 +281,10 @@ class semestreDisciplinasController {
 
             const disciplinas = dps.map((d) => ({
                 id: d.id_disciplina,
-                descricao: d.Disciplina.descricao
+                descricao: d.Disciplina.descricao,
+                carga_horaria: d.Disciplina.carga_horario,
+                id_semestre: d.id_semestre,
+                semestre: d.semestre.descricao
             }));
             return res.status(200).json(disciplinas)
         } catch (e) {
