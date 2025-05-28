@@ -284,7 +284,7 @@ class semestreDisciplinasController {
                 descricao: d.Disciplina.descricao,
                 carga_horaria: d.Disciplina.carga_horario,
                 id_semestre: d.id_semestre,
-                semestre: d.semestre.descricao
+                semestre: d.Semestre.descricao
             }));
             return res.status(200).json(disciplinas)
         } catch (e) {
