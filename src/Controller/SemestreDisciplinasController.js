@@ -103,12 +103,13 @@ class semestreDisciplinasController {
 
             const disciplinaSemestre = await prisma.semestreProfessorDisciplinas.findFirst({
                 where: {
+                    id_professor: Number(id_professor),
                     id_disciplina: Number(id_disciplina),
                     id_semestre: Number(id_semestre)
                 }
             })
             if (disciplinaSemestre) {
-                return res.status(400).json({ message: 'Essa disciplina já está sendo regida neste semestre' })
+                return res.status(400).json({ message: 'Esse professor já está sendo regidendo essa disciplina neste semestre.' })
             }
 
             const createSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.create({
@@ -295,7 +296,7 @@ class semestreDisciplinasController {
             }
 
             const disciplinas = dps.map((d) => ({
-                id: d.id_disciplina,
+                id_disciplina: d.id_disciplina,
                 descricao: d.Disciplina.descricao,
                 carga_horaria: d.Disciplina.carga_horario,
                 id_semestre: d.id_semestre,

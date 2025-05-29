@@ -158,7 +158,8 @@ class chamadaAlunosController {
             const presenca = await prisma.chamadaAlunos.findFirst({
                 where:{
                     id_aluno: Number(id_aluno),
-                    id_chamada: Number(id_chamada)
+                    id_chamada: Number(id_chamada),
+                    status: 1
                 }
             })
             if (presenca) {
@@ -219,7 +220,8 @@ class chamadaAlunosController {
             const presenca = await prisma.chamadaAlunos.findFirst({
                 where:{
                     id_aluno: Number(id_aluno),
-                    id_chamada: Number(id_chamada)
+                    id_chamada: Number(id_chamada),
+                    status: 1
                 }
             })
             if (presenca) {
