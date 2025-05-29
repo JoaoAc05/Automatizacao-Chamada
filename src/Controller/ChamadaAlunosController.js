@@ -40,7 +40,7 @@ class chamadaAlunosController {
 
                return res.status(200).json(chamada)
             }
-            
+
             const getWhere = {};
             if (id_chamada) {
                 const chamada = await prisma.chamada.findUnique({
@@ -52,7 +52,7 @@ class chamadaAlunosController {
                     return res.status(404).json({ message: 'Chamada não encontrada.' }); 
                 }
 
-                getWhere.id_chamada = chamadaIdNumber;
+                getWhere.id_chamada = id_chamada;
             } 
 
             if (id_aluno) {
