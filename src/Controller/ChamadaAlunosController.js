@@ -186,6 +186,67 @@ class chamadaAlunosController {
         }
     }
 
+    async presencaManual (req, res) {
+        const { id_chamada, id_aluno } = req.body;
+        
+        if (!id_aluno || !id_chamada) {
+            return res.status(400).json({ message: 'Os campos id_aluno e id_chamada são obrigatórios.' });
+        }
+
+        try {
+
+            const aluno = await prisma.usuario.findUnique({
+                where: {
+                    id: Number(id_aluno)
+                }
+            })
+            if (!aluno) {
+                return res.status(404).json({ message: 'Aluno não encontrado.' });
+            }
+            if(aluno.tipo !== 0) {
+                return res.status(401).json({ message: 'Usuário não é um aluno.' });
+            }
+
+            const chamada = await prisma.chamada.findUnique({
+                where: {
+                    id: Number(id_chamada)
+                }
+            })
+            if (!chamada) {
+                return res.status(404).json({ message: 'Chamada não encontrada.' })
+            }
+
+            const presenca = await prisma.chamadaAlunos.findFirst({
+                where:{
+                    id_aluno: Number(id_aluno),
+                    id_chamada: Number(id_chamada)
+                }
+            })
+            if (presenca) {
+                 return res.status(409).json({ message: 'Aluno já está presente nesta chamada.' })
+            }
+
+            const createChamadaAluno = await prisma.chamadaAlunos.create({ 
+                data: {
+                   Chamada: {
+                        connect: {id: Number(id_chamada)}
+                    } ,
+                    Aluno: {
+                        connect: {id: Number(id_aluno)}
+                    }, 
+                }
+            }); 
+            if(createChamadaAluno.length === 0) {
+                return res.status(400).json({ message: 'Presença não foi registrada, contate o suporte!' })
+            } 
+
+            return res.status(201).json(createChamadaAluno);
+        } catch (e) {
+            console.log('Erro ao definir presenca manual: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao definir presenca manual: ' + e.message });
+        }
+    }
+
     async alterar(req, res) {
         const { id, id_chamada, id_aluno } = req.body;
         const dataToUpdate = req.body;
@@ -261,7 +322,7 @@ class chamadaAlunosController {
                     id: Number(id_vinculo)
                 },
                 data: {
-                    status: 1 // Presença Removida
+                    status: 0 // Presença Removida
                 }
             })
             if (!deletePresenca) {

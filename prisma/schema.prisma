@@ -138,7 +138,7 @@ model ChamadaAlunos { // Presença dos alunos em cada chamada
   id          Int   @id @default(autoincrement())
   id_chamada  Int
   id_aluno    Int
-  status      Int   @default(0) // 0 - Presente, 1 - Presença Removida
+  status      Int   @default(1) // 0 - Presença Removida, Presente - 1 
 
   // Relacionamentos
   Chamada     Chamada    @relation(fields: [id_chamada], references: [id])

@@ -55,11 +55,13 @@ class turmaDisciplinasController {
 
     async cadastro(req, res) {
         const {id_turma, id_disciplina, id_semestre} = req.body
+        
+        //Verifica se veio todas as informações
+        if (!id_turma || !id_disciplina || !id_semestre) {
+            return res.status(400).json({ message: 'Os campos id_turma, id_disciplina e id_semestre são obrigatórios.' });
+        }
+        
         try {
-            //Verifica se veio todas as informações
-            if (!id_turma || !id_disciplina || !id_semestre) {
-                return res.status(400).json({ message: 'Os campos id_turma, id_disciplina e id_semestre são obrigatórios.' });
-            }
 
             // Verifica se a turma existe
             const turma = await prisma.turma.findUnique({

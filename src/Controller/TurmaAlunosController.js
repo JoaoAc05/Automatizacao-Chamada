@@ -45,11 +45,13 @@ class turmaAlunosController {
 
     async cadastro(req, res) {
         const {id_turma, id_aluno} = req.body
+        
+        //Verifica se veio todas as informações
+        if (!id_turma || !id_aluno) {
+            return res.status(400).json({ message: 'Os campos id_turma e id_aluno são obrigatórios.' });
+        }
+        
         try {
-            //Verifica se veio todas as informações
-            if (!id_turma || !id_aluno) {
-                return res.status(400).json({ message: 'Os campos id_turma e id_aluno são obrigatórios.' });
-            }
 
             // Verifica se a turma existe
             const turma = await prisma.turma.findUnique({

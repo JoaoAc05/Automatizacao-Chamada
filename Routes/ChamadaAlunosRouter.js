@@ -64,7 +64,7 @@ ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosControl
 
 /**
  * @swagger
- * /chamada/alunos/:
+ * /chamada/presencas/:
  *   get:
  *     summary: Buscar presenças filtradas por chamada, aluno ou vínculo
  *     tags: [ChamadaAlunos]
@@ -102,7 +102,7 @@ ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosControl
  *       500:
  *         description: Erro interno do servidor
 */
-ChamadaAlunosRouter.get('/alunos/', auth, permissao([1, 2]), ChamadaAlunosController.getId); // Get pelo ID da chamada
+ChamadaAlunosRouter.get('/presencas/', auth, permissao([1, 2]), ChamadaAlunosController.getId); // Get pelo ID da chamada
 
 /**
  * @swagger
@@ -130,7 +130,7 @@ ChamadaAlunosRouter.get('/alunos', auth, permissao([2]), ChamadaAlunosController
  * @swagger
  * /chamada/alunos:
  *   post:
- *     summary: Registrar presença do aluno na chamada
+ *     summary: Registrar presença do aluno na chamada por QR Code
  *     tags: [ChamadaAlunos]
  *     security:
  *       - bearerAuth: []
@@ -167,12 +167,51 @@ ChamadaAlunosRouter.get('/alunos', auth, permissao([2]), ChamadaAlunosController
  *         description: Aluno ou chamada não encontrados
  *       409:
  *         description: Presença duplicada
- * 
- * 
  *       500:
  *         description: Erro ao registrar presença
  */
 ChamadaAlunosRouter.post('/alunos', auth, ChamadaAlunosController.presenca); // PRESENÇA REGISTRADA PELO ALUNO
+
+/**
+ * @swagger
+ * /chamada/alunos/manual:
+ *   post:
+ *     summary: Professor registrar presença do aluno na chamada manualmente
+ *     tags: [ChamadaAlunos]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       description: Dados para registro da presença
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id_chamada
+ *               - id_aluno
+ *             properties:
+ *               id_chamada:
+ *                 type: integer
+ *               id_aluno:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Presença registrada com sucesso
+ *       400:
+ *         description: Dados inválidos ou presença já registrada
+ *       401:
+ *         description: Não autorizado
+ *       403:
+ *         description: Sem nível de permissão
+ *       404:
+ *         description: Aluno ou chamada não encontrados
+ *       409:
+ *         description: Presença duplicada
+ *       500:
+ *         description: Erro ao registrar presença
+ */
+ChamadaAlunosRouter.post('/alunos/manual', auth, permissao([1, 2]), ChamadaAlunosController.presencaManual); // PROFESSOR REGISTRAR MANUALMENTE A PRESENÇA DO ALUNO
 
 /**
  * @swagger
