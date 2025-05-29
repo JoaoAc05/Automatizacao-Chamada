@@ -52,7 +52,7 @@ class chamadaAlunosController {
                     return res.status(404).json({ message: 'Chamada não encontrada.' }); 
                 }
 
-                getWhere.id_chamada = id_chamada;
+                getWhere.id_chamada = Number(id_chamada);
             } 
 
             if (id_aluno) {
