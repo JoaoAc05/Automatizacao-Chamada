@@ -41,18 +41,19 @@ class chamadaAlunosController {
                return res.status(200).json(chamada)
             }
 
-            const getWhere = {};
-            if (id_chamada) {
+            console.log('id_chamada recebido:', id_chamada)
+            const chamadaIdNumber = Number(id_chamada);
+            if (!isNaN(chamadaIdNumber)) {
                 const chamada = await prisma.chamada.findUnique({
                 where: {
-                    id: Number(id_chamada),
+                    id: chamadaIdNumber,
                 },
                 })
                 if (!chamada) {
                     return res.status(404).json({ message: 'Chamada não encontrada.' }); 
                 }
 
-                getWhere.id_chamada = Number(id_chamada);
+                getWhere.id_chamada = chamadaIdNumber;
             } 
 
             if (id_aluno) {
