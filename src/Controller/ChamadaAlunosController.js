@@ -241,7 +241,7 @@ class chamadaAlunosController {
         const { id_chamada, id_aluno, id_vinculo } = req.query;
 
         if (id_vinculo) {
-            const chamadaAluno = await prisma.findUnique({
+            const chamadaAluno = await prisma.chamadaAlunos.findUnique({
                 where: {
                     id: Number(id_vinculo)
                 }
