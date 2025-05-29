@@ -70,12 +70,11 @@ class chamadaAlunosController {
 
                 getWhere.id_aluno = Number(id_aluno);
             }
-            
 
             const chamadaAlunos = await prisma.chamadaAlunos.findMany({
                 where: getWhere,
                 include: {
-                    Usuario: {
+                    Aluno: {
                         select: {
                             nome: true
                         }
