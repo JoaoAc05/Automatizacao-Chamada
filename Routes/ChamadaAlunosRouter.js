@@ -89,7 +89,28 @@ ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosControl
  *     responses:
  *       200:
  *         description: Lista de presenças encontradas
- *       204:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_chamada:
+ *                     type: integer
+ *                   id_aluno:
+ *                     type: integer
+ *                   status:
+ *                     type: integer
+ *                     description: 0 - Removido, 1 - Presente
+ *                   Aluno:
+ *                     type: object
+ *                     properties:
+ *                       nome:
+ *                         type: string
+*       204:
  *         description: Nenhuma presença encontrada
  *       400:
  *         description: Nenhum dado fornecido para consulta
@@ -157,6 +178,20 @@ ChamadaAlunosRouter.get('/alunos', auth, permissao([2]), ChamadaAlunosController
  *     responses:
  *       201:
  *         description: Presença registrada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 id_chamada:
+ *                   type: integer
+ *                 id_aluno:
+ *                   type: integer
+ *                 status:
+ *                   type: integer
+ *                   description: 0 - Removido, 1 - Presente
  *       400:
  *         description: Dados inválidos ou presença já registrada
  *       401:

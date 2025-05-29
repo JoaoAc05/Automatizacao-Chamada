@@ -9,7 +9,7 @@ const DisciplinasController = new disciplinasController();
  * @swagger
  * tags:
  *   name: Disciplinas
- *   description: Gerenciamento de disciplinas do sistema
+ *   description: Gerenciamento de disciplinas
  */
 
 /**

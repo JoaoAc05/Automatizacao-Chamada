@@ -9,7 +9,7 @@ const TurmasController = new turmasController();
  * @swagger
  * tags:
  *   name: Turmas
- *   description: Endpoints de gerenciamento de turmas
+ *   description: Grenciamento de turmas
  */
 
 /**

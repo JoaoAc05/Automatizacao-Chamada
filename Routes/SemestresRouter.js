@@ -9,7 +9,7 @@ const SemestresController = new semestresController();
  * @swagger
  * tags:
  *   name: Semestres
- *   description: Endpoints de gerenciamento de semestres
+ *   description: Gerenciamento de semestres
  */
 
 /**

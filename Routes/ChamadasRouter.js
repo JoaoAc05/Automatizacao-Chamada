@@ -9,7 +9,7 @@ const ChamadasController = new chamadasController();
  * @swagger
  * tags:
  *   name: Chamadas
- *   description: Endpoints de gerenciamento de chamadas
+ *   description: Gerenciamento de chamadas
  */
 
 /**
@@ -94,6 +94,27 @@ ChamadasRouter.get('/professor/', auth, permissao([1, 2]), ChamadasController.ch
  *     responses:
  *       200:
  *         description: Chamada encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 id_professor:
+ *                   type: integer
+ *                 id_disciplina:
+ *                   type: integer
+ *                 id_semestre:
+ *                   type: integer
+ *                 data_hora_inicio:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-29T21:54:17.414Z"
+ *                 data_hora_final:
+ *                   type: string
+ *                   format: date-time
+ *                   nullable: true
  *       400:
  *         description: ID inválido
  *       401:

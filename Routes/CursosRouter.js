@@ -9,7 +9,7 @@ const CursosController = new cursosController();
  * @swagger
  * tags:
  *   name: Cursos
- *   description: Endpoints de gerenciamento de cursos
+ *   description: Gerenciamento de cursos
  */
 
 /**
