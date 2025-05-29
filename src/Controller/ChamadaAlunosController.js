@@ -289,5 +289,93 @@ class chamadaAlunosController {
             return res.status(500).json({ message: 'Erro ao remover presença: ' + e.message })
         }
     }
+
+    async getAlunos(req, res) {
+        const { id_disciplina, id_semestre } = req.query;
+
+        if(!id_disciplina) {
+            return res.status(400).json({ message: 'O campo id_disciplina é obrigatório.'})
+        }
+        
+        try {
+
+            // Saber qual é o semestre atual ou padrão para saber qual turma pegar
+            let semestre;
+            if(id_semestre) {
+                semestre = await prisma.semestre.findUnique({
+                    where: { 
+                        id: Number(id_semestre)
+                    },
+                });
+            
+
+            } else {
+                semestre = await prisma.semestre.findFirst({
+                    where: { 
+                        padrao: 0
+                    },
+                });
+            }
+
+            if (!semestre) {
+                return res.status(404).json({ message: 'Semestre não encontrado.' });
+            }
+
+            const disciplina = await prisma.disciplina.findUnique({
+                where: {
+                    id: Number(id_disciplina)
+                }
+            })
+            if (!disciplina) {
+                return res.status(404).json({ message: 'Disciplina não encontrada.' }); 
+            }
+
+
+            const turmaDisciplinas = await prisma.turmaDisciplina.findMany({
+                // select * from turmaDisciplinas where id_disciplina = and id_semestre = 
+            where: {
+                id_disciplina: Number(id_disciplina),
+                id_semestre: semestre.id,
+            },
+            })
+            if (turmaDisciplinas.length === 0) {
+                console.log(`Disciplina: ${id_disciplina}, Semestre: ${semestre.id}`)
+                return res.status(404).json({ message: 'Não encontrada nenhuma turma com esta disciplina vinculada neste semestre' }); 
+            }
+
+            // Extrair todos os ids de turmas
+            const idsTurmas = turmaDisciplinas.map((td) => td.id_turma);
+
+            const turmaAlunos = await prisma.turmaAlunos.findMany({
+                where: {
+                    id_turma: { in : idsTurmas }
+                },
+                include: {
+                    Usuario: {
+                        select: {
+                            id: true,
+                            nome: true
+                        }
+                    }
+                }
+            })
+            if (turmaAlunos.length === 0) {
+                console.log(`Turma: ${idsTurmas}`)
+                return res.status(404).json({ message: 'Não encontrada nenhuma turma com esta disciplina vinculada neste semestre' }); 
+            }
+
+            // Formatar retorno
+            const alunos = turmaAlunos.map((ta) => ({
+                id_aluno: ta.id_aluno,
+                nome: ta.Usuario.nome,
+                id_turma: ta.id_turma,
+            }));
+
+            return res.status(200).json(alunos)
+        } catch (e) {
+            console.log('Erro ao retornar alunos: ' + e.message)
+            return res.status(500).json({message: 'Erro ao retornar alunos: ' + e.message})
+        }
+    };
 }
 export { chamadaAlunosController };

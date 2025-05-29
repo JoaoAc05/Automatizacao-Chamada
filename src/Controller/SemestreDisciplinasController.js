@@ -263,6 +263,9 @@ class semestreDisciplinasController {
                         padrao: 0
                     },
                 });
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre não encontrado.' });
+                }
             }
 
             const dps = await prisma.semestreProfessorDisciplinas.findMany({ //Pegar todas as disciplinas que o professor irá aplicar no semestre

@@ -10,7 +10,57 @@ const ChamadaAlunosController = new chamadaAlunosController();
  * tags:
  *   name: ChamadaAlunos
  *   description: Gerenciamento de presença dos alunos
- */
+*/
+
+/**
+ * @swagger
+ * /chamada/falta/:
+ *   get:
+ *     summary: Buscar alunos vinculados a uma disciplina em um semestre
+ *     tags: [ChamadaAlunos]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: id_disciplina
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID da disciplina vinculada à chamada
+ *       - in: query
+ *         name: id_semestre
+ *         required: false
+ *         schema:
+ *           type: integer
+ *         description: ID do semestre (opcional; se não enviado, usará o semestre padrão)
+ *     responses:
+ *       200:
+ *         description: Lista de alunos encontrados para a disciplina no semestre especificado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id_usuario:
+ *                     type: integer
+ *                   nome:
+ *                     type: string
+ *                   id_turma:
+ *                     type: integer
+ *       400:
+ *         description: Nenhum dado fornecido para consulta
+ *       401:
+ *         description: Não autorizado
+ *       403:
+ *         description: Sem nível de permissão
+ *       404:
+ *         description: Disciplina, semestre ou turma não encontrados
+ *       500:
+ *         description: Erro interno do servidor
+*/
+ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosController.getAlunos);
 
 /**
  * @swagger
@@ -51,7 +101,7 @@ const ChamadaAlunosController = new chamadaAlunosController();
  *         description: Chamada, aluno ou registro não encontrado
  *       500:
  *         description: Erro interno do servidor
- */
+*/
 ChamadaAlunosRouter.get('/alunos/', auth, permissao([1, 2]), ChamadaAlunosController.getId); // Get pelo ID da chamada
 
 /**
