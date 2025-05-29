@@ -331,7 +331,7 @@ class chamadaAlunosController {
             }
 
 
-            const turmaDisciplinas = await prisma.turmaDisciplina.findMany({
+            const turmaDisciplinas = await prisma.turmaDisciplinas.findMany({
                 // select * from turmaDisciplinas where id_disciplina = and id_semestre = 
             where: {
                 id_disciplina: Number(id_disciplina),
