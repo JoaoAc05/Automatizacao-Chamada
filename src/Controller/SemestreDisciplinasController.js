@@ -141,8 +141,22 @@ class semestreDisciplinasController {
         if (Object.keys(dataToUpdate).length === 0) {
             return res.status(400).json({ message: 'Nenhum dado fornecido para atualização.' });
         }
+
+        if(!id) {
+            return res.status(400).json({ message: 'O campo id é obrigatório.' });
+        }
     
         try {
+
+            const semProDis = await prisma.semestreProfessorDisciplinas.findUnique({
+                where: {
+                    id: Number(id)
+                }
+            })
+            if (!semProDis) {
+                    return res.status(404).json({ message: 'Não encontrado registro com o id ' + Number(id) });
+            }
+
             if (id_disciplina){
                 const disciplina = await prisma.disciplina.findUnique({
                 where: { 
@@ -180,14 +194,14 @@ class semestreDisciplinasController {
             }
 
             delete dataToUpdate.id;
-            const updateSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.updateMany({
+            const updateSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.update({
                 where: {
                     id: Number(id),
                 },
                 data: dataToUpdate,  // Passa diretamente o req.body
             });
     
-            if (updateSemestreDisciplinas.count === 0) {
+            if (!updateSemestreDisciplinas) {
                 return res.status(404).json({ message: 'Vinculo semestre_disciplina não encontrado.' });
             }
     

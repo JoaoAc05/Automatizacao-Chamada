@@ -74,6 +74,13 @@ class chamadaAlunosController {
 
             const chamadaAlunos = await prisma.chamadaAlunos.findMany({
                 where: getWhere,
+                include: {
+                    Usuario: {
+                        select: {
+                            nome: true
+                        }
+                    }
+                }
             })
             if (chamadaAlunos.length === 0) {
                 return res.status(404).json({ message: 'Não foi encontrada nenhuma chamada.' }); 
