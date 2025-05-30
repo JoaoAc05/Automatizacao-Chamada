@@ -43,6 +43,11 @@ const TurmaAlunosController = new turmaAlunosController();
  *                     type: integer
  *                   id_turma:
  *                     type: integer
+ *                   Usuario:
+ *                     type: object
+ *                     properties:
+ *                       nome:
+ *                         type: string
  *       400:
  *         description: ID não informado ou inválido
  *       401:
