@@ -30,6 +30,20 @@ const CursosController = new cursosController();
  *     responses:
  *       200:
  *         description: Curso encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 descricao:
+ *                   type: string
+ *                 qtd_semestres:
+ *                   type: integer
+ *                 status:
+ *                   type: integer
+ *                   description: 0 - Ativo, 1 - Inativo
  *       400:
  *         description: ID não informado ou inválido
  *       401:
@@ -54,6 +68,22 @@ CursosRouter.get('/:id', auth, permissao([2]), CursosController.getId);
  *     responses:
  *       200:
  *         description: Lista de cursos retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   descricao:
+ *                     type: string
+ *                   qtd_semestres:
+ *                     type: integer
+ *                   status:
+ *                     type: integer
+ *                     description: 0 - Ativo, 1 - Inativo 
  *       204:
  *         description: Requisição bem-sucedida, mas sem conteúdo
  *       401:

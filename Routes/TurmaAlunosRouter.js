@@ -30,6 +30,19 @@ const TurmaAlunosController = new turmaAlunosController();
  *     responses:
  *       200:
  *         description: Lista de alunos vinculados à turma
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_aluno:
+ *                     type: integer
+ *                   id_turma:
+ *                     type: integer
  *       400:
  *         description: ID não informado ou inválido
  *       401:
@@ -54,6 +67,19 @@ TurmaAlunosRouter.get('/:id_turma', auth, permissao([2]), TurmaAlunosController.
  *     responses:
  *       200:
  *         description: Lista de vínculos aluno-turma
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_aluno:
+ *                     type: integer
+ *                   id_turma:
+ *                     type: integer
  *       204:
  *         description: Nenhum vínculo encontrado
  *       401:

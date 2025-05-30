@@ -30,6 +30,21 @@ const DisciplinasController = new disciplinasController();
  *     responses:
  *       200:
  *         description: Disciplina encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 descricao:
+ *                   type: string
+ *                 id_curso:
+ *                   type: integer
+ *                 carga_horario:
+ *                   type: integer
+ *                 status:
+ *                   type: integer
  *       400:
  *         description: ID não informado ou inválido
  *       401:
@@ -54,6 +69,28 @@ DisciplinasRouter.get('/:id', auth, permissao([2]), DisciplinasController.getId)
  *     responses:
  *       200:
  *         description: Lista de disciplinas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   descricao:
+ *                     type: string
+ *                   id_curso:
+ *                     type: integer
+ *                   carga_horario:
+ *                     type: integer
+ *                   status:
+ *                     type: integer
+ *                   Curso:
+ *                     type: object
+ *                     properties:
+ *                       descricao:
+ *                         type: string
  *       204:
  *         description: Requisição bem-sucedida, mas sem conteúdo
  *       401:

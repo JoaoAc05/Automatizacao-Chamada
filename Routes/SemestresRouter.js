@@ -30,6 +30,25 @@ const SemestresController = new semestresController();
  *     responses:
  *       200:
  *         description: Semestre encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 descricao:
+ *                   type: string
+ *                   example: "2024/2"
+ *                 data_inicio:
+ *                   type: string
+ *                   format: date-time
+ *                 data_final:
+ *                   type: string
+ *                   format: date-time
+ *                 padrao:
+ *                   type: integer
+ *                   description: 0 - padrão, 1 - não
  *       400:
  *         description: ID não informado ou inválido
  *       401:
@@ -54,6 +73,27 @@ SemestresRouter.get('/:id', auth, permissao([2]), SemestresController.getId);
  *     responses:
  *       200:
  *         description: Lista de semestres retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   descricao:
+ *                     type: string
+ *                     example: "2024/2"
+ *                   data_inicio:
+ *                     type: string
+ *                     format: date-time
+ *                   data_final:
+ *                     type: string
+ *                     format: date-time
+ *                   padrao:
+ *                     type: integer
+ *                     description: 0 - padrão, 1 - não
  *       204:
  *         description: Requisição bem-sucedida, mas sem conteúdo
  *       401:

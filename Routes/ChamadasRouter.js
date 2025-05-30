@@ -110,7 +110,6 @@ ChamadasRouter.get('/professor/', auth, permissao([1, 2]), ChamadasController.ch
  *                 data_hora_inicio:
  *                   type: string
  *                   format: date-time
- *                   example: "2025-05-29T21:54:17.414Z"
  *                 data_hora_final:
  *                   type: string
  *                   format: date-time
@@ -139,6 +138,28 @@ ChamadasRouter.get('/:id', auth, permissao([1, 2]), ChamadasController.getId); /
  *     responses:
  *       200:
  *         description: Lista de chamadas retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_professor:
+ *                     type: integer
+ *                   id_disciplina:
+ *                     type: integer
+ *                   id_semestre:
+ *                     type: integer
+ *                   data_hora_inicio:
+ *                     type: string
+ *                     format: date-time
+ *                   data_hora_final:
+ *                     type: string
+ *                     format: date-time
+ *                     nullable: true
  *       204:
  *         description: Requisição bem-sucedida, mas sem conteúdo
  *       401:

@@ -110,7 +110,7 @@ ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosControl
  *                     properties:
  *                       nome:
  *                         type: string
-*       204:
+ *       204:
  *         description: Nenhuma presença encontrada
  *       400:
  *         description: Nenhum dado fornecido para consulta

@@ -35,6 +35,24 @@ const SemestreDisciplinasController = new semestreDisciplinasController();
  *     responses:
  *       200:
  *         description: Lista de disciplinas atribuídas ao professor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id_disciplina:
+ *                     type: integer
+ *                   descricao:
+ *                     type: string
+ *                   carga_horaria:
+ *                     type: integer
+ *                   id_semestre:
+ *                     type: integer
+ *                   semestre:
+ *                     type: string
+ *                     example: "2024/2"
  *       400:
  *         description: ID do professor não fornecido
  *       401:
@@ -64,6 +82,21 @@ SemestreDisciplinasRouter.get('/professor/', auth, permissao([1, 2]), SemestreDi
  *     responses:
  *       200:
  *         description: Lista de disciplinas do semestre
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_disciplina:
+ *                     type: integer
+ *                   id_professor:
+ *                     type: integer
+ *                   id_semestre:
+ *                     type: integer
  *       400:
  *         description: ID do semestre não fornecido
  *       401:
@@ -86,6 +119,21 @@ SemestreDisciplinasRouter.get('/:id_semestre/disciplinas',  auth, permissao([2])
  *     responses:
  *       200:
  *         description: Lista de vínculos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_disciplina:
+ *                     type: integer
+ *                   id_professor:
+ *                     type: integer
+ *                   id_semestre:
+ *                     type: integer
  *       204:
  *         description: Nenhum vínculo encontrado
  *       401:

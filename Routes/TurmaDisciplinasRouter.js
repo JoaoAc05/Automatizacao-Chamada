@@ -30,6 +30,21 @@ const TurmaDisciplinasController = new turmaDisciplinasController();
  *     responses:
  *       200:
  *         description: Lista de disciplinas da turma retornada com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_disciplina:
+ *                     type: integer
+ *                   id_semestre:
+ *                     type: integer
+ *                   id_turma:
+ *                     type: integer
  *       400:
  *         description: ID não informado ou inválido
  *       401:
@@ -54,6 +69,21 @@ TurmaDisciplinasRouter.get('/:id_turma', auth, permissao([2]), TurmaDisciplinasC
  *     responses:
  *       200:
  *         description: Lista de vínculos retornada com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_disciplina:
+ *                     type: integer
+ *                   id_semestre:
+ *                     type: integer
+ *                   id_turma:
+ *                     type: integer
  *       204:
  *         description: Nenhum vínculo encontrado.
  *       401:
