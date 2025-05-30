@@ -179,10 +179,16 @@ ChamadaAlunosRouter.get('/alunos', auth, permissao([2]), ChamadaAlunosController
  *           schema:
  *             type: object
  *             required:
+ *               - geo_aluno
+ *               - geo_professor
  *               - hora_post
  *               - id_chamada
  *               - id_aluno
  *             properties:
+ *               geo_professor:
+ *                 type: string
+ *               geo_aluno:
+ *                 type: string
  *               hora_post:
  *                 type: string
  *                 format: date-time

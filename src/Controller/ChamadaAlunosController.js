@@ -158,8 +158,7 @@ class chamadaAlunosController {
             const presenca = await prisma.chamadaAlunos.findFirst({
                 where:{
                     id_aluno: Number(id_aluno),
-                    id_chamada: Number(id_chamada),
-                    status: 1
+                    id_chamada: Number(id_chamada)
                 }
             })
             if (presenca) {
@@ -220,12 +219,26 @@ class chamadaAlunosController {
             const presenca = await prisma.chamadaAlunos.findFirst({
                 where:{
                     id_aluno: Number(id_aluno),
-                    id_chamada: Number(id_chamada),
-                    status: 1
+                    id_chamada: Number(id_chamada)
                 }
             })
             if (presenca) {
-                 return res.status(409).json({ message: 'Aluno já está presente nesta chamada.' })
+                if (presenca.status == 0) { // Se a presença já existe mas foi removida
+                    const retornarPresenca = await prisma.chamadaAlunos.update({
+                        where: {
+                            id: presenca.id
+                        },
+                        data: {
+                            status: 1 // Presente
+                        }
+                    })
+                    if (!retornarPresenca) {
+                        return res.status(400).json({ message: 'Presença não foi registrada, contate o suporte!' })
+                    }
+                    return res.status(201).json(retornarPresenca);
+                }
+
+                return res.status(409).json({ message: 'Aluno já está presente nesta chamada.' })
             }
 
             const createChamadaAluno = await prisma.chamadaAlunos.create({ 
@@ -309,6 +322,7 @@ class chamadaAlunosController {
     
     async deletar(req, res) { // As presenças não podem ser excluidas de forma alguma, então será dado apenas o update no status
         const { id_chamada, id_aluno, id_vinculo } = req.query;
+        // const { observacao } = req.query;
 
         if (id_vinculo) {
             const chamadaAluno = await prisma.chamadaAlunos.findUnique({
@@ -326,6 +340,7 @@ class chamadaAlunosController {
                 },
                 data: {
                     status: 0 // Presença Removida
+                    //,observacao: observacao
                 }
             })
             if (!deletePresenca) {
@@ -346,7 +361,8 @@ class chamadaAlunosController {
                     id_aluno: Number(id_aluno), 
                 },
                 data: {
-                    status: 1 // Presença Removida
+                    status: 0 // Presença Removida
+                    //,observacao: observacao
                 }
             })
             if (deleteChamadaAluno.count === 0) {
@@ -359,6 +375,7 @@ class chamadaAlunosController {
             return res.status(500).json({ message: 'Erro ao remover presença: ' + e.message })
         }
     }
+
 
     async getAlunos(req, res) {
         const { id_disciplina, id_semestre } = req.query;
