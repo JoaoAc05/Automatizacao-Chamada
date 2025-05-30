@@ -136,6 +136,22 @@ ChamadaAlunosRouter.get('/presencas/', auth, permissao([1, 2]), ChamadaAlunosCon
  *     responses:
  *       200:
  *         description: Lista de presenças retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_chamada:
+ *                     type: integer
+ *                   id_aluno:
+ *                     type: integer
+ *                   status:
+ *                     type: integer
+ *                     description: 0 - Removido, 1 - Presente
  *       204:
  *         description: Nenhuma presença encontrada
  *       401:

@@ -30,6 +30,25 @@ const TurmasController = new turmasController();
  *     responses:
  *       200:
  *         description: Turma encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 semestre_curso:
+ *                   type: integer
+ *                 id_curso:
+ *                   type: integer
+ *                 status:
+ *                   type: integer
+ *                 Curso:
+ *                   type: object
+ *                   properties:
+ *                     descricao:
+ *                       type: string
+ *                       example: "Análise e Desenv. de Sistemas"
  *       400:
  *         description: ID não informado ou inválido
  *       401:
@@ -54,6 +73,28 @@ TurmasRouter.get('/:id', auth, permissao([2]), TurmasController.getId);
  *     responses:
  *       200:
  *         description: Lista de turmas retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   semestre_curso:
+ *                     type: integer
+ *                     description: Semestre cursado (5º Semestre)
+ *                   id_curso:
+ *                     type: integer
+ *                   status:
+ *                     type: integer
+ *                     example: 0
+ *                   Curso:
+ *                     type: object
+ *                     properties:
+ *                       descricao:
+ *                         type: string
  *       204:
  *         description: Requisição bem-sucedida, mas sem conteúdo
  *       401:

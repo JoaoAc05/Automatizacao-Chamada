@@ -30,6 +30,32 @@ const UsuariosController = new usuariosController();
  *     responses:
  *       200:
  *         description: Usuário encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 nome:
+ *                   type: string
+ *                 ra:
+ *                   type: string
+ *                 cpf:
+ *                   type: string
+ *                 senha:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *                 imei:
+ *                   type: string
+ *                 tipo:
+ *                   type: integer
+ *                 status:
+ *                   type: integer
+ *                 data_cadastro:
+ *                   type: string
+ *                   format: date-time
  *       400:
  *         description: Id não informado
  *       401:
@@ -54,6 +80,36 @@ UsuariosRouter.get('/:id', auth, permissao([1, 2]), UsuariosController.getId);
  *     responses:
  *       200:
  *         description: Lista de usuários
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   nome:
+ *                     type: string
+ *                   ra:
+ *                     type: string
+ *                   cpf:
+ *                     type: string
+ *                   senha:
+ *                     type: string
+ *                   email:
+ *                     type: string
+ *                   imei:
+ *                     type: string
+ *                   tipo:
+ *                     type: integer
+ *                     description: 0 = Aluno, 1 = Professor
+ *                   status:
+ *                     type: integer
+ *                     description: 0 - Cadastrado, 1 - Ativo, 2 - Inativo
+ *                   data_cadastro:
+ *                     type: string
+ *                     format: date-time
  *       204:
  *         description: Requisição bem-sucedida, mas sem conteúdo
  *       401:
