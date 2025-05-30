@@ -312,46 +312,6 @@ ChamadaAlunosRouter.put('/alunos/remover', auth, permissao([1, 2]), ChamadaAluno
 
 /**
  * @swagger
- * /chamada/alunos/retornar:
- *   put:
- *     summary: Voltar a presença do aluno que foi removida da chamada
- *     tags: [ChamadaAlunos]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: id_vinculo
- *         schema:
- *           type: integer
- *         description: ID do vínculo da presença (chamadaAlunos.id).
- *       - in: query
- *         name: id_chamada
- *         schema:
- *           type: integer
- *         description: ID da chamada. Obrigatório se id_vinculo não for informado.
- *       - in: query
- *         name: id_aluno
- *         schema:
- *           type: integer
- *         description: ID do aluno. Obrigatório se id_vinculo não for informado.
- *     responses:
- *       200:
- *         description: Presença retornada com sucesso
- *       400:
- *         description: Parâmetros obrigatórios ausentes
- *       401:
- *         description: Não autorizado
- *       403:
- *         description: Sem nível de permissão
- *       404:
- *         description: Registro de presença não encontrado
- *       500:
- *         description: Erro ao remover presença
- */
-ChamadaAlunosRouter.put('/alunos/remover', auth, permissao([1, 2]), ChamadaAlunosController.deletar);
-
-/**
- * @swagger
  * /chamada/alunos:
  *   put:
  *     summary: Atualizar os dados da presença de um aluno
