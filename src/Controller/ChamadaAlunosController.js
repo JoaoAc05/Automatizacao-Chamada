@@ -158,8 +158,7 @@ class chamadaAlunosController {
             const presenca = await prisma.chamadaAlunos.findFirst({
                 where:{
                     id_aluno: Number(id_aluno),
-                    id_chamada: Number(id_chamada),
-                    status: 1
+                    id_chamada: Number(id_chamada)
                 }
             })
             if (presenca) {
@@ -220,8 +219,7 @@ class chamadaAlunosController {
             const presenca = await prisma.chamadaAlunos.findFirst({
                 where:{
                     id_aluno: Number(id_aluno),
-                    id_chamada: Number(id_chamada),
-                    status: 1
+                    id_chamada: Number(id_chamada)
                 }
             })
             if (presenca) {
@@ -309,6 +307,7 @@ class chamadaAlunosController {
     
     async deletar(req, res) { // As presenças não podem ser excluidas de forma alguma, então será dado apenas o update no status
         const { id_chamada, id_aluno, id_vinculo } = req.query;
+        // const { observacao } = req.query;
 
         if (id_vinculo) {
             const chamadaAluno = await prisma.chamadaAlunos.findUnique({
@@ -326,6 +325,7 @@ class chamadaAlunosController {
                 },
                 data: {
                     status: 0 // Presença Removida
+                    //,observacao: observacao
                 }
             })
             if (!deletePresenca) {
@@ -346,7 +346,8 @@ class chamadaAlunosController {
                     id_aluno: Number(id_aluno), 
                 },
                 data: {
-                    status: 1 // Presença Removida
+                    status: 0 // Presença Removida
+                    //,observacao: observacao
                 }
             })
             if (deleteChamadaAluno.count === 0) {
@@ -354,6 +355,60 @@ class chamadaAlunosController {
             }
 
             return res.status(200).json({ message: 'Presença do aluno removida com sucesso.' })
+        } catch (e) {
+            console.log('Erro ao remover presença: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao remover presença: ' + e.message })
+        }
+    }
+
+    async retornar(req, res) { // Se a presença do aluno for removida, usa esta rota para voltar a presença
+        const { id_chamada, id_aluno, id_vinculo } = req.query;
+
+        if (id_vinculo) {
+            const chamadaAluno = await prisma.chamadaAlunos.findUnique({
+                where: {
+                    id: Number(id_vinculo),
+                }
+            })
+            if (!chamadaAluno) {
+                return res.status(404).json({ message: 'Presença não encontrada.'})
+            }
+
+            const deletePresenca = await prisma.chamadaAlunos.update({
+                where: { 
+                    id: Number(id_vinculo)
+                },
+                data: {
+                    status: 1 // Presença retornada
+                }
+            })
+            if (!deletePresenca) {
+                return res.status(404).json({ message: 'Presença não encontrada para retornar.'})
+            }
+
+            return res.status(200).json({ message: 'Presença do aluno retornada com sucesso.' })
+        }
+
+        try {
+
+            if (!id_aluno || !id_chamada) {
+                return res.status(400).json({ message: 'Id_aluno e Id_chamada são obrigatórios quando não informado Id_vinculo'})
+            }
+            const deleteChamadaAluno = await prisma.chamadaAlunos.updateMany({
+                where: { 
+                    id_chamada: Number(id_chamada),
+                    id_aluno: Number(id_aluno), 
+                    status: 0
+                },
+                data: {
+                    status: 1 // Presença retornada
+                }
+            })
+            if (deleteChamadaAluno.count === 0) {
+                return res.status(404).json({ message: 'Registro de presença não encontrado para retornar.' });
+            }
+
+            return res.status(200).json({ message: 'Presença do aluno retornada com sucesso.' })
         } catch (e) {
             console.log('Erro ao remover presença: ' + e.message)
             return res.status(500).json({ message: 'Erro ao remover presença: ' + e.message })
