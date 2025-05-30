@@ -31,6 +31,13 @@ class turmaAlunosController {
                 where: {
                     id_turma: Number(id_turma),
                 },
+                include: {
+                    Usuario: {
+                        select: {
+                            nome: true
+                        }
+                    }
+                }
             })
             if (turmaAlunos.length === 0) {
                 return res.status(404).json({ message: 'Não encontrado nenhum registro de aluno desta turma'} )
