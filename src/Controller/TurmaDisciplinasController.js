@@ -41,6 +41,18 @@ class turmaDisciplinasController {
                 where: {
                     id_turma: Number(id_turma),
                 },
+                include: {
+                    Disciplina: {
+                        select: {
+                            descricao: true
+                        }
+                    },
+                    Semestre: {
+                        select: {
+                            descricao: true
+                        }
+                    }
+                }
             })
             if (turmaDisc.length === 0) {
                 return res.status(404).json({message: 'Não encontrado nenhum registro de disciplina desta turma'})
