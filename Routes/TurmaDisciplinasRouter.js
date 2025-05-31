@@ -45,6 +45,16 @@ const TurmaDisciplinasController = new turmaDisciplinasController();
  *                     type: integer
  *                   id_turma:
  *                     type: integer
+ *                   Disciplina:
+ *                     type: object
+ *                     properties:
+ *                       descricao:
+ *                         type: string
+ *                   Semestre:
+ *                     type: object
+ *                     properties:
+ *                       descricao:
+ *                         type: string
  *       400:
  *         description: ID não informado ou inválido
  *       401:
