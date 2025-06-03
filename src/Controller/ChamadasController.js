@@ -67,13 +67,13 @@ class chamadasController {
             }
 
             const chamadaOrdenada = {
-                id: Number(c.id),
-                id_disciplina: Number(c.id_disciplina),
-                descricao: c.Disciplina.descricao,
-                id_professor: Number(c.id_professor),
-                id_semestre: Number(c.id_semestre),
-                data_hora_inicio: c.data_hora_inicio,
-                data_hora_final: c.data_hora_final
+                id: Number(chamada.id),
+                id_disciplina: Number(chamada.id_disciplina),
+                descricao: chamada.Disciplina.descricao,
+                id_professor: Number(chamada.id_professor),
+                id_semestre: Number(chamada.id_semestre),
+                data_hora_inicio: chamada.data_hora_inicio,
+                data_hora_final: chamada.data_hora_final
             };
 
             return res.status(200).json(chamadaOrdenada)
