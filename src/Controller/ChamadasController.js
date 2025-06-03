@@ -66,7 +66,7 @@ class chamadasController {
                 return res.status(404).json({ message: 'Chamada não encontrada.' }); 
             }
 
-            const chamadaOrdenada = chamada.map((c) => ({
+            const chamadaOrdenada = {
                 id: Number(c.id),
                 id_disciplina: Number(c.id_disciplina),
                 descricao: c.Disciplina.descricao,
@@ -74,7 +74,7 @@ class chamadasController {
                 id_semestre: Number(c.id_semestre),
                 data_hora_inicio: c.data_hora_inicio,
                 data_hora_final: c.data_hora_final
-            }));
+            };
 
             return res.status(200).json(chamadaOrdenada)
         } catch (e) {
