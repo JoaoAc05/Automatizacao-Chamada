@@ -51,6 +51,8 @@ const ChamadasController = new chamadasController();
  *                 properties:
  *                   id:
  *                     type: integer
+ *                   descricao:
+ *                     type: string
  *                   id_disciplina:
  *                     type: integer
  *                   id_professor:
@@ -63,6 +65,7 @@ const ChamadasController = new chamadasController();
  *                   data_hora_final:
  *                     type: string
  *                     format: date-time
+ *                     nullable: true
  *       400:
  *         description: Requisição inválida
  *       401:
@@ -105,6 +108,8 @@ ChamadasRouter.get('/professor/', auth, permissao([1, 2]), ChamadasController.ch
  *                   type: integer
  *                 id_disciplina:
  *                   type: integer
+ *                 descricao:
+ *                   type: string
  *                 id_semestre:
  *                   type: integer
  *                 data_hora_inicio:
@@ -151,6 +156,8 @@ ChamadasRouter.get('/:id', auth, permissao([1, 2]), ChamadasController.getId); /
  *                     type: integer
  *                   id_disciplina:
  *                     type: integer
+ *                   descricao:
+ *                     type: string
  *                   id_semestre:
  *                     type: integer
  *                   data_hora_inicio:

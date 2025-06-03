@@ -7,13 +7,30 @@ class chamadasController {
             const chamadas = await prisma.chamada.findMany({
                 orderBy: {
                     id: 'asc'
+                },
+                include: { 
+                    Disciplina: {
+                        select: {
+                            descricao: true
+                        }
+                    } 
                 }
             })
             if (chamadas.length === 0) {
                 return res.status(204).end();
             }
+
+            const todasChamadas = chamadas.map((c) => ({
+                id: Number(c.id),
+                id_disciplina: Number(c.id_disciplina),
+                descricao: c.Disciplina.descricao,
+                id_professor: Number(c.id_professor),
+                id_semestre: Number(c.id_semestre),
+                data_hora_inicio: c.data_hora_inicio,
+                data_hora_final: c.data_hora_final
+            }));
            
-            return res.status(200).json(chamadas);
+            return res.status(200).json(todasChamadas);
         } catch (e) {
             console.log('Erro ao retornar chamadas: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar chamadas: ' + e.message });
@@ -37,6 +54,13 @@ class chamadasController {
                 where: {
                     id: Number(id),
                 },
+                include: { 
+                    Disciplina: {
+                        select: {
+                            descricao: true
+                        }
+                    } 
+                }
             })
             if (!chamada) {
                 return res.status(404).json({ message: 'Chamada não encontrada.' }); 
@@ -375,7 +399,12 @@ class chamadasController {
               
               const chamadas = await prisma.chamada.findMany({
                 where: filter,
-                include: { Disciplina: true },
+                include: { 
+                    Disciplina: true 
+                },
+                orderBy: {
+                    id: 'asc'
+                },
               });
               
               if (chamadas.length === 0) {
