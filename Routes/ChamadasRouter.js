@@ -51,10 +51,10 @@ const ChamadasController = new chamadasController();
  *                 properties:
  *                   id:
  *                     type: integer
- *                   descricao:
- *                     type: string
  *                   id_disciplina:
  *                     type: integer
+ *                   descricao:
+ *                     type: string
  *                   id_professor:
  *                     type: integer
  *                   id_semestre:
