@@ -158,7 +158,7 @@ class semestreDisciplinasController {
                 }
             })
             if (disciplinaSemestre) {
-                return res.status(400).json({ message: 'Esse professor já está sendo regidendo essa disciplina neste semestre.' })
+                return res.status(400).json({ message: 'Esse professor já está sendo regendo essa disciplina neste semestre.' })
             }
 
             const createSemestreDisciplinas = await prisma.semestreProfessorDisciplinas.create({
@@ -291,7 +291,7 @@ class semestreDisciplinasController {
         }
     }
 
-    async disciplinaProfessor(req, res) {
+    async disciplinaProfessor(req, res) { // GET para o Professor saber as próprias matérias
         const {id_professor, id_semestre} = req.query;
 
         if (!id_professor) {
