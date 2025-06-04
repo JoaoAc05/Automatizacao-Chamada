@@ -44,12 +44,33 @@ class semestreDisciplinasController {
                 where: {
                     id_semestre: Number(id_semestre),
                 },
+                include: { 
+                    Disciplina: {
+                        select: {
+                            descricao: true
+                        }
+                    },
+                    Semestre: {
+                        select: {
+                            descricao: true
+                        } 
+                    }
+                }
             });
             if (semestreDisciplinas.length === 0) {
                 return res.status(404).json({ message: 'Nenhum vinculo de disciplina encontrado deste semestre.' }); 
             }
 
-            return res.status(200).json(semestreDisciplinas)
+            const todasDisciplinas = semestreDisciplinas.map((spd) => ({
+                id: Number(spd.id),
+                id_disciplina: Number(spd.id_disciplina),
+                descricao_disciplina: spd.Disciplina.descricao,
+                id_professor: Number(spd.id_professor),
+                id_semestre: Number(spd.id_semestre),
+                descricao_semestre: spd.Semestre.descricao,
+            }));
+
+            return res.status(200).json(todasDisciplinas)
         } catch (e) {
             console.log('Erro ao retornar disciplinas do semestre: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar disciplinas do semestre: ' + e.message })
