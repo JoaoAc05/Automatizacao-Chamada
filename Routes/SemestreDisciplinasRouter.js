@@ -44,13 +44,13 @@ const SemestreDisciplinasController = new semestreDisciplinasController();
  *                 properties:
  *                   id_disciplina:
  *                     type: integer
- *                   descricao:
+ *                   descricao_disciplina:
  *                     type: string
  *                   carga_horaria:
  *                     type: integer
  *                   id_semestre:
  *                     type: integer
- *                   semestre:
+ *                   descricao_semestre:
  *                     type: string
  *                     example: "2024/2"
  *       400:
@@ -93,10 +93,15 @@ SemestreDisciplinasRouter.get('/professor/', auth, permissao([1, 2]), SemestreDi
  *                     type: integer
  *                   id_disciplina:
  *                     type: integer
+ *                   descricao_disciplina:
+ *                     type: string
  *                   id_professor:
  *                     type: integer
  *                   id_semestre:
  *                     type: integer
+ *                   descricao_semestre:
+ *                     type: string
+ *                     example: "2024/2"
  *       400:
  *         description: ID do semestre não fornecido
  *       401:
@@ -130,10 +135,15 @@ SemestreDisciplinasRouter.get('/:id_semestre/disciplinas',  auth, permissao([2])
  *                     type: integer
  *                   id_disciplina:
  *                     type: integer
+ *                   descricao_disciplina:
+ *                     type: string
  *                   id_professor:
  *                     type: integer
  *                   id_semestre:
  *                     type: integer
+ *                   descricao_semestre:
+ *                     type: string
+ *                     example: "2024/2"
  *       204:
  *         description: Nenhum vínculo encontrado
  *       401:
@@ -164,13 +174,10 @@ SemestreDisciplinasRouter.get('/disciplinas', auth, permissao([2]), SemestreDisc
  *             properties:
  *               id_disciplina:
  *                 type: integer
- *                 example: 2
  *               id_professor:
  *                 type: integer
- *                 example: 3
  *               id_semestre:
  *                 type: integer
- *                 example: 1
  *     responses:
  *       201:
  *         description: Vínculo criado com sucesso

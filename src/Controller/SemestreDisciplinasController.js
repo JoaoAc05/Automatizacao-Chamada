@@ -6,6 +6,18 @@ class semestreDisciplinasController {
     async getAll(req, res) { 
         try {
             const semestreDisciplinas = await prisma.semestreProfessorDisciplinas.findMany({
+                include: { 
+                    Disciplina: {
+                        select: {
+                            descricao: true
+                        }
+                    },
+                    Semestre: {
+                        select: {
+                            descricao: true
+                        } 
+                    }
+                },
                 orderBy: {
                     id: 'asc'
                 }
@@ -14,7 +26,17 @@ class semestreDisciplinasController {
                 return res.status(204).end();
             }
             
-            return res.status(200).json(semestreDisciplinas);
+            const todasDisciplinas = semestreDisciplinas.map((spd) => ({
+                id: Number(spd.id),
+                id_disciplina: Number(spd.id_disciplina),
+                descricao_disciplina: spd.Disciplina.descricao,
+                id_professor: Number(spd.id_professor),
+                id_semestre: Number(spd.id_semestre),
+                descricao_semestre: spd.Semestre.descricao,
+            }));
+
+
+            return res.status(200).json(todasDisciplinas);
         } catch (e) {
             console.log('Erro ao retornar inculos de disciplina, semestre e professor: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar os vinculos de disciplina, semestre e professor: ' + e.message });
@@ -318,10 +340,10 @@ class semestreDisciplinasController {
 
             const disciplinas = dps.map((d) => ({
                 id_disciplina: d.id_disciplina,
-                descricao: d.Disciplina.descricao,
+                descricao_disciplina: d.Disciplina.descricao,
                 carga_horaria: d.Disciplina.carga_horario,
                 id_semestre: d.id_semestre,
-                semestre: d.Semestre.descricao
+                descricao_semestre: d.Semestre.descricao
             }));
             return res.status(200).json(disciplinas)
         } catch (e) {
