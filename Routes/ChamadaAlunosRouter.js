@@ -197,10 +197,12 @@ ChamadaAlunosRouter.get('/alunos', auth, permissao([2]), ChamadaAlunosController
  *                 example: -55.5150397
  *               lat_aluno:
  *                 type: number
+ *                 format: double
+ *                 example: -11.8454347 
  *               long_aluno:
  *                 type: number
- *               geo_aluno:
- *                 type: string
+ *                 format: double
+ *                 example: -55.5150397
  *               hora_post:
  *                 type: string
  *                 format: date-time
