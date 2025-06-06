@@ -1,4 +1,6 @@
 import { prisma } from "../prisma.js";
+import { validarDistanciaProfessorAluno } from '../Utils/LocalizacaoUtils.js';
+import { validarDiferencaDeTempo } from '../Utils/ValidaSegundosUtils.js';
 
 class chamadaAlunosController {
     async getAll(req, res) { 
@@ -104,29 +106,31 @@ class chamadaAlunosController {
             const serverTime = new Date();
             
             const postTime = new Date(hora_post);
-                        
-            // (SEGUNDOS SERVIDOR - SEGUNDOS POST) + 60 * (MINUTOS SERVIDOR - MINUTOS POST)
-            //EX: Horário Servidor = 13:01:58
-            // Horário Post = 13:02:02
-            // Segundos - Segundos ( 58 - 2 = 56)
-            // Minutos  - Minutos ( 1 - 2 = -1)
-            // Minutos Res * 60 ( -1 * 60 = -60)
-            // Segundos Res + Minutos Res ( 56 + (-60) = -4)
-            // RESULTADO = 4 segundos de diferenca
-            const secondsDifference = Math.abs(serverTime.getUTCSeconds() - postTime.getUTCSeconds() + 60 * (serverTime.getUTCMinutes() - postTime.getUTCMinutes()));
-    
-            // Verifica se a diferença em segundos é maior que 5
-            if (secondsDifference > 5) {
+
+            
+            const horarioValido = validarDiferencaDeTempo(serverTime, postTime);
+            if (!horarioValido) {
                 return res.status(400).json({
                     message: 'Horário do aluno é inválido.',
                     serverTime: serverTime.toISOString(),
                     postTime: postTime.toISOString(),
                 });
             }
+                        
+            if (!lat_professor || !long_professor || !lat_aluno || !long_aluno ) {
+                return res.status(400).json({ message: 'Coordenadas de geolocalização estão incompletas.' });
+            }
 
-            // if (!lat_professor || !long_professor || !lat_aluno || !long_aluno ) {
+            const isDistanciaValida = validarDistanciaProfessorAluno(
+                Number(lat_professor),
+                Number(long_professor),
+                Number(lat_aluno),
+                Number(long_aluno)
+            );
 
-            // }
+            if (!isDistanciaValida) {
+                return res.status(400).json({ message: 'Aluno está muito distante do professor.' });
+            }
             delete req.body.lat_professor;
             delete req.body.long_professor;
             delete req.body.lat_aluno;

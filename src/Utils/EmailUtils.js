@@ -6,4 +6,4 @@ export function validarEmail(email) {
 
     const formatacao = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return formatacao.test(email);
-  }
+}
