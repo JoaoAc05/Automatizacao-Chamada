@@ -120,7 +120,7 @@ class turmaDisciplinasController {
                 where: {
                     id_disciplina: Number(id_disciplina),
                     id_turma: Number(id_turma),                        
-                    id_semestre: Number(semestre.id_semestre)
+                    id_semestre: Number(semestre.id)
                 }
             })
             if (disciplinaTurma) {
@@ -136,7 +136,7 @@ class turmaDisciplinasController {
                         connect: {id: id_turma}
                     },
                     Semestre: {
-                        connect: {id: id_semestre}
+                        connect: {id: semestre.id}
                     }
                 }
             });
