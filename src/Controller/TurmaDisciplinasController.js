@@ -127,7 +127,7 @@ class turmaDisciplinasController {
                 return res.status(400).json({message: 'Esta disciplina já está vinculada a está turma neste semestre'})
             }
 
-            const createTurmaDisicplinas = await prisma.turmaDisciplinas.create({ 
+            const createTurmaDisciplinas = await prisma.turmaDisciplinas.create({ 
                 data: {
                     Disciplina: {
                         connect: {id: id_disciplina}
@@ -140,7 +140,7 @@ class turmaDisciplinasController {
                     }
                 }
             });
-            return res.status(201).json(createTurmaDisicplinas);
+            return res.status(201).json(createTurmaDisciplinas);
         } catch (e) {
             console.log('Erro ao criar vinculo de Disciplina-Turma: ' + e.message)
             return res.status(500).json({ message: 'Erro ao criar vinculo de Disciplina-Turma: ' + e.message });
