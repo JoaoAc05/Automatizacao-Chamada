@@ -69,7 +69,7 @@ class turmaDisciplinasController {
         const {id_turma, id_disciplina, id_semestre} = req.body
         
         //Verifica se veio todas as informações
-        if (!id_turma || !id_disciplina || !id_semestre) {
+        if (!id_turma || !id_disciplina) {
             return res.status(400).json({ message: 'Os campos id_turma, id_disciplina e id_semestre são obrigatórios.' });
         }
         
@@ -94,20 +94,33 @@ class turmaDisciplinasController {
                 return res.status(404).json({message: 'Disciplina não encontrada'})
             }
 
-            const semestre = await prisma.semestre.findUnique({
-                where: {
-                    id: Number(id_semestre)
-                }
-            })
-            if (!semestre) {
-                return res.status(404).json({message: 'Semestre não encontrado'})
+            // Se não vier o Id_Semestre - Seleciona o semestre padrão
+            let semestre;
+            if (id_semestre) {
+                semestre = await prisma.semestre.findUnique({
+                    where: {
+                        id: Number(id_semestre)
+                    }
+                })
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre não encontrado.' });
+                } 
+            } else {
+                semestre = await prisma.semestre.findFirst({
+                    where: {
+                        padrao: 0
+                    }
+                }) 
+                if (!semestre) {
+                    return res.status(404).json({ message: 'Semestre padrão não encontrado.' });
+                } 
             }
 
             const disciplinaTurma = await prisma.turmaDisciplinas.findFirst({
                 where: {
                     id_disciplina: Number(id_disciplina),
-                    id_turma: Number(id_turma),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-                    id_semestre: Number(id_semestre)
+                    id_turma: Number(id_turma),                        
+                    id_semestre: Number(semestre.id_semestre)
                 }
             })
             if (disciplinaTurma) {
