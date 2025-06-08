@@ -236,6 +236,10 @@ class usuariosController {
                 dataToUpdate.senha = senhaHash
             }
 
+            if (dataToUpdate.imei === "") {
+                delete dataToUpdate.imei;
+            }
+
             const updateUsuarios = await prisma.usuario.update({
                 where: {
                     id: Number(id),
