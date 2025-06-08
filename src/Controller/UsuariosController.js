@@ -95,6 +95,8 @@ class usuariosController {
                 }
 
                 req.body.status = 1
+                delete req.body.imei;
+                delete req.body.ra;
             }
 
             if ([0, 1].includes(tipo)) {
@@ -115,7 +117,9 @@ class usuariosController {
                 if (usuario) {
                     return res.status(409).json({ message: 'CPF já cadastrado.' })
                 }
-            }        
+            } else {
+                delete req.body.cpf;
+            }
 
             const createUsuario = await prisma.usuario.create({ data: req.body });
             return res.status(201).json(createUsuario);
