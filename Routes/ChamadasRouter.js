@@ -152,11 +152,13 @@ ChamadasRouter.get('/:id', auth, permissao([1, 2]), ChamadasController.getId); /
  *                 properties:
  *                   id:
  *                     type: integer
- *                   id_professor:
- *                     type: integer
  *                   id_disciplina:
  *                     type: integer
  *                   descricao:
+ *                     type: string
+ *                   id_professor:
+ *                     type: integer
+ *                   nome:
  *                     type: string
  *                   id_semestre:
  *                     type: integer
