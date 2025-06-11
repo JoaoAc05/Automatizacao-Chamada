@@ -6,7 +6,7 @@ class chamadasController {
         try {
             const chamadas = await prisma.chamada.findMany({
                 orderBy: {
-                    id: 'asc'
+                    id: 'desc'
                 },
                 include: { 
                     Disciplina: {
@@ -419,7 +419,7 @@ class chamadasController {
                     Disciplina: true 
                 },
                 orderBy: {
-                    id: 'asc'
+                    id: 'desc'
                 },
               });
               
