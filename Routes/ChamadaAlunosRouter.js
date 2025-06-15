@@ -43,7 +43,7 @@ const ChamadaAlunosController = new chamadaAlunosController();
  *               items:
  *                 type: object
  *                 properties:
- *                   id_usuario:
+ *                   id_aluno:
  *                     type: integer
  *                   nome:
  *                     type: string
