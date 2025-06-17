@@ -102,7 +102,7 @@ class chamadaAlunosController {
                 id_aluno: Number(p.id_aluno),
                 aluno: p.Aluno.nome,
                 status: Number(p.status),
-                descricao_disciplina: p.Chamada.Disciplina.descricao
+                // descricao_disciplina: p.Chamada.Disciplina.descricao
             }));
 
             return res.status(200).json(presencasChamada)
