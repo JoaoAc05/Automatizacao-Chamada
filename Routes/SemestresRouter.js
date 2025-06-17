@@ -51,7 +51,7 @@ const SemestresController = new semestresController();
  *       500:
  *         description: Erro interno do servidor
  */
-SemestresRouter.get('/padrao/', auth, permissao([2]), SemestresController.getPadrao); 
+SemestresRouter.get('/padrao/', auth, permissao([1, 2]), SemestresController.getPadrao); 
 
 /**
  * @swagger
