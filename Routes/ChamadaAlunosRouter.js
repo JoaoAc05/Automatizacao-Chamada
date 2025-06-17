@@ -102,14 +102,13 @@ ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosControl
  *                     type: integer
  *                   id_aluno:
  *                     type: integer
+ *                   aluno:
+ *                     type: string
  *                   status:
  *                     type: integer
  *                     description: 0 - Removido, 1 - Presente
- *                   Aluno:
- *                     type: object
- *                     properties:
- *                       nome:
- *                         type: string
+ *                   descricao_disciplina:
+ *                     type: string 
  *       204:
  *         description: Nenhuma presença encontrada
  *       400:
