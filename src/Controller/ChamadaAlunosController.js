@@ -117,8 +117,11 @@ class chamadaAlunosController {
                 });
             }
                         
-            if (!lat_professor || !long_professor || !lat_aluno || !long_aluno ) {
-                return res.status(400).json({ message: 'Coordenadas de geolocalização estão incompletas.' });
+            if (!lat_professor || !long_professor ) {
+                return res.status(400).json({ message: 'Coordenadas de geolocalização do professor estão incompletas.' });
+            }
+            if ( !lat_aluno || !long_aluno ) {
+                return res.status(400).json({ message: 'Coordenadas de geolocalização do aluno estão incompletas.' });
             }
 
             const isDistanciaValida = validarDistanciaProfessorAluno(
