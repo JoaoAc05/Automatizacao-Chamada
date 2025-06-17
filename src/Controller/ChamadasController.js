@@ -18,6 +18,11 @@ class chamadasController {
                         select: {
                             nome: true
                         }
+                    },
+                    Semestre: {
+                        select: {
+                            descricao: true
+                        }
                     }
                 }
             })
@@ -28,10 +33,11 @@ class chamadasController {
             const todasChamadas = chamadas.map((c) => ({
                 id: Number(c.id),
                 id_disciplina: Number(c.id_disciplina),
-                descricao: c.Disciplina.descricao,
+                descricao_disciplina: c.Disciplina.descricao,
                 id_professor: Number(c.id_professor),
                 nome: c.Professor.nome,
                 id_semestre: Number(c.id_semestre),
+                descricao_semestre: c.Semestre.descricao,
                 data_hora_inicio: c.data_hora_inicio,
                 data_hora_final: c.data_hora_final
             }));
