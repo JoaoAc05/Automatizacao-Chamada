@@ -80,6 +80,15 @@ class chamadaAlunosController {
                         select: {
                             nome: true
                         }
+                    },
+                    Chamada: {
+                        select:{
+                            Disciplina: {
+                                select: {
+                                  descricao: true  
+                                }
+                            }
+                        }
                     }
                 }
             })
@@ -87,7 +96,16 @@ class chamadaAlunosController {
                 return res.status(404).json({ message: 'Não foi encontrada nenhuma chamada.' }); 
             }
 
-            return res.status(200).json(chamadaAlunos)
+            const presencasChamada = chamadaAlunos.map((p) => ({
+                id: Number(p.id),
+                id_chamada: Number(p.id_chamada),
+                id_aluno: Number(p.id_aluno),
+                aluno: p.Aluno.nome,
+                status: Number(p.status),
+                descricao_disciplina: p.Chamada.Disciplina.descricao
+            }));
+
+            return res.status(200).json(presencasChamada)
         } catch (e) {
             console.log('Erro ao retornar presenças da chamada: ' + e.message)
             return res.status(500).json({message: 'Erro ao retornar presenças da chamada: ' + e.message})
@@ -110,8 +128,9 @@ class chamadaAlunosController {
             
             const horarioValido = validarDiferencaDeTempo(serverTime, postTime);
             if (!horarioValido) {
+                console.log(`serverTime: ${serverTime.toISOString()}, postTime: ${postTime.toISOString()}`)
                 return res.status(400).json({
-                    message: 'Horário do aluno é inválido.',
+                    message: 'Horário é inválido.',
                     serverTime: serverTime.toISOString(),
                     postTime: postTime.toISOString(),
                 });
@@ -386,7 +405,7 @@ class chamadaAlunosController {
     }
 
 
-    async getAlunos(req, res) {
+    async getAlunos(req, res) { // Saber quais alunos podem participar da chamada já realizada
         const { id_disciplina, id_semestre } = req.query;
 
         if(!id_disciplina) {

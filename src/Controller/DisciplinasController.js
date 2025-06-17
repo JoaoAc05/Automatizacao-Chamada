@@ -19,6 +19,15 @@ class disciplinasController {
                 return res.status(204).end();
             }
 
+            // const disciplinasFormatado = disciplinas.map((d) => ({
+            //     id: Number(d.id),
+            //     descricao: p.descricao,
+            //     id_curso: Number(p.id_curso),
+            //     carga_horario: Number(p.carga_horario),
+            //     status: Number(p.status),
+            //     curso: p.Curso.descricao
+            // }));
+
             return res.status(200).json(disciplinas);
         } catch (e) {
             console.log('Erro ao retornar disciplinas: ' + e.message)
