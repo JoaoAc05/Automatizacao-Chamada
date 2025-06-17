@@ -416,7 +416,8 @@ class chamadasController {
               const chamadas = await prisma.chamada.findMany({
                 where: filter,
                 include: { 
-                    Disciplina: true 
+                    Disciplina: true,
+                    Semestre: true
                 },
                 orderBy: {
                     id: 'desc'
@@ -432,9 +433,10 @@ class chamadasController {
             const chamadaProfessor = chamadas.map((c) => ({
                 id: Number(c.id),
                 id_disciplina: Number(c.id_disciplina),
-                descricao: c.Disciplina.descricao,
+                descricao_disciplina: c.Disciplina.descricao,
                 id_professor: Number(c.id_professor),
                 id_semestre: Number(c.id_semestre),
+                descricao_semestre: c.Semestre.descricao,
                 data_hora_inicio: c.data_hora_inicio,
                 data_hora_final: c.data_hora_final
             }));
