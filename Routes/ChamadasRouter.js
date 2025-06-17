@@ -53,12 +53,14 @@ const ChamadasController = new chamadasController();
  *                     type: integer
  *                   id_disciplina:
  *                     type: integer
- *                   descricao:
+ *                   descricao_disciplina:
  *                     type: string
  *                   id_professor:
  *                     type: integer
  *                   id_semestre:
  *                     type: integer
+ *                   descricao_semestre:
+ *                     type: string
  *                   data_hora_inicio:
  *                     type: string
  *                     format: date-time
@@ -108,10 +110,12 @@ ChamadasRouter.get('/professor/', auth, permissao([1, 2]), ChamadasController.ch
  *                   type: integer
  *                 id_disciplina:
  *                   type: integer
- *                 descricao:
+ *                 descricao_disciplina:
  *                   type: string
  *                 id_semestre:
  *                   type: integer
+ *                 descricao_semestre:
+ *                   type: string
  *                 data_hora_inicio:
  *                   type: string
  *                   format: date-time
