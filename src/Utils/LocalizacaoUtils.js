@@ -31,7 +31,7 @@ export function calcularDistanciaEmMetros(lat1, lon1, lat2, lon2) {
 /**
  * Valida se a distância entre professor e aluno está dentro do limite permitido.
  */
-export function validarDistanciaProfessorAluno(latProf, lonProf, latAluno, lonAluno, limiteMetros = 50) {
+export function validarDistanciaProfessorAluno(latProf, lonProf, latAluno, lonAluno, limiteMetros = 500000) {
     const distancia = calcularDistanciaEmMetros(latProf, lonProf, latAluno, lonAluno);
     return distancia <= limiteMetros;
 }
