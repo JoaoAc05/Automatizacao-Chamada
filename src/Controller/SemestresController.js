@@ -2,7 +2,7 @@ import { prisma } from "../prisma.js";
 import { dataValida, dataFinalMaiorOuIgual } from '../Utils/DataUtils.js';
 
 class semestresController {
-    async getAll(req, res, next) { 
+    async getAll(req, res) { 
         try {
             const semestres = await prisma.semestre.findMany({
                 orderBy: {
@@ -20,7 +20,7 @@ class semestresController {
         }
     }
 
-    async getId(req, res, next) {
+    async getId(req, res) {
         const { id } = req.params;
 
         if (!id) {
@@ -41,6 +41,24 @@ class semestresController {
         } catch (e) {
             console.log('Erro ao retornar semestre: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar semestre: ' + e.message })
+        }
+    };
+
+    async getPadrao(req, res) {
+        try {
+            const semestre = await prisma.semestre.findFirst({
+                where: {
+                    padrao: 0,
+                },
+            })
+            if (!semestre) {
+                return res.status(404).json({ message: 'Não encontrado semestre padrão' })
+            }
+
+            return res.status(200).json(semestre)
+        } catch (e) {
+            console.log('Erro ao retornar semestre padrao: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao retornar semestre padrao: ' + e.message })
         }
     };
 

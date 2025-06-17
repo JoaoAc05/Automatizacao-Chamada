@@ -14,6 +14,47 @@ const SemestresController = new semestresController();
 
 /**
  * @swagger
+ * /semestres/padrao/:
+ *   get:
+ *     summary: Buscar semestre padrão
+ *     tags: [Semestres]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Semestre encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 descricao:
+ *                   type: string
+ *                   example: "2024/2"
+ *                 data_inicio:
+ *                   type: string
+ *                   format: date-time
+ *                 data_final:
+ *                   type: string
+ *                   format: date-time
+ *                 padrao:
+ *                   type: integer
+ *                   description: 0 - padrão, 1 - não
+ *       401:
+ *         description: Não autorizado
+ *       403:
+ *         description: Sem nível de permissão
+ *       404:
+ *         description: Semestre não encontrado
+ *       500:
+ *         description: Erro interno do servidor
+ */
+SemestresRouter.get('/padrao/', auth, permissao([2]), SemestresController.getPadrao); 
+
+/**
+ * @swagger
  * /semestres/{id}:
  *   get:
  *     summary: Buscar semestre por ID
