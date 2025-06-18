@@ -105,7 +105,8 @@ class chamadaAlunosController {
                     longitude: Number(p.longitude)
                 }))
             );
-            // const alunosDistantes = identificarAlunosDistantes(presencasChamada);
+
+            const idsDistantes = new Set(alunosDistantes.map(a => a.id_aluno));
 
             const presencasChamada = chamadaAlunos.map((p) => ({
                 id: Number(p.id),
@@ -120,9 +121,6 @@ class chamadaAlunosController {
                 proximo: idsDistantes.has(p.id_aluno) ? 0 : 1
                 // descricao_disciplina: p.Chamada.Disciplina.descricao
             }));
-
-
-            console.log(alunosDistantes)
 
             return res.status(200).json(presencasChamada)
         } catch (e) {
