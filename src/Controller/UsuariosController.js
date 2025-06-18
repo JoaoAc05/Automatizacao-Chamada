@@ -243,6 +243,12 @@ class usuariosController {
             if (dataToUpdate.imei === "") {
                 delete dataToUpdate.imei;
             }
+            if (dataToUpdate.ra === "") {
+                dataToUpdate.ra = null;
+            }
+            if (dataToUpdate.cpf === "") {
+                dataToUpdate.cpf = null;
+            }
 
             const updateUsuarios = await prisma.usuario.update({
                 where: {
