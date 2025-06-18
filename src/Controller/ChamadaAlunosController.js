@@ -151,6 +151,7 @@ class chamadaAlunosController {
             );
 
             if (!isDistanciaValida) {
+                console.log(`lat_professor: ${Number(lat_professor)}, long_professor: ${Number(long_professor)}, lat_aluno: ${Number(lat_aluno)}, long_aluno: ${Number(long_aluno)}`)
                 return res.status(400).json({ message: 'Aluno está muito distante do professor.' });
             }
             delete req.body.lat_professor;
