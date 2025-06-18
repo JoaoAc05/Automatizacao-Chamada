@@ -114,7 +114,7 @@ class chamadaAlunosController {
 
             console.log(alunosDistantes)
 
-            return res.status(200).json({presencas: presencasChamada, alunos_fora_do_raio: alunosDistantes})
+            return res.status(200).json(presencasChamada)
         } catch (e) {
             console.log('Erro ao retornar presenças da chamada: ' + e.message)
             return res.status(500).json({message: 'Erro ao retornar presenças da chamada: ' + e.message})
