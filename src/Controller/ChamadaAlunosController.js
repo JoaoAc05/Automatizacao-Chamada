@@ -1,7 +1,7 @@
 import { prisma } from "../prisma.js";
 import { validarDistanciaProfessorAluno } from '../Utils/LocalizacaoUtils.js';
 import { validarDiferencaDeTempo } from '../Utils/ValidaSegundosUtils.js';
-import { identificarAlunosDistantes } from '../utils/ValidaLocalizacaoUtils.js';
+import { identificarAlunosDistantes } from '../Utils/ValidaLocalizacaoUtils.js';
 
 class chamadaAlunosController {
     async getAll(req, res) { 
