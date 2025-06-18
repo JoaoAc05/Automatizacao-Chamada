@@ -138,7 +138,10 @@ model ChamadaAlunos { // Presença dos alunos em cada chamada
   id          Int   @id @default(autoincrement())
   id_chamada  Int
   id_aluno    Int
-  //observacao String? // Quando remover a presença informar a observação
+  data_hora_presenca DateTime? 
+  latitude Float?
+  longitude Float?
+  observacao String? // Quando remover a presença informar a observação
   status      Int   @default(1) // 0 - Presença Removida, Presente - 1 
 
   // Relacionamentos

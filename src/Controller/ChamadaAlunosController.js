@@ -202,6 +202,10 @@ class chamadaAlunosController {
                     Aluno: {
                         connect: {id: Number(id_aluno)}
                     }, 
+                    data_hora_presenca: new Date(hora_post),
+                    latitude: Number(lat_aluno),
+                    longitude: Number(long_aluno),
+                    status: 1 // Presente
                 }
             }); 
             if(createChamadaAluno.length === 0) {
