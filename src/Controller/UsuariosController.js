@@ -257,15 +257,28 @@ class usuariosController {
 
                 if (dataToUpdate.senha === "") {
                     delete dataToUpdate.senha;
-                    dataToUpdate.status = 0 // Refazer validação
+                    if (dataToUpdate.status != 2) {
+                        dataToUpdate.status = 0 // Refazer validação
+                    }
                 }
                 if (dataToUpdate.imei === "") {
                     delete dataToUpdate.imei;
-                    dataToUpdate.status = 0 // Refazer validação
+                    if (dataToUpdate.status != 2) {
+                        dataToUpdate.status = 0 // Refazer validação
+                    }
+                }
+                if (dataToUpdate.email === "") {
+                    delete dataToUpdate.email;
+                    if (dataToUpdate.status != 2) {
+                        dataToUpdate.status = 0 // Refazer validação
+                    }
                 }
             } else {
                 if (dataToUpdate.ra === "") {
                     dataToUpdate.ra = null;
+                }
+                if (dataToUpdate.email === "") {
+                    return res.status(400).json({ message: 'Defina um nov email.'})
                 }
                 if (dataToUpdate.senha === "") {
                     return res.status(400).json({ message: 'Defina uma nova senha.'})
