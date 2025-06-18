@@ -13,7 +13,7 @@ export function validarDiferencaDeTempo(serverTime, postTime) {
     const minutos = serverTime.getUTCMinutes() - postTime.getUTCMinutes();
     const diferencaSegundos = Math.abs(segundos + 60 * minutos);
 
-    return diferencaSegundos <= 50;
+    return diferencaSegundos <= 5;
 
 }
   
