@@ -14,7 +14,7 @@ const DisciplinasController = new disciplinasController();
 
 /**
  * @swagger
- * /disciplinas/{id}:
+ * /disciplinas/curso/:
  *   get:
  *     summary: Buscar disciplina por ID
  *     tags: [Disciplinas]
@@ -60,7 +60,7 @@ const DisciplinasController = new disciplinasController();
  *       500:
  *         description: Erro interno do servidor
  */
-DisciplinasRouter.get('/', auth, permissao([2]), DisciplinasController.getId);
+DisciplinasRouter.get('/curso/', auth, permissao([2]), DisciplinasController.getId);
 
 /**
  * @swagger
