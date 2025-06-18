@@ -256,19 +256,19 @@ class usuariosController {
                 }
 
                 if (dataToUpdate.senha === "") {
-                    delete dataToUpdate.senha;
+                    dataToUpdate.senha = null;
                     if (dataToUpdate.status != 2) {
                         dataToUpdate.status = 0 // Refazer validação
                     }
                 }
                 if (dataToUpdate.imei === "") {
-                    delete dataToUpdate.imei;
+                    dataToUpdate.imei  = null;
                     if (dataToUpdate.status != 2) {
                         dataToUpdate.status = 0 // Refazer validação
                     }
                 }
                 if (dataToUpdate.email === "") {
-                    delete dataToUpdate.email;
+                    dataToUpdate.email  = null
                     if (dataToUpdate.status != 2) {
                         dataToUpdate.status = 0 // Refazer validação
                     }
@@ -284,7 +284,7 @@ class usuariosController {
                     return res.status(400).json({ message: 'Defina uma nova senha.'})
                 }
                 if (dataToUpdate.imei === "") {
-                    delete dataToUpdate.imei;
+                    dataToUpdate.imei  = null;
                 }
             }
             
