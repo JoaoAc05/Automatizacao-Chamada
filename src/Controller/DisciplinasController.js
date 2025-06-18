@@ -36,16 +36,44 @@ class disciplinasController {
     }
 
     async getId(req, res, next) {
-        const { id } = req.params;
-
-        if (!id) {
-            return res.status(400).json({ message: 'Id é obrigatório.'})
-        }
+        // const { id } = req.params;   
+        const {id, id_curso} = req.query;
 
         try {
-            const disciplina = await prisma.disciplina.findUnique({
+            
+            if (id) {
+                const disciplina = await prisma.disciplina.findUnique({
+                    where: {
+                        id: Number(id),
+                    },
+                    include: {
+                        Curso: {
+                            select: {
+                                descricao: true
+                            }
+                        }
+                    }
+                })
+                if (!disciplina) {
+                    return res.status(404).json({ message: 'Disciplina não encontrada.' }); 
+                }
+
+                return res.status(200).json(disciplina)
+            }
+
+            const curso = await prisma.curso.findUnique({
                 where: {
-                    id: Number(id),
+                    id: Number(id_curso),
+                }
+            })
+            if (!curso) {
+                return res.status(404).json({ message: 'Curso não encontrado.' }); 
+            }
+
+            const disciplinaCurso  = await prisma.disciplina.findMany({
+                where: {
+                    id_curso: Number(id_curso),
+                    status: 0 // Ativa
                 },
                 include: {
                     Curso: {
@@ -55,11 +83,12 @@ class disciplinasController {
                     }
                 }
             })
-            if (!disciplina) {
-                return res.status(404).json({ message: 'Disciplina não encontrada.' }); 
+            if (disciplinaCurso.length === 0) {
+                return res.status(404).json({ message: 'Disciplinas não encontradas.' }); 
             }
 
-            return res.status(200).json(disciplina)
+            return res.status(200).json(disciplinaCurso)
+
         } catch (e) {
             console.log('Erro ao retornar disciplina: ' + e.message)
             return res.status(500).json({ message: 'Erro ao retornar disciplina: ' + e.message })

@@ -21,12 +21,16 @@ const DisciplinasController = new disciplinasController();
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: path
+ *       - in: query
  *         name: id
- *         required: true
  *         schema:
  *           type: integer
  *         description: ID da disciplina
+ *       - in: query
+ *         name: id_curso
+ *         schema:
+ *           type: integer
+ *         description: ID do curso
  *     responses:
  *       200:
  *         description: Disciplina encontrada
