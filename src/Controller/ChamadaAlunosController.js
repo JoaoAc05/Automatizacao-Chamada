@@ -118,7 +118,7 @@ class chamadaAlunosController {
                 longitude: Number(p.longitude),
                 observacao: p.observacao,
                 status: Number(p.status),
-                proximo: idsDistantes.has(p.id_aluno) ? 0 : 1
+                proximo: idsDistantes.has(p.id_aluno) ? 1 : 0
                 // descricao_disciplina: p.Chamada.Disciplina.descricao
             }));
 
