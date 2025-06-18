@@ -97,6 +97,16 @@ class chamadaAlunosController {
                 return res.status(404).json({ message: 'Não foi encontrada nenhuma chamada.' }); 
             }
 
+            const alunosDistantes = identificarAlunosDistantes(
+                chamadaAlunos.map(p => ({
+                    id_aluno: p.id_aluno,
+                    aluno: p.Aluno.nome,
+                    latitude: Number(p.latitude),
+                    longitude: Number(p.longitude)
+                }))
+            );
+            // const alunosDistantes = identificarAlunosDistantes(presencasChamada);
+
             const presencasChamada = chamadaAlunos.map((p) => ({
                 id: Number(p.id),
                 id_chamada: Number(p.id_chamada),
@@ -107,10 +117,10 @@ class chamadaAlunosController {
                 longitude: Number(p.longitude),
                 observacao: p.observacao,
                 status: Number(p.status),
+                proximo: idsDistantes.has(p.id_aluno) ? 0 : 1
                 // descricao_disciplina: p.Chamada.Disciplina.descricao
             }));
 
-            const alunosDistantes = identificarAlunosDistantes(presencasChamada);
 
             console.log(alunosDistantes)
 
