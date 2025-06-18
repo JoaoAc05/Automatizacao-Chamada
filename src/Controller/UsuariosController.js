@@ -242,7 +242,7 @@ class usuariosController {
 
             if( tipo == 0 || tipo == 1) {
                 if (dataToUpdate.cpf === "") {
-                    return res.status(400).json({ message: 'Aluno e Professor devem ter CPF.'})
+                    return res.status(400).json({ message: 'Aluno e professor devem ter CPF.'})
                 }
             } else {
                 if (dataToUpdate.cpf === "") {
@@ -254,15 +254,27 @@ class usuariosController {
                 if (dataToUpdate.ra === "") {
                     return res.status(400).json({ message: 'Aluno deve conter RA.'})
                 }
+
+                if (dataToUpdate.senha === "") {
+                    delete dataToUpdate.senha;
+                    dataToUpdate.status = 0 // Refazer validação
+                }
+                if (dataToUpdate.imei === "") {
+                    delete dataToUpdate.imei;
+                    dataToUpdate.status = 0 // Refazer validação
+                }
             } else {
                 if (dataToUpdate.ra === "") {
                     dataToUpdate.ra = null;
                 }
+                if (dataToUpdate.senha === "") {
+                    return res.status(400).json({ message: 'Defina uma nova senha.'})
+                }
+                if (dataToUpdate.imei === "") {
+                    delete dataToUpdate.imei;
+                }
             }
             
-            if (dataToUpdate.imei === "") {
-                delete dataToUpdate.imei;
-            }
             
 
             const updateUsuarios = await prisma.usuario.update({
