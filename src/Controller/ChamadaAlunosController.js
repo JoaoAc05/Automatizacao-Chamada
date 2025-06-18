@@ -1,6 +1,7 @@
 import { prisma } from "../prisma.js";
 import { validarDistanciaProfessorAluno } from '../Utils/LocalizacaoUtils.js';
 import { validarDiferencaDeTempo } from '../Utils/ValidaSegundosUtils.js';
+import { identificarAlunosDistantes } from '../utils/ValidaLocalizacaoUtils.js';
 
 class chamadaAlunosController {
     async getAll(req, res) { 
@@ -109,7 +110,11 @@ class chamadaAlunosController {
                 // descricao_disciplina: p.Chamada.Disciplina.descricao
             }));
 
-            return res.status(200).json(presencasChamada)
+            const alunosDistantes = identificarAlunosDistantes(presencasChamada);
+
+            console.log(alunosDistantes)
+
+            return res.status(200).json({presencas: presencasChamada, alunos_fora_do_raio: alunosDistantes})
         } catch (e) {
             console.log('Erro ao retornar presenças da chamada: ' + e.message)
             return res.status(500).json({message: 'Erro ao retornar presenças da chamada: ' + e.message})
