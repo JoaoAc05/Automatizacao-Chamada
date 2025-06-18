@@ -16,8 +16,18 @@ function calcularDistancia(lat1, lon1, lat2, lon2) {
 export function identificarAlunosDistantes(presencas, raioPermitido = 20) {
   if (!presencas || presencas.length === 0) return [];
 
-  // Cálculo do ponto central (média das localizações)
-  const centro = presencas.reduce(
+  // Filtra apenas os alunos com latitude e longitude válidas
+  const validos = presencas.filter(p =>
+    typeof p.latitude === 'number' &&
+    typeof p.longitude === 'number' &&
+    p.latitude !== 0 &&
+    p.longitude !== 0
+  );
+
+  if (validos.length === 0) return [];
+
+  // Cálculo do ponto central (média das localizações válidas)
+  const centro = validos.reduce(
     (acc, p) => {
       acc.lat += p.latitude;
       acc.lon += p.longitude;
@@ -26,38 +36,35 @@ export function identificarAlunosDistantes(presencas, raioPermitido = 20) {
     { lat: 0, lon: 0 }
   );
 
-  centro.lat /= presencas.length;
-  centro.lon /= presencas.length;
+  centro.lat /= validos.length;
+  centro.lon /= validos.length;
 
-  const alunosDistantes = presencas.filter(presenca => {
+  // Verifica quem está fora do raio permitido
+  const alunosDistantes = [];
+
+  for (const p of validos) {
     const distancia = calcularDistancia(
       centro.lat,
       centro.lon,
-      presenca.latitude,
-      presenca.longitude
+      p.latitude,
+      p.longitude
     );
-    return distancia > raioPermitido;
-  }).map(presenca => {
-    const distancia = calcularDistancia(
-      centro.lat,
-      centro.lon,
-      presenca.latitude,
-      presenca.longitude
-    );
-    return {
-      id_aluno: presenca.id_aluno,
-      aluno: presenca.aluno,
-      distancia: Number(distancia.toFixed(2)),
-      local_aluno: {
-        latitude: presenca.latitude,
-        longitude: presenca.longitude
-      },
-      centro_estimado: {
-        latitude: Number(centro.lat.toFixed(8)),
-        longitude: Number(centro.lon.toFixed(8))
-      }
-    };
-  });
+    if (distancia > raioPermitido) {
+      alunosDistantes.push({
+        id_aluno: p.id_aluno,
+        aluno: p.aluno,
+        distancia: Number(distancia.toFixed(2)),
+        local_aluno: {
+          latitude: p.latitude,
+          longitude: p.longitude
+        },
+        centro_estimado: {
+          latitude: Number(centro.lat.toFixed(8)),
+          longitude: Number(centro.lon.toFixed(8))
+        }
+      });
+    }
+  }
 
   return alunosDistantes;
 }
