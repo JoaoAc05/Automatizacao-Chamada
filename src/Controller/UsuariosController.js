@@ -194,7 +194,7 @@ class usuariosController {
     }
 
     async alterar(req, res) {
-        const { id } = req.body;
+        const { id, tipo } = req.body;
         const dataToUpdate = req.body;
         delete dataToUpdate.id;
         delete dataToUpdate.data_cadastro;
@@ -240,15 +240,30 @@ class usuariosController {
                 dataToUpdate.senha = senhaHash
             }
 
+            if( tipo == 0 || tipo == 1) {
+                if (dataToUpdate.cpf === "") {
+                    return res.status(400).json({ message: 'Aluno e Professor devem ter CPF.'})
+                }
+            } else {
+                if (dataToUpdate.cpf === "") {
+                    dataToUpdate.cpf = null;
+                }
+            }
+
+            if ( tipo == 0 ) {
+                if (dataToUpdate.ra === "") {
+                    return res.status(400).json({ message: 'Aluno deve conter RA.'})
+                }
+            } else {
+                if (dataToUpdate.ra === "") {
+                    dataToUpdate.ra = null;
+                }
+            }
+            
             if (dataToUpdate.imei === "") {
                 delete dataToUpdate.imei;
             }
-            if (dataToUpdate.ra === "") {
-                dataToUpdate.ra = null;
-            }
-            if (dataToUpdate.cpf === "") {
-                dataToUpdate.cpf = null;
-            }
+            
 
             const updateUsuarios = await prisma.usuario.update({
                 where: {
