@@ -101,6 +101,10 @@ class chamadaAlunosController {
                 id_chamada: Number(p.id_chamada),
                 id_aluno: Number(p.id_aluno),
                 aluno: p.Aluno.nome,
+                data_hora_presenca: p.data_hora_presenca,
+                latitude: Number(p.latitude),
+                longitude: Number(p.longitude),
+                observacao: p.observacao,
                 status: Number(p.status),
                 // descricao_disciplina: p.Chamada.Disciplina.descricao
             }));
