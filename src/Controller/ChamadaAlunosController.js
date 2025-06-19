@@ -415,8 +415,8 @@ class chamadaAlunosController {
                     id_aluno: Number(id_aluno), 
                 },
                 data: {
-                    status: 0 // Presença Removida
-                    ,observacao: observacao
+                    status: 0, // Presença Removida
+                    observacao: observacao
                 }
             })
             if (deleteChamadaAluno.count === 0) {

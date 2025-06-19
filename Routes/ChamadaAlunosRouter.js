@@ -104,9 +104,21 @@ ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosControl
  *                     type: integer
  *                   aluno:
  *                     type: string
+ *                   data_hora_presenca:
+ *                     type: string
+ *                     format: date-time
+ *                   latitude:
+ *                     type: float
+ *                   longitude:
+ *                     type: float
+ *                   observacao:
+ *                     type: string
  *                   status:
  *                     type: integer
  *                     description: 0 - Removido, 1 - Presente
+ *                   proximo:
+ *                     type: integer
+ *                     description: 0 - disante, 1 - próximo
  *       204:
  *         description: Nenhuma presença encontrada
  *       400:
@@ -289,6 +301,19 @@ ChamadaAlunosRouter.post('/alunos/manual', auth, permissao([1, 2]), ChamadaAluno
  *     tags: [ChamadaAlunos]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       description: Remover a presença de um aluno
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - observacao
+ *             properties:
+ *               observacao:
+ *                 type: string
+ *                 minLength: 10
  *     parameters:
  *       - in: query
  *         name: id_vinculo
