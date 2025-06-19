@@ -120,7 +120,7 @@ ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosControl
  *                     description: 0 - Removido, 1 - Presente
  *                   proximo:
  *                     type: integer
- *                     description: 0 - disante, 1 - próximo
+ *                     description: 0 - distante, 1 - próximo
  *       204:
  *         description: Nenhuma presença encontrada
  *       400:

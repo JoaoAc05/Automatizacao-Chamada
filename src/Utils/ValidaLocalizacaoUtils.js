@@ -26,6 +26,10 @@ export function identificarAlunosDistantes(presencas, raioPermitido = 20) {
 
   if (validos.length === 0) return [];
 
+  if (validos.length < 7) { // Menos de 7 registros os retornos são muito imprecisos
+    return [];
+  }
+
   // Cálculo do ponto central (média das localizações válidas)
   const centro = validos.reduce(
     (acc, p) => {
