@@ -108,9 +108,11 @@ ChamadaAlunosRouter.get('/falta/', auth, permissao([1, 2]), ChamadaAlunosControl
  *                     type: string
  *                     format: date-time
  *                   latitude:
- *                     type: float
+ *                     type: number
+ *                     format: float
  *                   longitude:
- *                     type: float
+ *                     type: number
+ *                     format: float
  *                   observacao:
  *                     type: string
  *                   status:
