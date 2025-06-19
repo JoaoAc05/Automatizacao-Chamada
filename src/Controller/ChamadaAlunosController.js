@@ -371,7 +371,8 @@ class chamadaAlunosController {
     }
     
     async deletar(req, res) { // As presenças não podem ser excluidas de forma alguma, então será dado apenas o update no status
-        const { id_chamada, id_aluno, id_vinculo, observacao } = req.query;
+        const { id_chamada, id_aluno, id_vinculo } = req.query;
+        const { observacao } = req.body;
 
         if (!observacao || observacao.length < 10) {
             return res.status(400).json({ message: 'Favor informar uma observação com mais de 10 caracteres.'})
@@ -415,7 +416,7 @@ class chamadaAlunosController {
                 },
                 data: {
                     status: 0 // Presença Removida
-                    //,observacao: observacao
+                    ,observacao: observacao
                 }
             })
             if (deleteChamadaAluno.count === 0) {
