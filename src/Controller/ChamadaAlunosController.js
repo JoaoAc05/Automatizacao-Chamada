@@ -97,16 +97,21 @@ class chamadaAlunosController {
                 return res.status(404).json({ message: 'Não foi encontrada nenhuma chamada.' }); 
             }
 
-            const alunosDistantes = identificarAlunosDistantes(
-                chamadaAlunos.map(p => ({
-                    id_aluno: p.id_aluno,
-                    aluno: p.Aluno.nome,
-                    latitude: Number(p.latitude),
-                    longitude: Number(p.longitude)
-                }))
-            );
-
-            const idsDistantes = new Set(alunosDistantes.map(a => a.id_aluno));
+            const presencasProcessadas = chamadaAlunos.map(p => ({
+                id_aluno: p.id_aluno,
+                aluno: p.Aluno.nome,
+                latitude: Number(p.latitude),
+                longitude: Number(p.longitude)
+              }));
+              
+              // Se menos de 7 registros, todos são considerados próximos
+              let todosProximos = false;
+              if (presencasProcessadas.length < 7) {
+                todosProximos = true;
+              }
+              
+              const alunosDistantes = todosProximos ? [] : identificarAlunosDistantes(presencasProcessadas);
+              const idsDistantes = new Set(alunosDistantes.map(a => a.id_aluno));
 
             const presencasChamada = chamadaAlunos.map((p) => ({
                 id: Number(p.id),
@@ -118,7 +123,7 @@ class chamadaAlunosController {
                 longitude: Number(p.longitude),
                 observacao: p.observacao,
                 status: Number(p.status),
-                proximo: idsDistantes.has(p.id_aluno) ? 1 : 0
+                proximo: todosProximos ? 1 : (idsDistantes.has(p.id_aluno) ? 0 : 1) // 1 - Próximo
                 // descricao_disciplina: p.Chamada.Disciplina.descricao
             }));
 
