@@ -44,7 +44,7 @@ function encontrarCentroPorModaGeografica(alunos, raioAgrupamento = 30) {
 export function identificarAlunosDistantes(presencas, raioPermitido = 30) {
   if (!presencas || presencas.length === 0) return [];
 
-  // Filtra apenas os alunos com localização válida
+  // Filtra os com localização válida
   const validos = presencas.filter(p =>
     typeof p.latitude === 'number' &&
     typeof p.longitude === 'number' &&
@@ -52,14 +52,32 @@ export function identificarAlunosDistantes(presencas, raioPermitido = 30) {
     p.longitude !== 0
   );
 
+  // Filtra os com localização inválida (para serem marcados como distantes)
+  const invalidos = presencas.filter(p =>
+    typeof p.latitude !== 'number' ||
+    typeof p.longitude !== 'number' ||
+    p.latitude === 0 ||
+    p.longitude === 0
+  );
+
   if (validos.length === 0 || validos.length < 7) {
-    return [];
+    // Todos são considerados próximos (exceto os inválidos, que são sempre distantes)
+    return invalidos.map(p => ({
+      id_aluno: p.id_aluno,
+      aluno: p.aluno,
+      distancia: null,
+      local_aluno: {
+        latitude: p.latitude,
+        longitude: p.longitude
+      },
+      centro_estimado: null
+    }));
   }
 
-  // Encontra ponto de maior concentração geográfica (moda)
+  // Encontra o ponto de maior concentração (moda geográfica)
   const centro = encontrarCentroPorModaGeografica(validos, raioPermitido);
 
-  // Verifica quem está fora do raio permitido
+  // Verifica quem está fora do raio a partir do centro de concentração
   const alunosDistantes = [];
 
   for (const p of validos) {
@@ -85,6 +103,20 @@ export function identificarAlunosDistantes(presencas, raioPermitido = 30) {
         }
       });
     }
+  }
+
+  // Adiciona os inválidos como distantes
+  for (const p of invalidos) {
+    alunosDistantes.push({
+      id_aluno: p.id_aluno,
+      aluno: p.aluno,
+      distancia: null,
+      local_aluno: {
+        latitude: p.latitude,
+        longitude: p.longitude
+      },
+      centro_estimado: null
+    });
   }
 
   return alunosDistantes;
