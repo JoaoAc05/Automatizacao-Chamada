@@ -13,10 +13,38 @@ function calcularDistancia(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-export function identificarAlunosDistantes(presencas, raioPermitido = 20) {
+function encontrarCentroPorModaGeografica(alunos, raioAgrupamento = 30) {
+  let melhorPonto = null;
+  let maxVizinhos = -1;
+
+  for (const base of alunos) {
+    let vizinhos = 0;
+
+    for (const outro of alunos) {
+      if (base !== outro) {
+        const distancia = calcularDistancia(base.latitude, base.longitude, outro.latitude, outro.longitude);
+        if (distancia <= raioAgrupamento) {
+          vizinhos++;
+        }
+      }
+    }
+
+    if (vizinhos > maxVizinhos) {
+      maxVizinhos = vizinhos;
+      melhorPonto = base;
+    }
+  }
+
+  return {
+    lat: melhorPonto.latitude,
+    lon: melhorPonto.longitude
+  };
+}
+
+export function identificarAlunosDistantes(presencas, raioPermitido = 30) {
   if (!presencas || presencas.length === 0) return [];
 
-  // Filtra apenas os alunos com latitude e longitude válidas
+  // Filtra apenas os alunos com localização válida
   const validos = presencas.filter(p =>
     typeof p.latitude === 'number' &&
     typeof p.longitude === 'number' &&
@@ -24,24 +52,12 @@ export function identificarAlunosDistantes(presencas, raioPermitido = 20) {
     p.longitude !== 0
   );
 
-  if (validos.length === 0) return [];
-
-  if (validos.length < 7) { // Menos de 7 registros os retornos são muito imprecisos
+  if (validos.length === 0 || validos.length < 7) {
     return [];
   }
 
-  // Cálculo do ponto central (média das localizações válidas)
-  const centro = validos.reduce(
-    (acc, p) => {
-      acc.lat += p.latitude;
-      acc.lon += p.longitude;
-      return acc;
-    },
-    { lat: 0, lon: 0 }
-  );
-
-  centro.lat /= validos.length;
-  centro.lon /= validos.length;
+  // Encontra ponto de maior concentração geográfica (moda)
+  const centro = encontrarCentroPorModaGeografica(validos, raioPermitido);
 
   // Verifica quem está fora do raio permitido
   const alunosDistantes = [];
@@ -53,6 +69,7 @@ export function identificarAlunosDistantes(presencas, raioPermitido = 20) {
       p.latitude,
       p.longitude
     );
+
     if (distancia > raioPermitido) {
       alunosDistantes.push({
         id_aluno: p.id_aluno,
