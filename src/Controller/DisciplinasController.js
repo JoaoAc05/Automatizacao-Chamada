@@ -42,10 +42,12 @@ class disciplinasController {
         if (!id || !id_curso) { 
             return res.status(400).json({ message: 'Parâmetro de busca não informado.'})
         }
+        console.log(`${id} - ${id_curso}`)
 
         try {
             
             if (id) {
+                console.log('Tem id')
                 const disciplina = await prisma.disciplina.findUnique({
                     where: {
                         id: Number(id),
