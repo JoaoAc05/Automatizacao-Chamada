@@ -39,15 +39,13 @@ class disciplinasController {
         // const { id } = req.params;   
         const {id, id_curso} = req.query;
 
-        if (!id || !id_curso) { 
+        if (!id && !id_curso) { 
             return res.status(400).json({ message: 'Parâmetro de busca não informado.'})
         }
-        console.log(`${id} - ${id_curso}`)
 
         try {
             
             if (id) {
-                console.log('Tem id')
                 const disciplina = await prisma.disciplina.findUnique({
                     where: {
                         id: Number(id),
