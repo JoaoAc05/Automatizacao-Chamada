@@ -69,7 +69,12 @@ class semestreDisciplinasController {
                 include: { 
                     Disciplina: {
                         select: {
-                            descricao: true
+                            descricao: true,
+                            Curso: {
+                                select: {
+                                  descricao: true  
+                                }
+                            }
                         }
                     },
                     Semestre: {
@@ -92,6 +97,7 @@ class semestreDisciplinasController {
                 id: Number(spd.id),
                 id_disciplina: Number(spd.id_disciplina),
                 descricao_disciplina: spd.Disciplina.descricao,
+                descricao_curso: spd.Disciplina.Curso.descricao,
                 id_professor: Number(spd.id_professor),
                 nome_professor: (spd.Professor.nome),
                 id_semestre: Number(spd.id_semestre),
