@@ -95,6 +95,10 @@ SemestreDisciplinasRouter.get('/professor/', auth, permissao([1, 2]), SemestreDi
  *                     type: integer
  *                   descricao_disciplina:
  *                     type: string
+ *                   id_curso:
+ *                     type: integer
+ *                   descricao_curso:
+ *                     type: string
  *                   id_professor:
  *                     type: integer
  *                   nome_professor:

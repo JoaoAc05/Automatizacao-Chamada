@@ -72,6 +72,7 @@ class semestreDisciplinasController {
                             descricao: true,
                             Curso: {
                                 select: {
+                                  id: true,
                                   descricao: true  
                                 }
                             }
@@ -97,6 +98,7 @@ class semestreDisciplinasController {
                 id: Number(spd.id),
                 id_disciplina: Number(spd.id_disciplina),
                 descricao_disciplina: spd.Disciplina.descricao,
+                id_curso: spd.Disciplina.Curso.id,
                 descricao_curso: spd.Disciplina.Curso.descricao,
                 id_professor: Number(spd.id_professor),
                 nome_professor: (spd.Professor.nome),
