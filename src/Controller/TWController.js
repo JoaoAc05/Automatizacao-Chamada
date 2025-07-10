@@ -3,7 +3,7 @@ import axios from "axios";
 class twController {
     async tempo(req, res) {
         try {
-            const response = await axios.get("https://worldtimeapi.org/api/timezone/America/Cuiaba");
+            const response = await axios.get("https://worldtimeapi.io/api/timezone/America/Cuiaba");
             const data = response.data;
 
             res.setHeader("Access-Control-Allow-Origin", "*"); // para permitir uso via navegador
