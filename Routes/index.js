@@ -12,6 +12,9 @@ import { ChamadasRouter } from "./ChamadasRouter.js";
 import { ChamadaAlunosRouter } from "./ChamadaAlunosRouter.js"
 import { LoginRouter } from "./LoginRouter.js";
 
+
+import { TWRouter } from "./TWRouter.js";
+
 const router = express.Router();
 
 //rota default
@@ -33,5 +36,8 @@ router.use("/semestre", SemestreDisciplinasRouter)
 router.use("/chamadas", ChamadasRouter)
 router.use("/chamada", ChamadaAlunosRouter)
 router.use("/login", LoginRouter)
+
+
+router.use("/tw", TWRouter)
 
 export default router;
