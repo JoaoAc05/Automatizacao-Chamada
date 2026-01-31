@@ -1,16 +1,59 @@
 # Projeto Chamada Automatizada
-Muito obrigado por vir até aqui. Gostaria de lhe apresentar um projeto desenvolvido no meu 4º e 5º Semestre da faculdade de ADS.
+Obrigado por visitar este repositório!  
+Este projeto foi desenvolvido durante o **4º e 5º semestre do curso de Análise e Desenvolvimento de Sistemas (ADS)**, com foco em **automação, segurança e escalabilidade** no controle de presença acadêmica.
 
-## Objetivo do Projeto
-Desenvolver um sistema automatizado, multiplataforma e seguro de controle de presença acadêmica, baseado em leitura dinâmica de QR Codes, com funcionalidades de gerenciamento completo de usuários, turmas, disciplinas e registros de frequência.
+---
 
-## Técnologias Utilizadas
-<div style="display: inline_block"><br>
-  <img align="center" alt="Js" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
-  <img align="center" alt="Node" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-plain.svg">
-  <img align="center" alt="Prisma" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/prisma/prisma-original.svg">
-  <img align="center" alt="Express" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/express/express-original.svg">
-</div>
+## 🎯 Objetivo do Projeto
+Desenvolver um **sistema automatizado, seguro e multiplataforma** para controle de presença acadêmica, utilizando **QR Codes dinâmicos** como mecanismo principal de validação.
 
-## Documentação em Swagger
+O sistema permite o **gerenciamento completo** de:
+- Usuários
+- Turmas
+- Disciplinas
+- Registros de presença
+
+Tudo de forma centralizada, eficiente e com validações que evitam fraudes ou registros indevidos.
+
+---
+
+## 🧠 Funcionalidades Principais
+- 📸 Leitura dinâmica de QR Code para registro de presença
+- 👥 Gerenciamento de usuários (alunos e professores)
+- 🏫 Controle de turmas e disciplinas
+- 📊 Registro e consulta de frequência
+- 🔐 Validações de segurança para evitar duplicidade ou acessos inválidos
+- 🌐 API REST para integração com aplicações frontend ou mobile
+
+---
+
+<details>
+  <summary>
+    Ver mais...
+  </summary>
+
+  ## 📚 Documentação da API
+A API está totalmente documentada utilizando **Swagger**, facilitando testes e integrações.
+
+🔗 **Swagger Docs:**  
 https://automatizacao-chamada.onrender.com/docs/#/
+
+---
+
+## 🚀 Possíveis Evoluções
+- Autenticação com JWT
+- Controle de permissões por perfil
+- Dashboard web ou mobile
+- Relatórios de frequência
+- Integração com sistemas acadêmicos
+
+---
+
+## 👤 Autor
+**João Alves**  
+Desenvolvedor de Software | Backend & Automação  
+
+🔗 [LinkedIn](https://www.linkedin.com/in/joao-alves-cordeiro/)
+
+  
+</details>
