@@ -41,11 +41,9 @@ https://automatizacao-chamada.onrender.com/docs/#/
 ---
 
 ## 🚀 Possíveis Evoluções
-- Autenticação com JWT
-- Controle de permissões por perfil
-- Dashboard web ou mobile
-- Relatórios de frequência
+- Login por google acount
 - Integração com sistemas acadêmicos
+- Funcionalidade por diferentes unidades utilizando o mesmo banco de dados
 
 ---
 
