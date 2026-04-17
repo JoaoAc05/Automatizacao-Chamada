@@ -241,6 +241,102 @@ class chamadaAlunosController {
         }
     }
 
+    async presenca_congresso (req, res) {
+        const { hora_post, id_chamada, id_aluno, tipo_presenca} = req.body;
+        try {
+            if (!hora_post || isNaN(new Date(hora_post))) {
+                return res.status(400).json({ message: 'Hora do post inválida.' });
+            }
+
+            // (VERCEL É FUSO WHASHINGTON)
+            const serverTime = new Date();
+            
+            const postTime = new Date(hora_post);
+            
+            const horarioValido = validarDiferencaDeTempo(serverTime, postTime);
+            if (!horarioValido) {
+                console.log(`serverTime: ${serverTime.toISOString()}, postTime: ${postTime.toISOString()}`)
+                return res.status(400).json({
+                    message: 'Horário é inválido.',
+                    serverTime: serverTime.toISOString(),
+                    postTime: postTime.toISOString(),
+                });
+            }        
+
+            if (!id_aluno || !id_chamada) {
+                return res.status(400).json({ message: 'Os campos id_aluno e id_chamada são obrigatórios.' });
+            }
+
+            const aluno = await prisma.usuario.findUnique({
+                where: {
+                    id: Number(id_aluno)
+                }
+            })
+            if (!aluno) {
+                return res.status(404).json({ message: 'Aluno não encontrado.' });
+            }
+            if(aluno.tipo !== 0) {
+                return res.status(401).json({ message: 'Usuário não é um aluno.' });
+            }
+
+            const chamada = await prisma.chamada.findUnique({
+                where: {
+                    id: Number(id_chamada)
+                }
+            })
+            if (!chamada) {
+                return res.status(404).json({ message: 'Chamada não encontrada.' })
+            }
+
+            if(tipo_presenca == 0) {
+                const presenca_entrada = await prisma.chamadaAlunos.findFirst({
+                where:{
+                    id_aluno: Number(id_aluno),
+                    id_chamada: Number(id_chamada),
+                    tipo_presenca: 0
+                }
+                })
+                if (presenca_entrada) {
+                    return res.status(409).json({ message: 'Aluno já está presente nesta chamada.' })
+                }
+            } else if(tipo_presenca == 1) {
+                const presenca_saida = await prisma.chamadaAlunos.findFirst({
+                where:{
+                    id_aluno: Number(id_aluno),
+                    id_chamada: Number(id_chamada),
+                    tipo_presenca: 1
+                }
+                })
+                if (presenca_saida) {
+                    return res.status(409).json({ message: 'Aluno já está presente nesta chamada.' })
+                }
+            }
+            
+
+            const createChamadaAluno = await prisma.chamadaAlunos.create({ 
+                data: {
+                   Chamada: {
+                        connect: {id: Number(id_chamada)}
+                    } ,
+                    Aluno: {
+                        connect: {id: Number(id_aluno)}
+                    }, 
+                    data_hora_presenca: new Date(hora_post),
+                    status: 1, // Presente
+                    tipo_presenca: Number(tipo)
+                }
+            }); 
+            if(createChamadaAluno.length === 0) {
+                return res.status(400).json({ message: 'Presença não foi registrada, contate o suporte!' })
+            } 
+
+            return res.status(201).json(createChamadaAluno);
+        } catch (e) {
+            console.log('Erro ao definir presenca: ' + e.message)
+            return res.status(500).json({ message: 'Erro ao definir presenca: ' + e.message });
+        }
+    }
+
     async presencaManual (req, res) {
         const { id_chamada, id_aluno } = req.body;
         

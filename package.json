@@ -14,20 +14,24 @@
   "description": "",
   "type": "module",
   "dependencies": {
-    "@prisma/adapter-pg": "^5.19.1",
-    "@prisma/client": "^5.21.0",
+    "@prisma/adapter-pg": "^5.22.0",
+    "@prisma/client": "^7.7.0",
+    "@prisma/config": "^7.7.0",
+    "@prisma/internals": "^7.7.0",
     "axios": "^1.10.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
+    "env": "^0.0.2",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.4",
     "pg": "^8.12.0",
-    "prisma": "^5.21.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "prisma": "^5.21.0"
+    "@types/node": "^25.6.0",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.7.0"
   }
 }

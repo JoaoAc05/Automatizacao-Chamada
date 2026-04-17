@@ -256,6 +256,72 @@ ChamadaAlunosRouter.post('/alunos', auth, ChamadaAlunosController.presenca); // 
 
 /**
  * @swagger
+ * /chamada/alunos/congresso:
+ *   post:
+ *     summary: Registrar presença do aluno na chamada por QR Code em congresso
+ *     tags: [ChamadaAlunos]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       description: Dados para registro da presença sem localização
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - hora_post
+ *               - id_chamada
+ *               - id_aluno
+ *               - tipo_presenca
+ *             properties:
+ *               hora_post:
+ *                 type: string
+ *                 format: date-time
+ *                 example: "2025-04-21T16:03:15"
+ *               id_chamada:
+ *                 type: integer
+ *               id_aluno:
+ *                 type: integer
+ *               tipo_presenca:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Presença registrada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 id_chamada:
+ *                   type: integer
+ *                 id_aluno:
+ *                   type: integer
+ *                 status:
+ *                   type: integer
+ *                   description: 0 - Removido, 1 - Presente
+ *                 tipo_presenca:
+ *                   type: integer
+ *                   description: 0 - entrada, 1 - saida
+ *       400:
+ *         description: Dados inválidos ou presença já registrada
+ *       401:
+ *         description: Não autorizado
+ *       403:
+ *         description: Sem nível de permissão
+ *       404:
+ *         description: Aluno ou chamada não encontrados
+ *       409:
+ *         description: Presença duplicada
+ *       500:
+ *         description: Erro ao registrar presença
+ */
+ChamadaAlunosRouter.post('/alunos/congresso', auth, ChamadaAlunosController.presenca_congresso); // PRESENÇA REGISTRADA PELO ALUNO SEM LOCALIZAÇÃO
+
+/**
+ * @swagger
  * /chamada/alunos/manual:
  *   post:
  *     summary: Professor registrar presença do aluno na chamada manualmente

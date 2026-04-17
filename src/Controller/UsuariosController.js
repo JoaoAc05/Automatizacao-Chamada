@@ -67,7 +67,9 @@ class usuariosController {
                 }
                 
                 usuario = await prisma.usuario.findUnique({
-                    where: { ra: ra }
+                    where: { 
+                        ra: ra 
+                    }
                 })
                 if (usuario) {
                     return res.status(409).json({ message: 'RA já cadastrado.' })

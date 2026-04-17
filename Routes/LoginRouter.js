@@ -55,6 +55,51 @@ LoginRouter.post('/app', LoginController.app);
 
 /**
  * @swagger
+ * tags:
+ *   name: Login
+ *   description: Autenticação de usuários
+ */
+
+/**
+ * @swagger
+ * /login/app_web:
+ *   post:
+ *     summary: Login para o aplicativo_web (alunos)
+ *     tags: [Login]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - senha
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: usuario@email.com
+ *               senha:
+ *                 type: string
+ *                 example: senha123
+ *     responses:
+ *       200:
+ *         description: Login bem-sucedido, retorna token JWT
+ *       400:
+ *         description: Dados inválidos
+ *       401:
+ *         description: Credenciais inválidas
+ *       403:
+ *         description: Usuário não é um aluno
+ *       404: 
+ *         description: Nenhum usuário encontrado com este email
+ *       500:
+ *         description: Erro interno do servidor
+ */
+LoginRouter.post('/app_web', LoginController.app_web);
+
+/**
+ * @swagger
  * /login/dash:
  *   post:
  *     summary: Login para o painel administrativo (professores/administradores)
