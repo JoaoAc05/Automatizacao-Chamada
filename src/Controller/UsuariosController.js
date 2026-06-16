@@ -78,11 +78,9 @@ class usuariosController {
                 if (!email || !senha) {
                     return res.status(400).json({ message: 'Email e Senha são obrigatórios.' })
                 }
-                // HASHEAR A SENHA
-                const saltRounds = 10;
-                // Gera o hash da senha
-                const senhaHash = await bcrypt.hash(senha, saltRounds);
-                req.body.senha = senhaHash
+                // const saltRounds = 10;
+                // const senhaHash = await bcrypt.hash(senha, saltRounds);
+                // req.body.senha = senhaHash
 
                 if (!validarEmail(email)) {
                     return res.status(400).json({ message: 'Email inválido.' });
@@ -99,6 +97,12 @@ class usuariosController {
                 req.body.status = 1
                 delete req.body.imei;
                 delete req.body.ra;
+            }
+
+            if (senha) {
+                const saltRounds = 10;
+                const senhaHash = await bcrypt.hash(senha, saltRounds);
+                req.body.senha = senhaHash        
             }
 
             if ([0, 1].includes(tipo)) {
