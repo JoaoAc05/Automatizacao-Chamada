@@ -55,6 +55,7 @@ class usuariosController {
         }
 
         let usuario;
+        req.body.email = email ? String(email).toLowerCase() : null;
         
         if (![0, 1, 2].includes(tipo)) {
             return res.status(400).json({ message: 'Tipo inválido.'})
@@ -144,6 +145,8 @@ class usuariosController {
             return res.status(400).json({ message: 'Campos nome, ra, email e senha são obrigatórios' })
         }
 
+        req.body.email = String(email).toLowerCase();
+
         try {
             // Primeiro é necessario encontrar o cadastro do Aluno, pelo nome e pelo RA.
             const aluno = await prisma.usuario.findFirst({
@@ -161,7 +164,7 @@ class usuariosController {
                 // Se status = 2 então está inativo, não tem como validar.
                 return res.status(403).json({ message: 'O cadastro do usuário se encontra em um status não autorizado para validar.' })
             }
-    
+            
             if (!validarEmail(email)) {
                 return res.status(400).json({ message: 'Email inválido.' });
             }
@@ -172,10 +175,8 @@ class usuariosController {
             if (emailExistente) {
                 return res.status(409).json({ message: 'E-mail informado já está cadastrado.' });
             }
-    
-            // HASHEAR A SENHA
+
             const saltRounds = 10;
-            // Gera o hash da senha
             const senhaHash = await bcrypt.hash(senha, saltRounds);
 
             // Se existir o cadastro, inserir as informações de email, senha e imei
@@ -184,7 +185,7 @@ class usuariosController {
                     id: aluno.id,
                 },
                 data: {
-                    email: email,
+                    email: req.body.email,
                     senha: senhaHash,
                     imei: imei,
                     status: 1,

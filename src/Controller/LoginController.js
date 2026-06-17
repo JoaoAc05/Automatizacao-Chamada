@@ -13,7 +13,6 @@ class loginController {
         
     
         try {
-            // Verifica se os campos estão preenchidos
             if (!email || !senha) {
                 return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
             }
@@ -86,7 +85,6 @@ class loginController {
         
     
         try {
-            // Verifica se os campos estão preenchidos
             if (!email || !senha) {
                 return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
             }
@@ -97,17 +95,13 @@ class loginController {
                     email: email 
                 },
             });
-            if (!usuario) {// Se o email não for encontrado
+            if (!usuario) {
                 return res.status(404).json({ message: 'Usuário não encontrado.' });
             }
             if (usuario.tipo !== 0) {
                 return res.status(403).json({ message: 'Usuário não é um aluno' });
             }
-            if (usuario.status !== 1) {
-                return res.status(401).json({ message: 'Seu cadastro não está valido! Realize o cadastro.' });
-            }  
 
-            // // Comparar Hashing da senha
             const senhaValida = await bcrypt.compare(senha, usuario.senha);
             console.log(`Senha Req: ${senha} - Senha BD: ${usuario.senha} - Resultado: ${senhaValida}`)
             if (!senhaValida) {
@@ -140,7 +134,6 @@ class loginController {
         const { email, senha } = req.body;
     
         try {
-            // Verifica se os campos estão preenchidos
             if (!email || !senha) {
                 return res.status(400).json({ message: 'Email e senha são obrigatórios.' });
             }
