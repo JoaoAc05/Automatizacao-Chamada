@@ -12,6 +12,64 @@ const ChamadasController = new chamadasController();
  *   description: Gerenciamento de chamadas
  */
 
+
+/**
+ * @swagger
+ * /chamadas/semestre/:
+ *   get:
+ *     summary: Listar todas chamadas no semestre padrão
+ *     tags: [Chamadas]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id_semestre
+ *         in: query
+ *         required: false
+ *         schema:
+ *           type: integer
+ *         description: ID do semestre (Opcional, busca o padrão se não informado)
+ *     responses:
+ *       200:
+ *         description: Lista de chamadas retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   id_disciplina:
+ *                     type: integer
+ *                   descricao_disciplina:
+ *                     type: string
+ *                   id_professor:
+ *                     type: integer
+ *                   id_semestre:
+ *                     type: integer
+ *                   descricao_semestre:
+ *                     type: string
+ *                   data_hora_inicio:
+ *                     type: string
+ *                     format: date-time
+ *                   data_hora_final:
+ *                     type: string
+ *                     format: date-time
+ *                     nullable: true
+ *       400:
+ *         description: Requisição inválida
+ *       401:
+ *         description: Não autorizado
+ *       403:
+ *         description: Sem nível de permissão
+ *       404:
+ *         description: Professor, semestre ou chamadas não encontrados
+ *       500:
+ *         description: Erro interno do servidor
+ */
+// ChamadasRouter.get('/semestre/', auth, permissao([1, 2]), ChamadasController.chamadaSemestre) Fazer para ser a tela inicial do admin
+
 /**
  * @swagger
  * /chamadas/professor/:

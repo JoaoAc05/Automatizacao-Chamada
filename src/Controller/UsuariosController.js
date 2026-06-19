@@ -102,7 +102,7 @@ class usuariosController {
 
             if (senha) {
                 const saltRounds = 10;
-                const senhaHash = await bcrypt.hash(senha, saltRounds);
+                const senhaHash = await bcrypt.hash(senha.trim(), saltRounds);
                 req.body.senha = senhaHash        
             }
 
@@ -177,7 +177,7 @@ class usuariosController {
             }
 
             const saltRounds = 10;
-            const senhaHash = await bcrypt.hash(senha, saltRounds);
+            const senhaHash = await bcrypt.hash(senha.trim(), saltRounds);
 
             // Se existir o cadastro, inserir as informações de email, senha e imei
             const validacaoAluno = await prisma.usuario.updateMany({
@@ -243,7 +243,7 @@ class usuariosController {
             if(dataToUpdate.senha) {
                 const saltRounds = 10;
                 // Gera o hash da senha
-                const senhaHash = await bcrypt.hash(dataToUpdate.senha, saltRounds);
+                const senhaHash = await bcrypt.hash(dataToUpdate.senha.trim(), saltRounds);
                 dataToUpdate.senha = senhaHash
             }
 
